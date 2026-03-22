@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1565c0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Tournées">
+  <title>Tournées Journal</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ====== SCREEN: HOME ====== -->
+  <div id="screen-home" class="screen active">
+    <div class="home-date">
+      <div class="date-big" id="home-date-num"></div>
+      <div class="date-day" id="home-date-day"></div>
+    </div>
+    <div class="topbar" style="background:#0d47a1; padding:10px 16px; min-height:auto;">
+      <span style="flex:1; font-size:1rem; font-weight:700; color:white;">Mes Tournées</span>
+      <button class="btn-icon" onclick="App.showSettings()" title="Paramètres">⚙️</button>
+    </div>
+    <div class="scroll" id="home-routes-list">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- ====== SCREEN: ROUTE (MAP + LIST) ====== -->
+  <div id="screen-route" class="screen">
+    <div class="topbar">
+      <button class="btn-icon" onclick="App.goHome()">←</button>
+      <div style="flex:1">
+        <div style="font-weight:700; font-size:1rem;" id="route-screen-title">Tournée</div>
+        <div class="topbar-sub" id="route-screen-sub"></div>
+      </div>
+      <button class="btn-icon" onclick="App.goToCurrentStop()" title="Arrêt actuel" id="btn-goto-current">📍</button>
+    </div>
+    <div id="map"></div>
+    <div class="map-overlay-bar">
+      <span class="count-text" id="map-count">0/0</span>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="map-progress" style="width:0%"></div>
+      </div>
+      <span id="map-eta" style="font-size:0.8rem; white-space:nowrap;"></span>
+    </div>
+    <div class="stops-list" id="stops-list"></div>
+    <button class="fab-reorganize" id="btn-reorganize" onclick="App.reorganize()">
+      🔄 Réorganiser
+    </button>
+  </div>
+
+  <!-- ====== SCREEN: STOP DETAIL ====== -->
+  <div id="screen-stop" class="screen">
+    <div class="stop-detail-header">
+      <div class="stop-progress" id="stop-progress-text"></div>
+      <div class="stop-detail-addr" id="stop-addr"></div>
+      <div class="stop-detail-city" id="stop-city"></div>
+      <div class="stop-detail-name" id="stop-name"></div>
+    </div>
+    <div id="stop-constraint-badge" class="stop-constraint-badge" style="display:none">
+      ⏰ <span id="stop-constraint-text"></span>
+    </div>
+    <div class="stop-actions">
+      <button class="btn-action btn-delivered" onclick="App.markStop('delivered')">
+        ✅ LIVRÉ
+      </button>
+      <button class="btn-action btn-failed" onclick="App.markStop('failed')">
+        ❌ NON LIVRÉ
+      </button>
+      <button class="btn-action btn-skip" onclick="App.skipStop()">
+        ⏭ PASSER (plus tard)
+      </button>
+      <button class="btn-action btn-nav" onclick="App.openNavigation()">
+        🗺 Ouvrir la navigation
+      </button>
+    </div>
+    <div class="stop-notes-box">
+      <label class="form-label">Note sur cet arrêt</label>
+      <textarea id="stop-note-input" placeholder="Remarque, code d'entrée, etc..."></textarea>
+    </div>
+    <div style="padding: 0 16px 16px; display:flex; gap:10px;">
+      <button class="btn-action btn-notes" style="flex:1; height:44px; font-size:0.9rem;" onclick="App.backToRoute()">
+        ← Retour carte
+      </button>
+      <button class="btn-action btn-notes" style="flex:1; height:44px; font-size:0.9rem;" onclick="App.setTimeConstraint()">
+        ⏰ Contrainte horaire
+      </button>
+    </div>
+  </div>
+
+  <!-- ====== SCREEN: SETTINGS ====== -->
+  <div id="screen-settings" class="screen">
+    <div class="topbar">
+      <button class="btn-icon" onclick="App.goHome()">←</button>
+      <h1>Paramètres</h1>
+    </div>
+    <div class="scroll">
+      <div class="settings-section">
+        <div class="settings-section-title">Données</div>
+        <div class="settings-row" onclick="App.showImportCSV()">
+          <span class="row-icon">📥</span>
+          <span class="row-label">Importer un CSV</span>
+          <span class="row-arrow">›</span>
+        </div>
+        <div class="settings-row" onclick="App.showManageRoutes()">
+          <span class="row-icon">🗂</span>
+          <span class="row-label">Gérer les tournées</span>
+          <span class="row-value" id="setting-routes-count"></span>
+          <span class="row-arrow">›</span>
+        </div>
+        <div class="settings-row" onclick="App.showGeocodeAll()">
+          <span class="row-icon">🌍</span>
+          <span class="row-label">Géocoder les adresses</span>
+          <span class="row-value" id="setting-geocode-status"></span>
+          <span class="row-arrow">›</span>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-section-title">Session</div>
+        <div class="settings-row" onclick="App.resetSession()">
+          <span class="row-icon">🔄</span>
+          <span class="row-label">Réinitialiser la session en cours</span>
+          <span class="row-arrow">›</span>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-section-title">À propos</div>
+        <div class="settings-row">
+          <span class="row-icon">📰</span>
+          <span class="row-label">Tournées Journal v1.0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- #app -->
+
+<!-- ====== MODALS ====== -->
+
+<!-- Modal: Import CSV -->
+<div id="modal-csv" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-title">
+      <button class="modal-close" onclick="App.closeModal('modal-csv')">✕</button>
+      📥 Importer un CSV
+    </div>
+    <p style="font-size:0.85rem; color:var(--text-2); margin-bottom:14px;">
+      Colonnes requises : <strong>nom, adresse</strong><br>
+      Optionnel : ville, code_postal, tournee, notes, produit<br>
+      <span style="color:#888">La ville peut être incluse dans l'adresse (ex: "12 Rue de la Paix, Capbreton")</span>
+    </p>
+    <div class="form-group">
+      <label class="form-label">Choisir le fichier CSV</label>
+      <input type="file" accept=".csv,.txt" class="form-input" id="csv-file-input">
+    </div>
+    <div id="csv-preview" style="display:none; font-size:0.8rem; color:var(--text-2); margin-bottom:10px; padding:10px; background:var(--bg); border-radius:8px;"></div>
+    <button class="btn-primary" onclick="App.importCSV()" id="btn-import-csv">Importer</button>
+  </div>
+</div>
+
+<!-- Modal: Manage Routes -->
+<div id="modal-routes" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-title">
+      <button class="modal-close" onclick="App.closeModal('modal-routes')">✕</button>
+      🗂 Gérer les tournées
+    </div>
+    <div id="routes-list-modal"></div>
+    <button class="btn-primary" onclick="App.addRoute()">+ Nouvelle tournée</button>
+  </div>
+</div>
+
+<!-- Modal: Edit Route -->
+<div id="modal-edit-route" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-title">
+      <button class="modal-close" onclick="App.closeModal('modal-edit-route')">✕</button>
+      <span id="edit-route-title">Modifier la tournée</span>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nom de la tournée</label>
+      <input type="text" class="form-input" id="edit-route-name" placeholder="ex: Tournée A">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Jours de la semaine</label>
+      <div class="day-picker" id="edit-weekdays">
+        <button class="day-btn" data-day="1">Lu</button>
+        <button class="day-btn" data-day="2">Ma</button>
+        <button class="day-btn" data-day="3">Me</button>
+        <button class="day-btn" data-day="4">Je</button>
+        <button class="day-btn" data-day="5">Ve</button>
+        <button class="day-btn" data-day="6">Sa</button>
+        <button class="day-btn" data-day="0">Di</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Jours du mois</label>
+      <div class="monthday-grid" id="edit-monthdays"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Heure de départ estimée</label>
+      <input type="time" class="form-input" id="edit-route-start-time" value="06:00">
+    </div>
+    <button class="btn-primary" onclick="App.saveRoute()">Enregistrer</button>
+    <button class="btn-danger" id="btn-delete-route" onclick="App.deleteRoute()" style="margin-top:6px;">Supprimer cette tournée</button>
+  </div>
+</div>
+
+<!-- Modal: Geocoding Progress -->
+<div id="modal-geocode" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-title">
+      <button class="modal-close" id="btn-stop-geocode" onclick="App.stopGeocode()">✕</button>
+      🌍 Géocodage des adresses
+    </div>
+    <p style="font-size:0.85rem; color:var(--text-2); margin-bottom:12px;">
+      Conversion des adresses en coordonnées GPS. <br>1 adresse / seconde (limite Nominatim).
+    </p>
+    <div class="geocode-progress">
+      <div id="geocode-status-text" class="geocode-status">Prêt</div>
+      <div class="geocode-bar-wrap">
+        <div class="geocode-bar-fill" id="geocode-bar" style="width:0%"></div>
+      </div>
+      <div id="geocode-count" class="geocode-status"></div>
+    </div>
+    <button class="btn-primary" id="btn-start-geocode" onclick="App.startGeocode()">Démarrer le géocodage</button>
+  </div>
+</div>
+
+<!-- Modal: Time Constraint -->
+<div id="modal-constraint" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-title">
+      <button class="modal-close" onclick="App.closeModal('modal-constraint')">✕</button>
+      ⏰ Contrainte horaire
+    </div>
+    <p style="font-size:0.85rem; color:var(--text-2); margin-bottom:12px;">
+      Définir une heure d'arrivée obligatoire pour cet arrêt.
+    </p>
+    <div class="form-group">
+      <label class="form-label">Heure d'arrivée souhaitée</label>
+      <input type="time" class="form-input" id="constraint-time">
+    </div>
+    <button class="btn-primary" onclick="App.saveConstraint()">Enregistrer la contrainte</button>
+    <button class="btn-danger" onclick="App.clearConstraint()" style="margin-top:6px;">Supprimer la contrainte</button>
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div id="toast"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="data-jeudi.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
