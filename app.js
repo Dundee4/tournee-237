@@ -133,6 +133,37 @@ function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTi
     return result;
   }
 
+  // 2-opt : supprime les croisements dans le trajet
+  function twoOpt(route) {
+    let best = [...route];
+    let improved = true;
+    let passes = 0;
+    while (improved && passes < 50) {
+      improved = false;
+      passes++;
+      for (let i = 0; i < best.length - 2; i++) {
+        for (let j = i + 2; j < best.length; j++) {
+          const a = best[i], b = best[i + 1];
+          const c = best[j], d = best[(j + 1) % best.length];
+          if (!a.lat || !b.lat || !c.lat || !d.lat) continue;
+          const before = haversine(a.lat, a.lon, b.lat, b.lon) +
+                         haversine(c.lat, c.lon, d.lat, d.lon);
+          const after  = haversine(a.lat, a.lon, c.lat, c.lon) +
+                         haversine(b.lat, b.lon, d.lat, d.lon);
+          if (after < before - 0.001) {
+            best = [
+              ...best.slice(0, i + 1),
+              ...best.slice(i + 1, j + 1).reverse(),
+              ...best.slice(j + 1)
+            ];
+            improved = true;
+          }
+        }
+      }
+    }
+    return best;
+  }
+
   let ordered;
 
   if (constraintStopId && constraintMin !== null) {
@@ -167,7 +198,7 @@ function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTi
       ordered = [...before, constraintStop, ...after];
     }
   } else {
-    ordered = nearestNeighbour(geocoded, startLat, startLon);
+    ordered = twoOpt(nearestNeighbour(geocoded, startLat, startLon));
   }
 
   // Réassigner les ordres
