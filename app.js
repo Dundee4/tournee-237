@@ -1048,10 +1048,27 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 
 // ─── CHARGEMENT DONNÉES INITIALES ────────────────────────────
 function loadPreloadedDataIfNeeded() {
-  if (state.routes.length === 0 && typeof PRELOADED_DATA !== 'undefined') {
+  if (typeof PRELOADED_DATA === 'undefined') return;
+  const storedVersion = parseInt(localStorage.getItem('journal_data_version') || '0');
+  const newVersion = PRELOADED_DATA.version || 1;
+  if (state.routes.length === 0 || storedVersion < newVersion) {
     state.routes = PRELOADED_DATA.routes;
     DB.save();
+    localStorage.setItem('journal_data_version', String(newVersion));
   }
+}
+
+function forceReloadData() {
+  if (typeof PRELOADED_DATA === 'undefined') { toast('Données non disponibles'); return; }
+  if (!confirm('Recharger toutes les données depuis le fichier source ?\nTes notes et modifications locales seront effacées.')) return;
+  state.routes = PRELOADED_DATA.routes;
+  state.session = null;
+  DB.save();
+  DB.saveSession();
+  localStorage.setItem('journal_data_version', String(PRELOADED_DATA.version || 1));
+  toast('✅ Données rechargées avec les coordonnées GPS !');
+  App.renderHome();
+  showScreen('screen-home');
 }
 
 // ─── DÉMARRAGE ────────────────────────────────────────────────
