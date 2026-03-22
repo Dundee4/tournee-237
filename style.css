@@ -132,6 +132,10 @@ html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMa
 .stop-name { font-weight: 600; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .stop-addr { font-size: 0.8rem; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .stop-status-icon { font-size: 1.2rem; flex-shrink: 0; }
+.stop-move-btns { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+.stop-move-btn { background: none; border: 1px solid var(--border); border-radius: 6px; width: 30px; height: 26px; font-size: 0.75rem; cursor: pointer; color: var(--primary); line-height: 1; }
+.stop-move-btn:disabled { opacity: 0.25; cursor: default; }
+.stop-move-btn:active { background: var(--bg); }
 
 .fab-reorganize {
   position: fixed;

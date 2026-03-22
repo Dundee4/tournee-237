@@ -415,18 +415,9 @@ const App = {
       return;
     }
 
-    // Nouvelle session
+    // Nouvelle session — ordre fixé, pas d'auto-optimisation
     const stops = (route.stops || []).map(s => ({ ...s, status: 'pending' }));
-
-    // Optimiser si des stops sont géocodés
-    const geocodedCount = stops.filter(s => s.lat).length;
-    if (geocodedCount > 0) {
-      const from = state.currentPos || { lat: stops[0]?.lat || 0, lon: stops[0]?.lon || 0 };
-      const optimized = optimizeRoute(stops, from.lat, from.lon, null, null, route.startTime);
-      state.session = { routeId, stops: optimized, timeConstraint: null };
-    } else {
-      state.session = { routeId, stops, timeConstraint: null };
-    }
+    state.session = { routeId, stops, timeConstraint: null };
 
     DB.saveSession();
     this.showCurrentStop();
@@ -493,13 +484,17 @@ const App = {
                          s.status === 'failed' ? '❌' :
                          i === currentIdx ? '📍' : '';
 
+      const canMove = s.status === 'pending';
       item.innerHTML = `
         <div class="stop-num">${i + 1}</div>
         <div class="stop-info">
           <div class="stop-name">${s.nom || s.adresse}</div>
           <div class="stop-addr">${s.adresse}${s.ville ? ', ' + s.ville : ''}</div>
         </div>
-        <div class="stop-status-icon">${statusIcon}</div>
+        ${canMove ? `<div class="stop-move-btns">
+          <button class="stop-move-btn" onclick="event.stopPropagation();App.moveStop(${i},-1)" ${i === 0 ? 'disabled' : ''}>▲</button>
+          <button class="stop-move-btn" onclick="event.stopPropagation();App.moveStop(${i},1)" ${i === stops.length - 1 ? 'disabled' : ''}>▼</button>
+        </div>` : `<div class="stop-status-icon">${statusIcon}</div>`}
       `;
       item.onclick = () => this.showStop(i);
       list.appendChild(item);
@@ -509,6 +504,20 @@ const App = {
       const currentItem = list.children[currentIdx];
       if (currentItem) currentItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
+  },
+
+  moveStop(idx, direction) {
+    if (!state.session) return;
+    const stops = state.session.stops;
+    const newIdx = idx + direction;
+    if (newIdx < 0 || newIdx >= stops.length) return;
+    [stops[idx], stops[newIdx]] = [stops[newIdx], stops[idx]];
+    DB.saveSession();
+    this.renderStopsList();
+    this.updateMap();
+    // scroll to moved item
+    const list = document.getElementById('stops-list');
+    if (list.children[newIdx]) list.children[newIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   },
 
   // ── CARTE LEAFLET ─────────────────────────────────────────────
