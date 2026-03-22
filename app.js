@@ -398,7 +398,17 @@ const App = {
     }
 
     DB.saveSession();
-    this.showRoute();
+    this.showCurrentStop();
+  },
+
+  showCurrentStop() {
+    if (!state.session) return;
+    const idx = state.session.stops.findIndex(s => s.status === 'pending');
+    if (idx >= 0) {
+      this.showStop(idx);
+    } else {
+      this.showRoute();
+    }
   },
 
   // ── ÉCRAN CARTE ──────────────────────────────────────────────
@@ -567,11 +577,21 @@ const App = {
     const total = state.session.stops.length;
     const done = state.session.stops.filter(s => s.status !== 'pending').length;
 
-    document.getElementById('stop-progress-text').textContent = `Arrêt ${idx+1} sur ${total} · ${done} livrés`;
+    document.getElementById('stop-progress-text').textContent = `${idx+1} / ${total}`;
     document.getElementById('stop-addr').textContent = stop.adresse;
     document.getElementById('stop-city').textContent = `${stop.code_postal || ''} ${stop.ville || ''}`.trim();
     document.getElementById('stop-name').textContent = stop.nom || '';
     document.getElementById('stop-note-input').value = stop.note || '';
+
+    // Afficher la note en évidence si elle existe
+    const noteDisplay = document.getElementById('stop-note-display');
+    if (stop.note) {
+      noteDisplay.textContent = '📝 ' + stop.note;
+      noteDisplay.classList.add('visible');
+    } else {
+      noteDisplay.textContent = '';
+      noteDisplay.classList.remove('visible');
+    }
 
     // Contrainte horaire ?
     const badge = document.getElementById('stop-constraint-badge');

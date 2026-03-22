@@ -55,43 +55,44 @@
     </button>
   </div>
 
-  <!-- ====== SCREEN: STOP DETAIL ====== -->
+  <!-- ====== SCREEN: STOP DETAIL (MODE CONDUITE) ====== -->
   <div id="screen-stop" class="screen">
-    <div class="stop-detail-header">
-      <div class="stop-progress" id="stop-progress-text"></div>
-      <div class="stop-detail-addr" id="stop-addr"></div>
-      <div class="stop-detail-city" id="stop-city"></div>
-      <div class="stop-detail-name" id="stop-name"></div>
+
+    <!-- Barre slim -->
+    <div class="drive-topbar">
+      <button class="drive-top-btn" onclick="App.backToRoute()">🗺 Carte</button>
+      <div class="drive-progress" id="stop-progress-text"></div>
+      <button class="drive-top-btn" onclick="App.openNavigation()">📍 GPS</button>
     </div>
-    <div id="stop-constraint-badge" class="stop-constraint-badge" style="display:none">
-      ⏰ <span id="stop-constraint-text"></span>
+
+    <!-- Adresse en grand -->
+    <div class="drive-addr-block">
+      <div class="drive-addr" id="stop-addr"></div>
+      <div class="drive-city" id="stop-city"></div>
+      <div class="drive-name" id="stop-name"></div>
+      <div class="drive-note" id="stop-note-display"></div>
+      <div id="stop-constraint-badge" class="stop-constraint-badge" style="display:none; margin:10px 0 0;">
+        ⏰ <span id="stop-constraint-text"></span>
+      </div>
     </div>
-    <div class="stop-actions">
-      <button class="btn-action btn-delivered" onclick="App.markStop('delivered')">
-        ✅ LIVRÉ
-      </button>
-      <button class="btn-action btn-failed" onclick="App.markStop('failed')">
-        ❌ NON LIVRÉ
-      </button>
-      <button class="btn-action btn-skip" onclick="App.skipStop()">
-        ⏭ PASSER (plus tard)
-      </button>
-      <button class="btn-action btn-nav" onclick="App.openNavigation()">
-        🗺 Ouvrir la navigation
-      </button>
+
+    <!-- Bouton LIVRÉ géant -->
+    <div class="drive-livre-wrap">
+      <button class="btn-livre" onclick="App.markStop('delivered')">✅ LIVRÉ</button>
     </div>
-    <div class="stop-notes-box">
-      <label class="form-label">Note sur cet arrêt</label>
-      <textarea id="stop-note-input" placeholder="Remarque, code d'entrée, etc..."></textarea>
+
+    <!-- Boutons secondaires -->
+    <div class="drive-secondary">
+      <button class="btn-non-livre" onclick="App.markStop('failed')">❌ Non livré</button>
+      <button class="btn-passer" onclick="App.skipStop()">⏭ Passer</button>
     </div>
-    <div style="padding: 0 16px 16px; display:flex; gap:10px;">
-      <button class="btn-action btn-notes" style="flex:1; height:44px; font-size:0.9rem;" onclick="App.backToRoute()">
-        ← Retour carte
-      </button>
-      <button class="btn-action btn-notes" style="flex:1; height:44px; font-size:0.9rem;" onclick="App.setTimeConstraint()">
-        ⏰ Contrainte horaire
-      </button>
+
+    <!-- Note + contrainte (discrètes) -->
+    <div class="drive-extras">
+      <textarea id="stop-note-input" placeholder="📝 Ajouter une note..." rows="2"></textarea>
+      <button class="drive-constraint-btn" onclick="App.setTimeConstraint()">⏰ Contrainte horaire</button>
     </div>
+
   </div>
 
   <!-- ====== SCREEN: SETTINGS ====== -->
