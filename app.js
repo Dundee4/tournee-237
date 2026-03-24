@@ -473,18 +473,22 @@ const App = {
     const stops = state.session.stops;
     const currentIdx = stops.findIndex(s => s.status === 'pending');
 
-    stops.forEach((s, i) => {
+    const pending   = stops.map((s, i) => ({ s, i })).filter(x => x.s.status === 'pending');
+    const delivered = stops.map((s, i) => ({ s, i })).filter(x => x.s.status === 'delivered');
+    const failed    = stops.map((s, i) => ({ s, i })).filter(x => x.s.status === 'failed');
+
+    const addItem = ({ s, i }) => {
+      const isCurrent = i === currentIdx;
       const item = document.createElement('div');
       item.className = 'stop-item' +
-        (i === currentIdx ? ' current' : '') +
+        (isCurrent ? ' current' : '') +
         (s.status === 'delivered' ? ' delivered' : '') +
         (s.status === 'failed' ? ' failed' : '');
 
-      const statusIcon = s.status === 'delivered' ? '✅' :
-                         s.status === 'failed' ? '❌' :
-                         i === currentIdx ? '📍' : '';
-
       const canMove = s.status === 'pending';
+      const firstPendingIdx = pending.length > 0 ? pending[0].i : -1;
+      const lastPendingIdx  = pending.length > 0 ? pending[pending.length - 1].i : -1;
+
       item.innerHTML = `
         <div class="stop-num">${i + 1}</div>
         <div class="stop-info">
@@ -492,17 +496,34 @@ const App = {
           <div class="stop-addr">${s.adresse}${s.ville ? ', ' + s.ville : ''}</div>
         </div>
         ${canMove ? `<div class="stop-move-btns">
-          <button class="stop-move-btn" onclick="event.stopPropagation();App.moveStop(${i},-1)" ${i === 0 ? 'disabled' : ''}>▲</button>
-          <button class="stop-move-btn" onclick="event.stopPropagation();App.moveStop(${i},1)" ${i === stops.length - 1 ? 'disabled' : ''}>▼</button>
-        </div>` : `<div class="stop-status-icon">${statusIcon}</div>`}
+          <button class="stop-move-btn" onclick="event.stopPropagation();App.moveStop(${i},-1)" ${i === firstPendingIdx ? 'disabled' : ''}>▲</button>
+          <button class="stop-move-btn" onclick="event.stopPropagation();App.moveStop(${i},1)" ${i === lastPendingIdx ? 'disabled' : ''}>▼</button>
+        </div>` : `<div class="stop-status-icon">${s.status === 'delivered' ? '✅' : '❌'}</div>`}
       `;
       item.onclick = () => this.showStop(i);
       list.appendChild(item);
-    });
+    };
+
+    const addSection = (label, items) => {
+      if (items.length === 0) return;
+      const hdr = document.createElement('div');
+      hdr.className = 'stops-section-header';
+      hdr.textContent = label;
+      list.appendChild(hdr);
+      items.forEach(addItem);
+    };
+
+    addSection(`📋 À livrer (${pending.length})`, pending);
+    addSection(`✅ Livrés (${delivered.length})`, delivered);
+    addSection(`❌ Non livrés (${failed.length})`, failed);
 
     if (currentIdx >= 0) {
-      const currentItem = list.children[currentIdx];
-      if (currentItem) currentItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      const allItems = list.querySelectorAll('.stop-item');
+      allItems.forEach(el => {
+        if (el.querySelector('.stop-num') && el.classList.contains('current')) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
     }
   },
 
