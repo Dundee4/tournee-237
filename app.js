@@ -487,7 +487,6 @@ const App = {
 
       const canMove = s.status === 'pending';
       const firstPendingIdx = pending.length > 0 ? pending[0].i : -1;
-      const lastPendingIdx  = pending.length > 0 ? pending[pending.length - 1].i : -1;
 
       item.innerHTML = `
         <div class="stop-num">${i + 1}</div>
@@ -495,10 +494,8 @@ const App = {
           <div class="stop-name">${s.nom || s.adresse}</div>
           <div class="stop-addr">${s.adresse}${s.ville ? ', ' + s.ville : ''}</div>
         </div>
-        ${canMove ? `<div class="stop-move-btns">
-          <button class="stop-move-btn" onclick="event.stopPropagation();App.moveStop(${i},-1)" ${i === firstPendingIdx ? 'disabled' : ''}>▲</button>
-          <button class="stop-move-btn" onclick="event.stopPropagation();App.moveStop(${i},1)" ${i === lastPendingIdx ? 'disabled' : ''}>▼</button>
-        </div>` : `<div class="stop-status-icon">${s.status === 'delivered' ? '✅' : '❌'}</div>`}
+        ${canMove && i !== firstPendingIdx ? `<button class="stop-move-top-btn" onclick="event.stopPropagation();App.moveStopToTop(${i})">⬆ Premier</button>` : ''}
+        ${!canMove ? `<div class="stop-status-icon">${s.status === 'delivered' ? '✅' : '❌'}</div>` : ''}
       `;
       item.onclick = () => this.showStop(i);
       list.appendChild(item);
@@ -527,18 +524,21 @@ const App = {
     }
   },
 
-  moveStop(idx, direction) {
+  moveStopToTop(idx) {
     if (!state.session) return;
     const stops = state.session.stops;
-    const newIdx = idx + direction;
-    if (newIdx < 0 || newIdx >= stops.length) return;
-    [stops[idx], stops[newIdx]] = [stops[newIdx], stops[idx]];
+    // Trouver le premier stop pending
+    const firstPendingIdx = stops.findIndex(s => s.status === 'pending');
+    if (firstPendingIdx < 0 || idx <= firstPendingIdx) return;
+    // Extraire le stop et l'insérer avant le premier pending
+    const [moved] = stops.splice(idx, 1);
+    stops.splice(firstPendingIdx, 0, moved);
     DB.saveSession();
     this.renderStopsList();
     this.updateMap();
-    // scroll to moved item
+    // Scroll en haut de la liste
     const list = document.getElementById('stops-list');
-    if (list.children[newIdx]) list.children[newIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    list.scrollTop = 0;
   },
 
   // ── CARTE LEAFLET ─────────────────────────────────────────────
