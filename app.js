@@ -1041,6 +1041,137 @@ const App = {
     this.showSettings();
   },
 
+  // ── GESTION DES ADRESSES ──────────────────────────────────────
+  showManageAddresses() {
+    state.editingAddressId = null;
+    this.renderAddressesList();
+    this.openModal('modal-addresses');
+  },
+
+  renderAddressesList() {
+    const allStops = state.routes.flatMap(r => r.stops || []);
+    const searchTerm = document.getElementById('address-search').value.toLowerCase();
+    const filtered = allStops.filter(s =>
+      !searchTerm || s.nom.toLowerCase().includes(searchTerm) ||
+      s.adresse.toLowerCase().includes(searchTerm)
+    );
+
+    const html = filtered.map(s => `
+      <div style="padding:10px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+        <div style="flex:1;">
+          <strong>${s.nom}</strong><br>
+          <span style="font-size:0.85rem; color:var(--text-2);">${s.adresse}, ${s.code_postal} ${s.ville}</span>
+        </div>
+        <button class="btn-sm" onclick="App.editAddress('${s.id}')" style="margin-right:6px;">✏️</button>
+      </div>
+    `).join('');
+
+    document.getElementById('addresses-list-modal').innerHTML = html || '<p style="padding:10px; color:var(--text-2);">Aucune adresse trouvée</p>';
+  },
+
+  filterAddresses() {
+    this.renderAddressesList();
+  },
+
+  showAddAddressForm() {
+    state.editingAddressId = null;
+    document.getElementById('edit-address-title').textContent = 'Ajouter une adresse';
+    document.getElementById('addr-name').value = '';
+    document.getElementById('addr-address').value = '';
+    document.getElementById('addr-city').value = '';
+    document.getElementById('addr-postal').value = '';
+    document.getElementById('btn-delete-address').style.display = 'none';
+
+    const routeSelect = document.getElementById('addr-route');
+    routeSelect.innerHTML = state.routes.map(r =>
+      `<option value="${r.id}">${r.name}</option>`
+    ).join('');
+
+    this.closeModal('modal-addresses');
+    this.openModal('modal-edit-address');
+  },
+
+  editAddress(stopId) {
+    const stop = state.routes.flatMap(r => r.stops || []).find(s => s.id === stopId);
+    if (!stop) return;
+
+    state.editingAddressId = stopId;
+    document.getElementById('edit-address-title').textContent = 'Modifier l\'adresse';
+    document.getElementById('addr-name').value = stop.nom;
+    document.getElementById('addr-address').value = stop.adresse;
+    document.getElementById('addr-city').value = stop.ville;
+    document.getElementById('addr-postal').value = stop.code_postal;
+
+    const routeSelect = document.getElementById('addr-route');
+    routeSelect.innerHTML = state.routes.map(r =>
+      `<option value="${r.id}" ${r.stops.find(s => s.id === stopId) ? 'selected' : ''}>${r.name}</option>`
+    ).join('');
+
+    document.getElementById('btn-delete-address').style.display = 'block';
+    this.closeModal('modal-addresses');
+    this.openModal('modal-edit-address');
+  },
+
+  saveAddress() {
+    const nom = document.getElementById('addr-name').value.trim();
+    const adresse = document.getElementById('addr-address').value.trim();
+    const ville = document.getElementById('addr-city').value.trim();
+    const code_postal = document.getElementById('addr-postal').value.trim();
+    const routeId = document.getElementById('addr-route').value;
+
+    if (!nom || !adresse || !ville || !code_postal || !routeId) {
+      toast('❌ Tous les champs sont obligatoires');
+      return;
+    }
+
+    if (state.editingAddressId) {
+      for (const route of state.routes) {
+        const stop = route.stops.find(s => s.id === state.editingAddressId);
+        if (stop) {
+          stop.nom = nom;
+          stop.adresse = adresse;
+          stop.ville = ville;
+          stop.code_postal = code_postal;
+          break;
+        }
+      }
+      toast('✏️ Adresse modifiée');
+    } else {
+      const route = state.routes.find(r => r.id === routeId);
+      if (route) {
+        route.stops.push({
+          id: uid(),
+          nom, adresse, ville, code_postal,
+          tournee: route.name,
+          lat: null, lon: null
+        });
+        toast('➕ Adresse ajoutée');
+      }
+    }
+
+    DB.save();
+    this.closeModal('modal-edit-address');
+    this.showManageAddresses();
+  },
+
+  deleteAddress() {
+    if (!state.editingAddressId) return;
+    if (!confirm('Supprimer cette adresse définitivement ?')) return;
+
+    for (const route of state.routes) {
+      const idx = route.stops.findIndex(s => s.id === state.editingAddressId);
+      if (idx >= 0) {
+        route.stops.splice(idx, 1);
+        break;
+      }
+    }
+
+    toast('❌ Adresse supprimée');
+    DB.save();
+    this.closeModal('modal-edit-address');
+    this.showManageAddresses();
+  },
+
   // ── GÉOCODAGE ─────────────────────────────────────────────────
   showGeocodeAll() {
     const total = state.routes.reduce((n, r) => n + (r.stops ? r.stops.length : 0), 0);

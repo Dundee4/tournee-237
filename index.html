@@ -116,6 +116,11 @@
           <span class="row-value" id="setting-routes-count"></span>
           <span class="row-arrow">›</span>
         </div>
+        <div class="settings-row" onclick="App.showManageAddresses()">
+          <span class="row-icon">📍</span>
+          <span class="row-label">Gérer les adresses</span>
+          <span class="row-arrow">›</span>
+        </div>
         <div class="settings-row" onclick="App.showGeocodeAll()">
           <span class="row-icon">🌍</span>
           <span class="row-label">Géocoder les adresses</span>
@@ -181,6 +186,54 @@
     </div>
     <div id="routes-list-modal"></div>
     <button class="btn-primary" onclick="App.addRoute()">+ Nouvelle tournée</button>
+  </div>
+</div>
+
+<!-- Modal: Manage Addresses -->
+<div id="modal-addresses" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-title">
+      <button class="modal-close" onclick="App.closeModal('modal-addresses')">✕</button>
+      📍 Gérer les adresses
+    </div>
+    <div class="form-group">
+      <label class="form-label">Chercher une adresse</label>
+      <input type="text" class="form-input" id="address-search" placeholder="Nom ou adresse..." oninput="App.filterAddresses()">
+    </div>
+    <div id="addresses-list-modal" style="max-height:300px; overflow-y:auto; margin-bottom:12px;"></div>
+    <button class="btn-primary" onclick="App.showAddAddressForm()">+ Ajouter une adresse</button>
+  </div>
+</div>
+
+<!-- Modal: Edit/Add Address -->
+<div id="modal-edit-address" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-title">
+      <button class="modal-close" onclick="App.closeModal('modal-edit-address')">✕</button>
+      <span id="edit-address-title">Ajouter une adresse</span>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nom</label>
+      <input type="text" class="form-input" id="addr-name" placeholder="Ex: M. Dupont">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Adresse</label>
+      <input type="text" class="form-input" id="addr-address" placeholder="Ex: 12 Rue de la Paix">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Ville</label>
+      <input type="text" class="form-input" id="addr-city" placeholder="Ex: Capbreton">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Code postal</label>
+      <input type="text" class="form-input" id="addr-postal" placeholder="Ex: 40130">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Tournée</label>
+      <select class="form-input" id="addr-route"></select>
+    </div>
+    <button class="btn-primary" onclick="App.saveAddress()">Enregistrer</button>
+    <button class="btn-danger" id="btn-delete-address" onclick="App.deleteAddress()" style="margin-top:6px; display:none;">Supprimer cette adresse</button>
   </div>
 </div>
 
