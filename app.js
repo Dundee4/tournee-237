@@ -353,8 +353,50 @@ const App = {
 
     if (todayRoutes.length > 0) {
       const sec = document.createElement('div');
-      sec.innerHTML = `<div class="section-title" style="padding:0 4px">Aujourd'hui</div>`;
-      todayRoutes.forEach(r => sec.appendChild(this.makeRouteCard(r, true)));
+      const title = document.createElement('div');
+      title.className = 'section-title';
+      title.style.padding = '0 4px';
+      title.textContent = 'Aujourd\'hui';
+      sec.appendChild(title);
+
+      // Si plusieurs tournées aujourd'hui : afficher avec checkboxes
+      if (todayRoutes.length > 1) {
+        const selectDiv = document.createElement('div');
+        selectDiv.style.padding = '12px 8px';
+        selectDiv.style.backgroundColor = 'var(--bg)';
+        selectDiv.style.borderRadius = '8px';
+        selectDiv.style.marginBottom = '12px';
+
+        todayRoutes.forEach(r => {
+          const total = r.stops ? r.stops.length : 0;
+          const checkDiv = document.createElement('div');
+          checkDiv.style.display = 'flex';
+          checkDiv.style.alignItems = 'center';
+          checkDiv.style.padding = '8px';
+          checkDiv.style.marginBottom = '6px';
+          checkDiv.innerHTML = `
+            <input type="checkbox" id="route-check-${r.id}" class="route-checkbox" data-route-id="${r.id}" style="width:18px; height:18px; margin-right:10px; cursor:pointer;">
+            <label for="route-check-${r.id}" style="flex:1; cursor:pointer; margin:0;">
+              <strong>${r.name}</strong><br>
+              <span style="font-size:0.85rem; color:var(--text-2);">${total} adresses</span>
+            </label>
+          `;
+          selectDiv.appendChild(checkDiv);
+        });
+
+        sec.appendChild(selectDiv);
+
+        const launchBtn = document.createElement('button');
+        launchBtn.className = 'btn-primary';
+        launchBtn.textContent = '▶️ Lancer la tournée';
+        launchBtn.style.width = '100%';
+        launchBtn.onclick = () => this.startMultipleRoutes();
+        selectDiv.appendChild(launchBtn);
+      } else {
+        // Une seule tournée : afficher normalement
+        todayRoutes.forEach(r => sec.appendChild(this.makeRouteCard(r, true)));
+      }
+
       container.appendChild(sec);
     }
 
@@ -364,6 +406,36 @@ const App = {
       otherRoutes.forEach(r => sec.appendChild(this.makeRouteCard(r, false)));
       container.appendChild(sec);
     }
+  },
+
+  startMultipleRoutes() {
+    const checkboxes = document.querySelectorAll('.route-checkbox:checked');
+    if (checkboxes.length === 0) {
+      toast('❌ Sélectionne au moins une tournée');
+      return;
+    }
+
+    const selectedIds = Array.from(checkboxes).map(cb => cb.dataset.routeId);
+    const routes = selectedIds.map(id => state.routes.find(r => r.id === id));
+
+    // Fusionner tous les arrêts
+    const allStops = routes.flatMap(r => r.stops || []);
+
+    if (allStops.length === 0) {
+      toast('❌ Aucune adresse à livrer');
+      return;
+    }
+
+    // Créer une session fusionnée
+    const stops = allStops.map(s => ({ ...s, status: 'pending' }));
+    state.session = {
+      routeIds: selectedIds,
+      stops,
+      timeConstraint: null
+    };
+
+    DB.saveSession();
+    this.showCurrentStop();
   },
 
   isRouteToday(route, weekday, monthday) {
