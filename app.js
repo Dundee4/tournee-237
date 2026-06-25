@@ -31,6 +31,7 @@ let state = {
   markers: [],
   posMarker: null,
   currentPos: null,
+  routing: null,      // Instance Leaflet Routing Machine
 };
 
 // ─── STORAGE ──────────────────────────────────────────────────
@@ -607,6 +608,38 @@ const App = {
 
     // Invalider la taille (fix pour les layouts flex)
     setTimeout(() => state.map && state.map.invalidateSize(), 100);
+
+    // Afficher les trajets optimisés
+    this.drawRoute();
+  },
+
+  drawRoute() {
+    if (!state.session || !state.map) return;
+
+    // Supprimer le routing précédent
+    if (state.routing) {
+      state.map.removeControl(state.routing);
+      state.routing = null;
+    }
+
+    const stops = state.session.stops.filter(s => s.lat && s.lon && s.status === 'pending');
+    if (stops.length < 2) return;
+
+    // Construire les waypoints
+    const waypoints = stops.map(s => L.latLng(s.lat, s.lon));
+
+    // Créer le routing avec OSRM (gratuit et public)
+    state.routing = L.Routing.control({
+      waypoints: waypoints,
+      router: L.Routing.osrmv1({ serviceUrl: 'https://router.project-osrm.org/route/v1' }),
+      show: false,
+      addWaypoints: false,
+      draggableWaypoints: false,
+      fitSelectedRoutes: false,
+      lineOptions: {
+        styles: [{ color: '#1565c0', opacity: 0.7, weight: 4 }]
+      }
+    }).addTo(state.map);
   },
 
   goToCurrentStop() {
