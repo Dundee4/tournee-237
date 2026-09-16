@@ -942,6 +942,30 @@ const App = {
     toast('Session réinitialisée');
   },
 
+  // Filet de sécurité : recharge les 148 clients de l'ancien système (weekday
+  // routes archivées) avec leurs coordonnées GPS déjà calculées. Les journaux
+  // sont devinés depuis le texte des anciennes notes ("SO Landes" -> 19A
+  // LANDES, etc.) — à vérifier/corriger via "Gérer les clients" une fois le
+  // vrai CSV nettoyé disponible.
+  restoreArchive() {
+    if (state.clients.length > 0 &&
+        !confirm(`Remplacer les ${state.clients.length} clients actuels par l'archive (anciennes adresses géocodées) ?`)) {
+      return;
+    }
+    fetch('./archive-clients.json')
+      .then(r => r.json())
+      .then(clients => {
+        if (state.clients.length > 0) DB.archive();
+        state.clients = clients;
+        state.session = null;
+        DB.save();
+        DB.saveSession();
+        toast(`✅ ${clients.length} clients restaurés depuis l'archive`);
+        this.showSettings();
+      })
+      .catch(() => toast('❌ Impossible de charger l\'archive'));
+  },
+
   exportBackup() {
     if (state.clients.length === 0) { toast('Aucune donnée à exporter'); return; }
     const blob = new Blob([JSON.stringify(state.clients, null, 2)], { type: 'application/json' });
