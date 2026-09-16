@@ -1,134 +1,22 @@
 [
   {
-    "id": "c_25",
-    "nom": "MME JOURDAN CECILE",
+    "id": "mu4gnqdas739l",
+    "nom": "M GUILLAMOUNDEGUY BERNARD",
     "prenom": "",
-    "adresse": "Avenue Simone de Beauvoir",
+    "adresse": "2289 Lieu dit Les 2 Pins (chem en suivant Castagnet au bout a gauche)",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6532971,
-    "lon": -1.4077946,
+    "lat": 43.6403659,
+    "lon": -1.4315213,
     "journaux": [
       "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "EHPAD ch.0205A / SO Landes"
+    "note": "⚠️ position approximative (lieu-dit), à corriger"
   },
   {
-    "id": "c_26",
-    "nom": "M JORDONO JULIEN",
-    "prenom": "",
-    "adresse": "13 Avenue Simone de Beauvoir",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6532971,
-    "lon": -1.4077946,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_27",
-    "nom": "M PRESSIGOUT Christian",
-    "prenom": "",
-    "adresse": "Avenue Simone de Beauvoir",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6532971,
-    "lon": -1.4077946,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "EHPAD Desjobert ch.213 / SO Landes"
-  },
-  {
-    "id": "c_28",
-    "nom": "MME LAMOUREUX MONIQUE",
-    "prenom": "",
-    "adresse": "Avenue Simone de Beauvoir",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6532971,
-    "lon": -1.4077946,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "EHPAD Desjobert ch.2002 / SO Landes"
-  },
-  {
-    "id": "c_29",
-    "nom": "MME BESSET JEANINE",
-    "prenom": "",
-    "adresse": "Avenue Simone de Beauvoir",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6532971,
-    "lon": -1.4077946,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "EHPAD Desjobert / SO Landes"
-  },
-  {
-    "id": "c_30",
-    "nom": "M SAINT AUBIN JEANNETTE",
-    "prenom": "",
-    "adresse": "Avenue Simone de Beauvoir",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6532971,
-    "lon": -1.4077946,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "EHPAD Desjobert / SO Landes"
-  },
-  {
-    "id": "c_31",
-    "nom": "M LARRIEU P.Y.",
-    "prenom": "",
-    "adresse": "12 Rue Jacques Prevert",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6545409,
-    "lon": -1.4104151,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_32",
-    "nom": "M LARTIGUE ROGER",
-    "prenom": "",
-    "adresse": "1 Allee d Hernani",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6534608,
-    "lon": -1.4119487,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_33",
+    "id": "mu4gnqdaw2hyp",
     "nom": "M DIMULLE CHARLES",
     "prenom": "",
     "adresse": "19 Allee d Hernani",
@@ -141,10 +29,10 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "SO Landes"
+    "note": ""
   },
   {
-    "id": "c_34",
+    "id": "mu4gnqda79ima",
     "nom": "M CAUCHI ANDRE",
     "prenom": "",
     "adresse": "16 Allee d Hernani",
@@ -157,11 +45,43 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "SO Landes"
+    "note": ""
   },
   {
-    "id": "c_35",
-    "nom": "M GUERRE Claude",
+    "id": "mu4gnqdajdypf",
+    "nom": "M LARTIGUE ROGER",
+    "prenom": "",
+    "adresse": "1 Allee d Hernani",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6534608,
+    "lon": -1.4119487,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdaa1mnf",
+    "nom": "M LARRIEU PIERRES YVES",
+    "prenom": "",
+    "adresse": "12 Rue Jacques Prevert",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6545036,
+    "lon": -1.4122548,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdaslsg4",
+    "nom": "M. GUERRE Claude",
     "prenom": "",
     "adresse": "19 Bosquet aux Ecureuils",
     "ville": "Capbreton",
@@ -173,58 +93,10 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Le Monde"
+    "note": ""
   },
   {
-    "id": "c_36",
-    "nom": "M SOURIGUES MICHEL",
-    "prenom": "",
-    "adresse": "17 Bosquet aux Ecureuils",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.651401,
-    "lon": -1.4136815,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_37",
-    "nom": "M TOURNIER JEAN PAUL",
-    "prenom": "",
-    "adresse": "62 Rue Frederic Chopin",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6497438,
-    "lon": -1.4137396,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_38",
-    "nom": "M LEOZ GERARD",
-    "prenom": "",
-    "adresse": "5 Route de Soorts",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6490259,
-    "lon": -1.4129474,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Res Vieux Chene Appt 9 / SO Landes"
-  },
-  {
-    "id": "c_39",
+    "id": "mu4gnqdac04ki",
     "nom": "M FOULET JEAN LOUIS",
     "prenom": "",
     "adresse": "3 Allee de la Mer",
@@ -237,26 +109,42 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "SO Landes"
+    "note": ""
   },
   {
-    "id": "c_40",
-    "nom": "M Authier Claude",
+    "id": "mu4gnqdae5kc1",
+    "nom": "M DECHELLE ROBERT",
     "prenom": "",
-    "adresse": "76 Avenue du Marechal Foch",
+    "adresse": "6 Allee du Faune",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6411,
-    "lon": -1.4365,
+    "lat": 43.6470647,
+    "lon": -1.4162646,
     "journaux": [
       "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Res coeur boise C1-207 / SO Landes"
+    "note": ""
   },
   {
-    "id": "c_41",
+    "id": "mu4gnqdagzm6a",
+    "nom": "M POINSON JEAN LUC",
+    "prenom": "",
+    "adresse": "7 Avenue Debussy",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6475042,
+    "lon": -1.417649,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdam3xvj",
     "nom": "M GOURDON HERVE",
     "prenom": "",
     "adresse": "18 Avenue Debussy",
@@ -269,106 +157,58 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "SO Landes"
+    "note": ""
   },
   {
-    "id": "c_42",
-    "nom": "MME JEUNOT Julie",
+    "id": "mu4gnqdaj7cit",
+    "nom": "M. TACHOT BERTRAND",
     "prenom": "",
-    "adresse": "76 Avenue du Marechal Foch",
+    "adresse": "8 Avenue Hector Berlioz",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6411,
-    "lon": -1.4365,
+    "lat": 43.6403659,
+    "lon": -1.4315213,
+    "journaux": [
+      "LE POINT S1"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": "⚠️ position approximative, à corriger"
+  },
+  {
+    "id": "mu4gnqdad2ina",
+    "nom": "MME BOUNIORT LILIANE",
+    "prenom": "",
+    "adresse": "3 Avenue Bizet",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.647885,
+    "lon": -1.4140095,
     "journaux": [
       "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Bat b code 2019 / SO Landes"
+    "note": ""
   },
   {
-    "id": "c_43",
-    "nom": "M POURRUT J.P.",
+    "id": "mu4gnqdahlqh3",
+    "nom": "SEIHE AGENCE COTE LANDAISE",
     "prenom": "",
-    "adresse": "76 Avenue du Marechal Foch",
+    "adresse": "6 Rue des Galips (Batiment 14 ZA de Capbreton)",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6411,
-    "lon": -1.4365,
+    "lat": 43.6500624,
+    "lon": -1.4097274,
     "journaux": [
       "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Bat D1 Apt 3 Res Coeur Boisiers / SO Landes"
+    "note": ""
   },
   {
-    "id": "c_44",
-    "nom": "M PARNAUT OLIVIER",
-    "prenom": "",
-    "adresse": "46 Avenue du Marechal Foch",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6408,
-    "lon": -1.4362,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Res Mouettes Bat E Log 4 / SO Landes"
-  },
-  {
-    "id": "c_45",
-    "nom": "SYDEC CAPBRETON",
-    "prenom": "",
-    "adresse": "78 Avenue du Marechal Foch",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6412,
-    "lon": -1.4366,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_46",
-    "nom": "AMICALE DES POMPIERS",
-    "prenom": "",
-    "adresse": "Route d Angresse",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6499308,
-    "lon": -1.3935865,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_47",
-    "nom": "M BARRERE MICHELLE",
-    "prenom": "",
-    "adresse": "2 Rue Edmond Rostand",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6462208,
-    "lon": -1.4208636,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_48",
+    "id": "mu4gnqdahe1fl",
     "nom": "MME BOTTONA JOCELYNE",
     "prenom": "",
     "adresse": "3 Impasse Gavroche",
@@ -381,138 +221,42 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "SO Landes"
+    "note": ""
   },
   {
-    "id": "c_49",
-    "nom": "MME DANNELONGUE RENEE",
+    "id": "mu4gnqda969fm",
+    "nom": "M JACQUEMAIN PHILIPPE",
     "prenom": "",
-    "adresse": "9 Avenue de la Molle",
+    "adresse": "14 Avenue Voltaire",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6555381,
-    "lon": -1.417761,
+    "lat": 43.6539713,
+    "lon": -1.4169703,
     "journaux": [
       "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "SO Landes"
+    "note": ""
   },
   {
-    "id": "c_50",
-    "nom": "M VANBRUGGHE GERARD",
+    "id": "mu4gnqdacg7mv",
+    "nom": "M DURROTY MAX",
     "prenom": "",
-    "adresse": "17 Avenue de la Molle",
+    "adresse": "4 Allee de Candide",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6555381,
-    "lon": -1.417761,
+    "lat": 43.6544312,
+    "lon": -1.417493,
     "journaux": [
       "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "SO Landes"
+    "note": ""
   },
   {
-    "id": "c_51",
-    "nom": "M DUSSAC HENRI",
-    "prenom": "",
-    "adresse": "24 Avenue de la Molle",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6555381,
-    "lon": -1.417761,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_52",
-    "nom": "MME TALON MAITE",
-    "prenom": "",
-    "adresse": "11 Avenue des Myosotis",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6555413,
-    "lon": -1.4240357,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_53",
-    "nom": "MME LUNETTA ANTOINETTE",
-    "prenom": "",
-    "adresse": "22 Avenue Michel de Montaigne",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.653324,
-    "lon": -1.4269337,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Dans le tube / SO Landes"
-  },
-  {
-    "id": "c_54",
-    "nom": "M DELZANGLES ANDRE",
-    "prenom": "",
-    "adresse": "9 Place Francois Mauriac",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6533475,
-    "lon": -1.4233432,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_55",
-    "nom": "MME ROQUES LOUISE",
-    "prenom": "",
-    "adresse": "14 Avenue Michel de Montaigne",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.653324,
-    "lon": -1.4269337,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_57",
-    "nom": "MME LAGAIN NICOLE",
-    "prenom": "",
-    "adresse": "10 Place Pierre Benoit",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.651902,
-    "lon": -1.4211119,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_58",
+    "id": "mu4gnqdaigoa0",
     "nom": "MME CALES CHANTAL",
     "prenom": "",
     "adresse": "3 Avenue Paul Valery",
@@ -526,1386 +270,74 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "SO Landes + Le Point"
+    "note": ""
   },
   {
-    "id": "c_59",
-    "nom": "M DURROTY MAX",
+    "id": "mu4gnqdakmcg8",
+    "nom": "M. BRETHES PHILIPPE",
     "prenom": "",
-    "adresse": "4 Allee de Candide",
+    "adresse": "20 Avenue de la Molle",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6544312,
-    "lon": -1.417493,
+    "lat": 43.6555381,
+    "lon": -1.417761,
     "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_60",
-    "nom": "M JACQUEMAIN PHILIPPE",
-    "prenom": "",
-    "adresse": "14 Avenue Voltaire",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6539713,
-    "lon": -1.4169703,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_62",
-    "nom": "M DUCOTE JEAN",
-    "prenom": "",
-    "adresse": "2 Allee Adele Hugo",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6504777,
-    "lon": -1.41906,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Face 5 Avenue Victor Hugo / SO Landes"
-  },
-  {
-    "id": "c_63",
-    "nom": "M BERGEY MICHEL",
-    "prenom": "",
-    "adresse": "2 Impasse Montaigne",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6484594,
-    "lon": -1.4223424,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_65",
-    "nom": "M NECTOUX THIERRY",
-    "prenom": "",
-    "adresse": "14 Impasse Montaigne",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6485462,
-    "lon": -1.4224519,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_66",
-    "nom": "MME LABARTHE MAITE",
-    "prenom": "",
-    "adresse": "9 Place Maurice Ravel",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6491309,
-    "lon": -1.4240664,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_67",
-    "nom": "M LASSALLE ROBERT",
-    "prenom": "",
-    "adresse": "14 Avenue Maurice Ravel",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6498011,
-    "lon": -1.4241115,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_68",
-    "nom": "MME LESCA ANDREE",
-    "prenom": "",
-    "adresse": "34 Impasse Maurice Ravel",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6502587,
-    "lon": -1.4243951,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_69",
-    "nom": "Mme BORDES JEANNINE",
-    "prenom": "",
-    "adresse": "19 Avenue Francis Plante",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6469749,
-    "lon": -1.4250148,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_70",
-    "nom": "M STROPPIANA GILBERT",
-    "prenom": "",
-    "adresse": "30 Hameau Bas Armagnac",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6470915,
-    "lon": -1.4215914,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_71",
-    "nom": "M DUSSAUBAT OSCAR",
-    "prenom": "",
-    "adresse": "11 Hameau Bas Armagnac",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6470915,
-    "lon": -1.4215914,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_72",
-    "nom": "M JEGOU JACQUES",
-    "prenom": "",
-    "adresse": "11 Rue Edmond Rostand",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6462208,
-    "lon": -1.4208636,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_73",
-    "nom": "M LATRY FRANCIS",
-    "prenom": "",
-    "adresse": "10 Rue Edmond Rostand",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6462208,
-    "lon": -1.4208636,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_74",
-    "nom": "M LABORDE JEAN NOEL",
-    "prenom": "",
-    "adresse": "9 Rue Edmond Rostand",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.646222,
-    "lon": -1.4208573,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_75",
-    "nom": "MME BOUE MARIE HELENE",
-    "prenom": "",
-    "adresse": "7 Rue Edmond Rostand",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6462208,
-    "lon": -1.4208636,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_76",
-    "nom": "M DAULOUEDE",
-    "prenom": "",
-    "adresse": "18 Rue Edmond Rostand",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6462208,
-    "lon": -1.4208636,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_77",
-    "nom": "M ANEX MIREILLE",
-    "prenom": "",
-    "adresse": "2 Rue Francisco Goya",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6463635,
-    "lon": -1.4196271,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "App 18 / SO Landes"
-  },
-  {
-    "id": "c_78",
-    "nom": "M BARANGER GEORGES",
-    "prenom": "",
-    "adresse": "10 Impasse Pablo Picasso",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6456,
-    "lon": -1.4428,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_79",
-    "nom": "M SECAT Patrick",
-    "prenom": "",
-    "adresse": "22 Impasse du Pignada",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6456436,
-    "lon": -1.423553,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_80",
-    "nom": "M DUPUTS MICHEL",
-    "prenom": "",
-    "adresse": "5 Impasse des Bleuets",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6444816,
-    "lon": -1.4235152,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_81",
-    "nom": "M DUSSIN PHILIPPE",
-    "prenom": "",
-    "adresse": "6 Rue du Bournes",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6447525,
-    "lon": -1.4253781,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_82",
-    "nom": "MME JUNQUIL FRANCOISE",
-    "prenom": "",
-    "adresse": "10 Rue du Bournes",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6447525,
-    "lon": -1.4253781,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_83",
-    "nom": "M TERMIGNON J.P.",
-    "prenom": "",
-    "adresse": "51 Boulevard des Cigales",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6334425,
-    "lon": -1.4274005,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Uncle Phil / SO Landes"
-  },
-  {
-    "id": "c_84",
-    "nom": "M PETRO THOMAS",
-    "prenom": "",
-    "adresse": "8 Avenue des Pins",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6448064,
-    "lon": -1.4283257,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Domaine des Pins app c73 / SO Landes"
-  },
-  {
-    "id": "c_86",
-    "nom": "MME MOISSET DANIELLE",
-    "prenom": "",
-    "adresse": "35 Boulevard des Cigales",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6334425,
-    "lon": -1.4274005,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_87",
-    "nom": "M HILDELBERT JOSEPH",
-    "prenom": "",
-    "adresse": "8 Avenue des Pins",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6448064,
-    "lon": -1.4283257,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Bat B Domaine des Pins / SO Landes"
-  },
-  {
-    "id": "c_88",
-    "nom": "M HIQUET SERGE",
-    "prenom": "",
-    "adresse": "18 Rue du Chateau d Eau",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6421692,
-    "lon": -1.4287353,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_89",
-    "nom": "MME DUCAMP PIERRETTE",
-    "prenom": "",
-    "adresse": "5 Rue de la Galiotte",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6454838,
-    "lon": -1.435177,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Appt 104 Digi 2019 / SO Landes"
-  },
-  {
-    "id": "c_90",
-    "nom": "M BATTOUE DANIEL",
-    "prenom": "",
-    "adresse": "5 Rue de la Galiotte",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6454838,
-    "lon": -1.435177,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Res La Galiotte / SO Landes"
-  },
-  {
-    "id": "c_92",
-    "nom": "CCAS DE CAPBRETON",
-    "prenom": "",
-    "adresse": "27 Allee du Boudigau",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6455272,
-    "lon": -1.433582,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_93",
-    "nom": "ORPI MONE MARTINAUD",
-    "prenom": "",
-    "adresse": "1 Avenue du Marechal Leclerc",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6442227,
-    "lon": -1.4326192,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_94",
-    "nom": "SCM GROUPE MEDICAL",
-    "prenom": "",
-    "adresse": "6 Avenue du Marechal Leclerc",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6442507,
-    "lon": -1.4324792,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_95",
-    "nom": "M TAMBOURIN MARCEL",
-    "prenom": "",
-    "adresse": "3 Avenue du Marechal Leclerc",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6447496,
-    "lon": -1.4322939,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_96",
-    "nom": "MME DUCASSE JACQUELINE",
-    "prenom": "",
-    "adresse": "11 Impasse des Gravieres",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6466971,
-    "lon": -1.4300921,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_97",
-    "nom": "M DUPONT GILBERT",
-    "prenom": "",
-    "adresse": "7 Avenue des Acacias",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6459563,
-    "lon": -1.4294227,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_98",
-    "nom": "Mme LARICQ FRANCOISE",
-    "prenom": "",
-    "adresse": "4 Avenue des Acacias",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6459563,
-    "lon": -1.4294227,
-    "journaux": [
-      "12D PAYS BASQUE"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Pays Basque"
-  },
-  {
-    "id": "c_99",
-    "nom": "M GIRBON JEAN MARC",
-    "prenom": "",
-    "adresse": "46 Avenue du Marechal Leclerc",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6495457,
-    "lon": -1.4310236,
-    "journaux": [
-      "12D PAYS BASQUE"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Villa Midway A204 / SO Pays Basque + Marianne"
-  },
-  {
-    "id": "c_100",
-    "nom": "CCM CAPBRETON",
-    "prenom": "",
-    "adresse": "54 Avenue du Marechal Leclerc",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6452182,
-    "lon": -1.4320265,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_101",
-    "nom": "M AMESPIL LEON",
-    "prenom": "",
-    "adresse": "56 Avenue du Marechal Leclerc",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6447496,
-    "lon": -1.4322939,
-    "journaux": [
-      "12D PAYS BASQUE"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Pays Basque"
-  },
-  {
-    "id": "c_102",
-    "nom": "M MADOZ PHILLIPPE",
-    "prenom": "",
-    "adresse": "Quai Bonamour",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6511425,
-    "lon": -1.4346337,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Mille Sabords H7/8 Appt 125 Digi 19-174 / SO Landes"
-  },
-  {
-    "id": "c_103",
-    "nom": "MME CONTI GERMAINE",
-    "prenom": "",
-    "adresse": "Quai Bonamour",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6511425,
-    "lon": -1.4346337,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Mille Sabords H7/8 App 122 Digi 19-174 / SO Landes"
-  },
-  {
-    "id": "c_104",
-    "nom": "M ROURE J.F.",
-    "prenom": "",
-    "adresse": "2 Rue Chambrelent",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6501107,
-    "lon": -1.4316064,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Terrasses de Capbreton / SO Landes"
-  },
-  {
-    "id": "c_105",
-    "nom": "M IZABEL JEAN CLAUDE",
-    "prenom": "",
-    "adresse": "30 Rue Maurice Martin",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6465085,
-    "lon": -1.4332709,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_106",
-    "nom": "MME BERNUDES SOPHIE",
-    "prenom": "",
-    "adresse": "5 Avenue Maurice Martin",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6500998,
-    "lon": -1.4337426,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "So Fish / SO Landes"
-  },
-  {
-    "id": "c_107",
-    "nom": "M DARZACQ M.H.",
-    "prenom": "",
-    "adresse": "10 Avenue du Commandant L Herminier",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6490369,
-    "lon": -1.4377533,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Apt 3 / SO Landes"
-  },
-  {
-    "id": "c_108",
-    "nom": "M LESBATS",
-    "prenom": "",
-    "adresse": "9 Avenue du Commandant L Herminier",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6486545,
-    "lon": -1.4373218,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_109",
-    "nom": "HOTEL MIRAMAR",
-    "prenom": "",
-    "adresse": "17 Avenue du Commandant L Herminier",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.649176,
-    "lon": -1.438448,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "M Dupin Villa Thia Vona / SO Landes"
-  },
-  {
-    "id": "c_110",
-    "nom": "DUGER BERNADETTE",
-    "prenom": "",
-    "adresse": "4 Rue des Muges",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6514803,
-    "lon": -1.4370881,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_111",
-    "nom": "M BAREILLE FRANCISE",
-    "prenom": "",
-    "adresse": "2 Rue des Muges",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6514803,
-    "lon": -1.4370881,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_112",
-    "nom": "MME DESPREZ REGINE",
-    "prenom": "",
-    "adresse": "3 Rue des Basques",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6513596,
-    "lon": -1.4415663,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Res Imarena Appt 11 / SO Landes"
-  },
-  {
-    "id": "c_113",
-    "nom": "MME NAVAILLES LILIANE",
-    "prenom": "",
-    "adresse": "3 Rue des Basques",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6513596,
-    "lon": -1.4415663,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Res Imarena Appt 2 / SO Landes"
-  },
-  {
-    "id": "c_114",
-    "nom": "M LAPEGUE LAFAYE J.F.",
-    "prenom": "",
-    "adresse": "17 Rue des Basques",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6513596,
-    "lon": -1.4415663,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_115",
-    "nom": "M DUMONT MICHEL",
-    "prenom": "",
-    "adresse": "Impasse des Sternes",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6538061,
-    "lon": -1.4416926,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_116",
-    "nom": "M MARMANDE JEAN",
-    "prenom": "",
-    "adresse": "31 Avenue du Commandant L Herminier",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6490369,
-    "lon": -1.4377533,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_117",
-    "nom": "MME HOURNADET GEORGETTE",
-    "prenom": "",
-    "adresse": "16 Rue de Madrid",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6525127,
-    "lon": -1.4444743,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Appt 13 / SO Landes"
-  },
-  {
-    "id": "c_118",
-    "nom": "M PAILLISSE PIERRE",
-    "prenom": "",
-    "adresse": "4 Rue des Voiliers",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6521868,
-    "lon": -1.4442255,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_119",
-    "nom": "M BERTHOD B. JACQUES",
-    "prenom": "",
-    "adresse": "Boulevard Francois Mitterrand",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6529751,
-    "lon": -1.4452175,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Appt 240 Res Grand Large / SO Landes"
-  },
-  {
-    "id": "c_120",
-    "nom": "SPOT 78",
-    "prenom": "",
-    "adresse": "78 Avenue de Lattre de Tassigny",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6504178,
-    "lon": -1.4452276,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_121",
-    "nom": "MME MAUBOURGUET ANNIE",
-    "prenom": "",
-    "adresse": "31 Rue de Madrid",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.650419,
-    "lon": -1.4448312,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_122",
-    "nom": "EURL MONGAY",
-    "prenom": "",
-    "adresse": "30 Rue de Madrid",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6509463,
-    "lon": -1.444902,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Res Castel Cap / SO Landes"
-  },
-  {
-    "id": "c_123",
-    "nom": "MME YOUT JOELLE",
-    "prenom": "",
-    "adresse": "56 Avenue de Lattre de Tassigny",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6489948,
-    "lon": -1.442794,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_124",
-    "nom": "M SILLIAU JEAN",
-    "prenom": "",
-    "adresse": "10 Rue des Bretons",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6479365,
-    "lon": -1.4372575,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_125",
-    "nom": "ESCALE INFO",
-    "prenom": "",
-    "adresse": "17 Avenue Georges Pompidou",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.647061,
-    "lon": -1.4353594,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_126",
-    "nom": "M PETIT CLAUDE",
-    "prenom": "",
-    "adresse": "5 Rue du Gouf",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6532202,
-    "lon": -1.443648,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_127",
-    "nom": "M CURCULOSSE MARC",
-    "prenom": "",
-    "adresse": "5 Rue des Goelands",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6528494,
-    "lon": -1.4418336,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_129",
-    "nom": "M LAMAISON PIERRE",
-    "prenom": "",
-    "adresse": "20 Rue du Port d Albret",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6530173,
-    "lon": -1.4425851,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_130",
-    "nom": "TOTAL ENERGIES",
-    "prenom": "",
-    "adresse": "33 Avenue du Commandant L Herminier",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6490369,
-    "lon": -1.4377533,
-    "journaux": [
-      "12D PAYS BASQUE"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "M Roche Christophe / SO Pays Basque"
-  },
-  {
-    "id": "c_134",
-    "nom": "M PARR JEAN LOUIS",
-    "prenom": "",
-    "adresse": "22 Avenue Francois Mauriac",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6543385,
-    "lon": -1.4232548,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_135",
-    "nom": "M SOUBLIN YVES",
-    "prenom": "",
-    "adresse": "1 Avenue Francis Plante",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6469749,
-    "lon": -1.4250148,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_136",
-    "nom": "M LABORDE CHRISTIAN",
-    "prenom": "",
-    "adresse": "16 Rue Paul Marguerite",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.648094,
-    "lon": -1.420614,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_138",
-    "nom": "M GUILLAMOUNDEGUY B.",
-    "prenom": "",
-    "adresse": "2289 Lieu dit Les 2 Pins",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.648,
-    "lon": -1.446,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Chemin Castagnet au bout a gauche / SO Landes"
-  },
-  {
-    "id": "c_141",
-    "nom": "MME LIMOUX JEANINE",
-    "prenom": "",
-    "adresse": "Quai Bonamour",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6511425,
-    "lon": -1.4346337,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Mille Sabords Appt 112 H2/3 Digi 19-174 / SO Landes"
-  },
-  {
-    "id": "c_143",
-    "nom": "MME COHEN ARLETTE",
-    "prenom": "",
-    "adresse": "29 Place Francis Plante",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6469749,
-    "lon": -1.4250148,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_144",
-    "nom": "MME LAPLACETTE ALEXIA",
-    "prenom": "",
-    "adresse": "10 Avenue du Marechal Leclerc",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6447496,
-    "lon": -1.4322939,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "App 4 / SO Landes"
-  },
-  {
-    "id": "c_145",
-    "nom": "M ATIENZA TUIERRY",
-    "prenom": "",
-    "adresse": "7 Rue Maurice Martin",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6465085,
-    "lon": -1.4332709,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_147",
-    "nom": "M LAMOTHE JOSEPH",
-    "prenom": "",
-    "adresse": "47 Avenue du Marechal Foch",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6409,
-    "lon": -1.4363,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "App 3 / SO Landes"
-  },
-  {
-    "id": "c_148",
-    "nom": "MME PRIME JESSICA",
-    "prenom": "",
-    "adresse": "46 Avenue du Marechal Foch",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6408,
-    "lon": -1.4362,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Bat d app 23 Les Mouettes / SO Landes"
-  },
-  {
-    "id": "c_150",
-    "nom": "Mme PAILHE BELAIR ROSE",
-    "prenom": "",
-    "adresse": "12 Route d Angresse",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6499308,
-    "lon": -1.3935865,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Les Dauphins / SO Landes"
-  },
-  {
-    "id": "c_151",
-    "nom": "M DENEGRE RENE",
-    "prenom": "",
-    "adresse": "26 Rue Jean-Baptiste Gabarra",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6414219,
-    "lon": -1.4308496,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Res Goeland / SO Landes"
-  },
-  {
-    "id": "c_152",
-    "nom": "M LAFFERRERE BERNARD",
-    "prenom": "",
-    "adresse": "Rue Jean-Baptiste Gabarra",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6414219,
-    "lon": -1.4308496,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Plein Soleil Bat B / SO Landes"
-  },
-  {
-    "id": "c_153",
-    "nom": "MME SALEM KACI",
-    "prenom": "",
-    "adresse": "1 Allee du Boucarot",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.654598,
-    "lon": -1.4267684,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Bat 1 Appt 24 Digi 2010 / SO Landes"
-  },
-  {
-    "id": "c_154",
-    "nom": "M DELBOUYS J.P.",
-    "prenom": "",
-    "adresse": "14 Allee des Berges Landaises",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6552861,
-    "lon": -1.4260961,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_155",
-    "nom": "M DECK OLIVIER",
-    "prenom": "",
-    "adresse": "34 Avenue de Lattre de Tassigny",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6489948,
-    "lon": -1.442794,
-    "journaux": [
-      "19A LANDES"
+      "LE POINT S1"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "SO Landes"
+    "note": ""
   },
   {
-    "id": "c_156",
-    "nom": "MME DESCLAUX Melanie",
+    "id": "mu4gnqdaslwpn",
+    "nom": "M DUSSAC HENRI",
     "prenom": "",
-    "adresse": "5 Avenue du Commandant L Herminier",
+    "adresse": "24 Avenue de la Molle",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6486235,
-    "lon": -1.4365935,
+    "lat": 43.6555381,
+    "lon": -1.417761,
     "journaux": [
       "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "SO Landes"
+    "note": ""
   },
   {
-    "id": "c_157",
-    "nom": "MME HONTARREDE MONIQUE",
+    "id": "mu4gnqdaryer0",
+    "nom": "MR LAGORSSE BERNARD",
     "prenom": "",
-    "adresse": "76 Avenue du Marechal Leclerc",
+    "adresse": "10 Avenue des Myosotis",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6452182,
-    "lon": -1.4320265,
+    "lat": 43.6555413,
+    "lon": -1.4240357,
     "journaux": [
-      "19A LANDES"
+      "LE POINT S1"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Bellerive / SO Landes"
+    "note": ""
   },
   {
-    "id": "c_158",
-    "nom": "MME LAUZERAL VERONIQUE",
+    "id": "mu4gnqda2yrlc",
+    "nom": "MME LUNETTA ANTOINETTE",
     "prenom": "",
-    "adresse": "76 Avenue du Marechal Leclerc",
+    "adresse": "22 Avenue Michel de Montaigne (dans le tube - mettre le journal dans le tube)",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6452182,
-    "lon": -1.4320265,
+    "lat": 43.653324,
+    "lon": -1.4269337,
     "journaux": [
       "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Belle Rive / SO Landes"
+    "note": ""
   },
   {
-    "id": "c_160",
+    "id": "mu4gnqdarmuha",
     "nom": "CS Consulting",
     "prenom": "",
     "adresse": "28 Avenue Michel de Montaigne",
@@ -1918,75 +350,43 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "SO Landes"
+    "note": ""
   },
   {
-    "id": "c_161",
-    "nom": "M THIERRY XAVIER",
+    "id": "mu4gnqdaae3lr",
+    "nom": "MR LESME JEAN PAUL",
     "prenom": "",
-    "adresse": "14 Avenue des Myosotis",
+    "adresse": "56 Avenue Francois Mauriac",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6555413,
-    "lon": -1.4240357,
+    "lat": 43.6543385,
+    "lon": -1.4232548,
+    "journaux": [
+      "LE POINT S1"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqda2ov6a",
+    "nom": "M PARR jeanine",
+    "prenom": "",
+    "adresse": "22 Avenue Francois Mauriac",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6543385,
+    "lon": -1.4232548,
     "journaux": [
       "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Derniere maison a gauche / SO Landes"
+    "note": ""
   },
   {
-    "id": "c_162",
-    "nom": "MME ROUYER CHRISTINE",
-    "prenom": "",
-    "adresse": "9 Chemin de l Arriou",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.654003,
-    "lon": -1.4253528,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_163",
-    "nom": "M ASCHARD JEAN LUC",
-    "prenom": "",
-    "adresse": "7 Avenue Georges Pompidou",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6464477,
-    "lon": -1.4348499,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_164",
-    "nom": "M DECHELLE ROBERT",
-    "prenom": "",
-    "adresse": "6 Allee du Faune",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6470647,
-    "lon": -1.4162646,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_165",
-    "nom": "M GABORIEAU J.M.",
+    "id": "mu4gnqdadt5qn",
+    "nom": "M GABORIEAU JEAN MICHEL",
     "prenom": "",
     "adresse": "18 Avenue Francois Mauriac",
     "ville": "Capbreton",
@@ -1998,205 +398,61 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "SO Landes"
+    "note": ""
   },
   {
-    "id": "c_166",
-    "nom": "MME REGNAULT LEILA",
+    "id": "mu4gnqdatckzv",
+    "nom": "M DELZANGLES ANDRE",
     "prenom": "",
-    "adresse": "10 Impasse Colette",
+    "adresse": "9 Place Francois Mauriac",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.652696,
-    "lon": -1.4085625,
+    "lat": 43.6533475,
+    "lon": -1.4233432,
     "journaux": [
       "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "SO Landes"
+    "note": ""
   },
   {
-    "id": "c_167",
-    "nom": "M ARISTIZABAL YVES",
+    "id": "mu4gnqdajqgl5",
+    "nom": "MME ROQUES LOUISE",
     "prenom": "",
-    "adresse": "6 Allee de la Mer",
+    "adresse": "14 Avenue Michel Demontaigne",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6463021,
-    "lon": -1.417411,
+    "lat": 43.6479762,
+    "lon": -1.4228864,
     "journaux": [
       "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "SO Landes"
+    "note": ""
   },
   {
-    "id": "c_169",
-    "nom": "MME TURBIEZ EVELYNE",
+    "id": "mu4gnqdajfcwd",
+    "nom": "MME LAGAIN NICOLE",
     "prenom": "",
-    "adresse": "10 Impasse des Mimosas",
+    "adresse": "10 Place Pierre Benoit",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6466907,
-    "lon": -1.4292666,
+    "lat": 43.651902,
+    "lon": -1.4211119,
     "journaux": [
       "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Villa Marensines 1a / SO Landes"
+    "note": ""
   },
   {
-    "id": "c_170",
-    "nom": "M ROUX BERNARD",
-    "prenom": "",
-    "adresse": "21 Hameau Bas Armagnac",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6473584,
-    "lon": -1.4208625,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_171",
-    "nom": "MME VIVES M.T.",
-    "prenom": "",
-    "adresse": "18 Avenue de Lattre de Tassigny",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6489948,
-    "lon": -1.442794,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Villa Mon Reve / SO Landes"
-  },
-  {
-    "id": "c_172",
-    "nom": "SEIHE AGENCE",
-    "prenom": "",
-    "adresse": "6 Rue des Galips",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6500624,
-    "lon": -1.4097274,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Bat 14 ZA Capbreton / SO Landes"
-  },
-  {
-    "id": "c_173",
-    "nom": "MME MAFFET NATHALIE",
-    "prenom": "",
-    "adresse": "1 Rue des Campeurs",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6529788,
-    "lon": -1.4287516,
-    "journaux": [
-      "12D PAYS BASQUE"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Villa Patio n19 / SO Pays Basque"
-  },
-  {
-    "id": "c_174",
-    "nom": "M BOURRAS PIERRE",
-    "prenom": "",
-    "adresse": "3 Rue Edmond Rostand",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6462208,
-    "lon": -1.4208636,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_175",
-    "nom": "MLLE ENNOUI VERONIQUE",
-    "prenom": "",
-    "adresse": "46 Avenue du Marechal Foch",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6408,
-    "lon": -1.4362,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "20 Res Les Mouettes / SO Landes"
-  },
-  {
-    "id": "c_176",
-    "nom": "Bareille Bernard",
-    "prenom": "",
-    "adresse": "Route d Angresse",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6499308,
-    "lon": -1.3935865,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Lieu dit Le Parc / SO Landes"
-  },
-  {
-    "id": "c_177",
-    "nom": "MME DUCLOS GENEVIEVE",
-    "prenom": "",
-    "adresse": "12 Avenue du Commandant L Herminier",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6490369,
-    "lon": -1.4377533,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "Res Les 3 Mats / SO Landes"
-  },
-  {
-    "id": "c_178",
-    "nom": "M BOBION SERGE",
-    "prenom": "",
-    "adresse": "3 Avenue Maurice Ravel",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6498011,
-    "lon": -1.4241115,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": "SO Landes"
-  },
-  {
-    "id": "c_56",
+    "id": "mu4gnqdasdkbf",
     "nom": "M BAPSERES PIERRE",
     "prenom": "",
-    "adresse": "20 Avenue Pierre Benoit",
+    "adresse": "20 Avenue Pierre Benoit (N04375517/FIGAR)",
     "ville": "Capbreton",
     "code_postal": "40130",
     "lat": 43.6518787,
@@ -2206,26 +462,26 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Le Point"
+    "note": ""
   },
   {
-    "id": "c_61",
-    "nom": "M MICHEL ALAIN",
+    "id": "mu4gnqdatc6n8",
+    "nom": "M BERGEY MICHEL",
     "prenom": "",
-    "adresse": "4 Avenue Victor Hugo",
+    "adresse": "2 Impasse Montaigne",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6526138,
-    "lon": -1.4166077,
+    "lat": 43.6484594,
+    "lon": -1.4223424,
     "journaux": [
-      "LE POINT S1"
+      "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Le Point"
+    "note": ""
   },
   {
-    "id": "c_64",
+    "id": "mu4gnqda246h6",
     "nom": "M MIMOUNI ALBERT",
     "prenom": "",
     "adresse": "10 Impasse Montaigne",
@@ -2238,25 +494,395 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Le Point"
+    "note": ""
   },
   {
-    "id": "c_85",
-    "nom": "MME CLIDASSOU CLAUDE",
+    "id": "mu4gnqda85emo",
+    "nom": "M SOUBLIN YVES",
     "prenom": "",
-    "adresse": "5 Rue des Mimosas",
+    "adresse": "1 Avenue Francis Plante",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6463815,
-    "lon": -1.4284802,
-    "journaux": [],
+    "lat": 43.6469749,
+    "lon": -1.4250148,
+    "journaux": [
+      "19A LANDES"
+    ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Villa Le Retour / Elle"
+    "note": ""
   },
   {
-    "id": "c_91",
-    "nom": "M SAINT PAU J.P.",
+    "id": "mu4gnqdajug63",
+    "nom": "MME LABARTHE MAITE",
+    "prenom": "",
+    "adresse": "9 Place Maurice Ravel",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6491309,
+    "lon": -1.4240664,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdacjzh4",
+    "nom": "M LASSALLE ROBERT",
+    "prenom": "",
+    "adresse": "14 Avenue Maurice Ravel",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6498011,
+    "lon": -1.4241115,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdaep0w7",
+    "nom": "M BOBION SERGE",
+    "prenom": "",
+    "adresse": "3 Avenue Maurice Ravel",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6498011,
+    "lon": -1.4241115,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdavwzwq",
+    "nom": "MME COHEN ARLETTE",
+    "prenom": "",
+    "adresse": "29 Place Francis Plante",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6469749,
+    "lon": -1.4250148,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdap1oid",
+    "nom": "M DUSSAUBAT OSCAR",
+    "prenom": "",
+    "adresse": "11 Hameau Bas Armagnac",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6470915,
+    "lon": -1.4215914,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdavwu9a",
+    "nom": "M JEGOU JACQUES",
+    "prenom": "",
+    "adresse": "11 Rue Edmond Rostand",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6462208,
+    "lon": -1.4208636,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdaekany",
+    "nom": "M LATRY FRANCIS",
+    "prenom": "",
+    "adresse": "10 Rue Edmond Rostand",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6462208,
+    "lon": -1.4208636,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdaqx22o",
+    "nom": "M LABORDE JEAN NOEL",
+    "prenom": "",
+    "adresse": "9 Rue Edmond Rostand",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.646222,
+    "lon": -1.4208573,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdayvg0x",
+    "nom": "M BARRERE MICHELLE",
+    "prenom": "",
+    "adresse": "2 Rue Edmond Rostand",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6462208,
+    "lon": -1.4208636,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdajtzpd",
+    "nom": "M LAMOTHE JOSEPH",
+    "prenom": "",
+    "adresse": "47 Avenue du Marechal Foch (App 3)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6409,
+    "lon": -1.4363,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdal648e",
+    "nom": "M SECAT Patrick",
+    "prenom": "",
+    "adresse": "22 Impasse du Pignada",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6456436,
+    "lon": -1.423553,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdaiudlh",
+    "nom": "M DUPUTS MICHEL",
+    "prenom": "",
+    "adresse": "5 Impasse des Bleuets",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6444816,
+    "lon": -1.4235152,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdavvc58",
+    "nom": "M DUSSIN PHILIPPE",
+    "prenom": "",
+    "adresse": "6 Rue du Bournes",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6447525,
+    "lon": -1.4253781,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdayq7q3",
+    "nom": "M TERMIGNON JEAN PHILIPPE",
+    "prenom": "",
+    "adresse": "51 Boulevard des Cigales (Uncle Phil)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.642445,
+    "lon": -1.4258423,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdab6118",
+    "nom": "M HILDELBERT JOSEPH",
+    "prenom": "",
+    "adresse": "8 Avenue des Pins (Batiment B Domaine des Pins 2002)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6448064,
+    "lon": -1.4283257,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqda73ajf",
+    "nom": "MME BONNEMAYRE CHANTAL",
+    "prenom": "",
+    "adresse": "9 Avenue des Pins (Villa Les Genets)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6448064,
+    "lon": -1.4283257,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdas94lo",
+    "nom": "M HIQUET SERGE",
+    "prenom": "",
+    "adresse": "18 Rue du Chateau d Eau",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6421692,
+    "lon": -1.4287353,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdawhncz",
+    "nom": "M DENEGRE RENE",
+    "prenom": "",
+    "adresse": "26 Rue Jean Baptiste Gabarra (Residence Goeland)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6429665,
+    "lon": -1.4301606,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdanh9k1",
+    "nom": "M FORT PATRICK",
+    "prenom": "",
+    "adresse": "17 Boulevard du Docteur Junqua (Appart 24)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6439699,
+    "lon": -1.431402,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdaknzus",
+    "nom": "MR STUDER ROBERT",
+    "prenom": "",
+    "adresse": "3 Avenue Georges Pompidou (Res Gardenia)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6527503,
+    "lon": -1.4380335,
+    "journaux": [
+      "LE POINT S1"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdafvdnm",
+    "nom": "M ASCHARD JEAN LUC",
+    "prenom": "",
+    "adresse": "7 Avenue Georges Pompidou",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6464477,
+    "lon": -1.4348499,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdamxmkb",
+    "nom": "M BATTOUE DANIEL",
+    "prenom": "",
+    "adresse": "5 Rue de la Galiotte (Residence La Galiotte)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6454838,
+    "lon": -1.435177,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqda4s04p",
+    "nom": "MME DUCAMP PIERRETTE",
+    "prenom": "",
+    "adresse": "5 Rue de la Galiotte (Residence La Galiotte Appt 104 digicode 2019)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6454838,
+    "lon": -1.435177,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdaxc0jm",
+    "nom": "MR SAINT PAU JEAN PIERRE",
     "prenom": "",
     "adresse": "35 Allee du Boudigau",
     "ville": "Capbreton",
@@ -2268,73 +894,363 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Le Point"
+    "note": ""
   },
   {
-    "id": "c_131",
-    "nom": "MME MILLIOZ MADELEINE",
+    "id": "mu4gnqdacusec",
+    "nom": "CCAS DE CAPBRETON",
     "prenom": "",
-    "adresse": "4 Avenue du Bourret",
+    "adresse": "27 Allee du Boudigau",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.642,
-    "lon": -1.438,
-    "journaux": [],
+    "lat": 43.6455272,
+    "lon": -1.433582,
+    "journaux": [
+      "19A LANDES"
+    ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Appt 107 Bat C Res Bel Air / Elle"
+    "note": ""
   },
   {
-    "id": "c_132",
-    "nom": "M LAGORSSE BERNARD",
+    "id": "mu4gnqda5nv7u",
+    "nom": "ORPI SAS MONE MARTINAUD IMMOBILIER",
     "prenom": "",
-    "adresse": "10 Avenue des Myosotis",
+    "adresse": "1 Avenue du Marechal Leclerc",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6442227,
+    "lon": -1.4326192,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdae4wey",
+    "nom": "SCM GROUPE MEDICAL",
+    "prenom": "",
+    "adresse": "6 Avenue du Marechal Leclerc",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6442507,
+    "lon": -1.4324792,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdai3ii0",
+    "nom": "Madame LARICQ FRANCOISE",
+    "prenom": "",
+    "adresse": "4 Avenue des Acacias",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6459563,
+    "lon": -1.4294227,
+    "journaux": [
+      "12D PAYS BASQUE"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdanr61s",
+    "nom": "M DUPONT GILBERT",
+    "prenom": "",
+    "adresse": "7 Avenue des Acacias",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6459563,
+    "lon": -1.4294227,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdaqgtrj",
+    "nom": "MME DUCASSE JACQUELINE",
+    "prenom": "",
+    "adresse": "11 Impasse des Gravieres",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6466971,
+    "lon": -1.4300921,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbu3jhy",
+    "nom": "CCM CAPBRETON",
+    "prenom": "",
+    "adresse": "54 Avenue du Marechal Leclerc",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6452182,
+    "lon": -1.4320265,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdby93cr",
+    "nom": "M AMESPIL LEON",
+    "prenom": "",
+    "adresse": "56 Bis Avenue du Marechal Leclerc",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6447496,
+    "lon": -1.4322939,
+    "journaux": [
+      "12D PAYS BASQUE"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbqi5tk",
+    "nom": "MME MAFFET NATHALIE",
+    "prenom": "",
+    "adresse": "1 Rue des Campeurs (Villa Patio n19)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6529788,
+    "lon": -1.4287516,
+    "journaux": [
+      "12D PAYS BASQUE"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbogvu3",
+    "nom": "MME FLOQUET VERONIQUE",
+    "prenom": "",
+    "adresse": "Route de Soorts (Villa 16 Bosquet aux Ecureuils)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6490259,
+    "lon": -1.4129474,
+    "journaux": [
+      "LE POINT S1"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdb7ml85",
+    "nom": "MME TALON MAITE",
+    "prenom": "",
+    "adresse": "11 Avenue des Myosotis",
     "ville": "Capbreton",
     "code_postal": "40130",
     "lat": 43.6555413,
     "lon": -1.4240357,
     "journaux": [
-      "LE POINT S1"
+      "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Le Point"
+    "note": ""
   },
   {
-    "id": "c_133",
-    "nom": "M BOULZAGUET GUY",
+    "id": "mu4gnqdbzqhgq",
+    "nom": "MME CONTI GERMAINE",
     "prenom": "",
-    "adresse": "12 Avenue Francois Mauriac",
+    "adresse": "Quai Bonamour (Hall 7-8 Res Mille Sabords App 122 digicode 19-174)",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6543385,
-    "lon": -1.4232548,
+    "lat": 43.6511425,
+    "lon": -1.4346337,
     "journaux": [
-      "LE POINT S1"
+      "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Le Point"
+    "note": ""
   },
   {
-    "id": "c_137",
-    "nom": "M BRETHES PHILIPPE",
+    "id": "mu4gnqdbwzzc6",
+    "nom": "M MADOZ PHILLIPPE",
     "prenom": "",
-    "adresse": "20 Avenue de la Molle",
+    "adresse": "Quai Bonamour (Residence Mille Sabords Hall 7/8 Appt 125 digicode 19-174)",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6555381,
-    "lon": -1.417761,
+    "lat": 43.6511425,
+    "lon": -1.4346337,
     "journaux": [
-      "LE POINT S1"
+      "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Le Point"
+    "note": ""
   },
   {
-    "id": "c_139",
-    "nom": "MME SCHNEIDER J",
+    "id": "mu4gnqdb4rxbu",
+    "nom": "MME LIMOUX JEANINE",
+    "prenom": "",
+    "adresse": "Quai Bonamour (Appartement 112 Hall 2-3 Residence Mille Sabords 3316 digicode 19-174)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6511425,
+    "lon": -1.4346337,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdb2hyw8",
+    "nom": "MME PEYRI DESCOMPS MARIE NOELLE",
+    "prenom": "",
+    "adresse": "46 Rue Doubert",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6490654,
+    "lon": -1.4334079,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbleptx",
+    "nom": "M LAFOSSE JACQUELINE",
+    "prenom": "",
+    "adresse": "5 Rue Maurice Martin (digicode 47310A)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.648702,
+    "lon": -1.4339142,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdb6jx7b",
+    "nom": "M IZABEL JEAN CLAUDE",
+    "prenom": "",
+    "adresse": "30 Rue Maurice Martin",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6465085,
+    "lon": -1.4332709,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbv342b",
+    "nom": "M ATIENZA TUIERRY",
+    "prenom": "",
+    "adresse": "7 Rue Maurice Martin",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6465085,
+    "lon": -1.4332709,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbynkcs",
+    "nom": "MME BERNUDES SOPHIE",
+    "prenom": "",
+    "adresse": "29 Avenue Georges Pompidou (Restaurant Sofish)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6489925,
+    "lon": -1.4361565,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbmfg52",
+    "nom": "M LESBATS",
+    "prenom": "",
+    "adresse": "9 Avenue du Commandant L Herminier",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6486545,
+    "lon": -1.4373218,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbwmwk3",
+    "nom": "M DARZACQ MARIE HELENE",
+    "prenom": "",
+    "adresse": "10 Avenue du Commandant L Herminier (apt 3)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6490369,
+    "lon": -1.4377533,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdb93cps",
+    "nom": "M DUPIN HOTEL MIRAMAR",
+    "prenom": "",
+    "adresse": "17 Avenue du Commandant L Herminier (Villa Thia Vona)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.649176,
+    "lon": -1.438448,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbqqkqp",
+    "nom": "M MME SCHNEIDER J",
     "prenom": "",
     "adresse": "2 Rue Castagnet",
     "ville": "Capbreton",
@@ -2346,22 +1262,294 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Le Point"
+    "note": ""
   },
   {
-    "id": "c_140",
-    "nom": "M LESME JEAN PAUL",
+    "id": "mu4gnqdb26d8o",
+    "nom": "MME DESPREZ REGINE",
     "prenom": "",
-    "adresse": "56 Avenue Francois Mauriac",
+    "adresse": "3 Rue des Basques (Residence Imarena Appartement 11)",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6543385,
-    "lon": -1.4232548,
+    "lat": 43.6513596,
+    "lon": -1.4415663,
     "journaux": [
-      "LE POINT S1"
+      "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "Le Point"
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbqfmsb",
+    "nom": "MME NAVAILLES LILIANE",
+    "prenom": "",
+    "adresse": "3 Rue des Basques (Residence Imarena Appartement 2)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6513596,
+    "lon": -1.4415663,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdb26wj5",
+    "nom": "M BAREILLE FRANCISE",
+    "prenom": "",
+    "adresse": "2 Rue des Muges",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6514803,
+    "lon": -1.4370881,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbnil1c",
+    "nom": "M Condom Pascal",
+    "prenom": "",
+    "adresse": "Avenue Georges Pompidou (Brasserie du Port Restaurant)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6527503,
+    "lon": -1.4380335,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbf3fbv",
+    "nom": "M CURCULOSSE MARC",
+    "prenom": "",
+    "adresse": "5 Rue des Goelands",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6528494,
+    "lon": -1.4418336,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbckmhe",
+    "nom": "M PETIT CLAUDE",
+    "prenom": "",
+    "adresse": "5 Rue du Gouf",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6532202,
+    "lon": -1.443648,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdb2gxrx",
+    "nom": "M LAMAISON PIERRE",
+    "prenom": "",
+    "adresse": "20 Rue du Port d Albret",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6530173,
+    "lon": -1.4425851,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbo5m9d",
+    "nom": "M WILLAERT LIONEL",
+    "prenom": "",
+    "adresse": "22 Bis Rue du Port d Albret",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6529091,
+    "lon": -1.4426343,
+    "journaux": [
+      "12D PAYS BASQUE"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdb00l0m",
+    "nom": "MME HOURNADET GEORGETTE",
+    "prenom": "",
+    "adresse": "16 Rue de Madrid (Appartement 13)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6525127,
+    "lon": -1.4444743,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdb6iqd3",
+    "nom": "M BERTHOD BERNADET JACQUES",
+    "prenom": "",
+    "adresse": "Boulevard Francois Mitterrand (Appt 240 Residence Grand Large)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6529751,
+    "lon": -1.4452175,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdb0nu5m",
+    "nom": "M LIBET GERARD",
+    "prenom": "",
+    "adresse": "29 Boulevard du Docteur Junqua (1143)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6439699,
+    "lon": -1.431402,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdb0ovsn",
+    "nom": "SPOT 78",
+    "prenom": "",
+    "adresse": "78 Av Mal de Lattre de Tassigny",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6504178,
+    "lon": -1.4452276,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdb3g37g",
+    "nom": "MME MAUBOURGUET ANNIE",
+    "prenom": "",
+    "adresse": "31 Rue de Madrid",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.650419,
+    "lon": -1.4448312,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbi0k00",
+    "nom": "M DUBOIS GASTON",
+    "prenom": "",
+    "adresse": "14 Rue Desjobert",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6507495,
+    "lon": -1.4442484,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdb07tt0",
+    "nom": "TOTAL ENERGIES MARKETING FRANCE (ROCHE CHRISTOPHE)",
+    "prenom": "",
+    "adresse": "33 Avenue du Commandant L Herminier",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6490369,
+    "lon": -1.4377533,
+    "journaux": [
+      "12D PAYS BASQUE"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbhkwt1",
+    "nom": "MME YOUT JOELLE",
+    "prenom": "",
+    "adresse": "56 Av Mal de Lattre de Tassigny",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6460585,
+    "lon": -1.4376293,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbnjzg5",
+    "nom": "ESCALE INFO",
+    "prenom": "",
+    "adresse": "17 Avenue Georges Pompidou",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.647061,
+    "lon": -1.4353594,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "mu4gnqdbkpi9r",
+    "nom": "M SILLIAU JEAN",
+    "prenom": "",
+    "adresse": "10 Rue des Bretons",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6479365,
+    "lon": -1.4372575,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
   }
 ]

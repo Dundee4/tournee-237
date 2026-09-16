@@ -942,14 +942,12 @@ const App = {
     toast('Session réinitialisée');
   },
 
-  // Filet de sécurité : recharge les 148 clients de l'ancien système (weekday
-  // routes archivées) avec leurs coordonnées GPS déjà calculées. Les journaux
-  // sont devinés depuis le texte des anciennes notes ("SO Landes" -> 19A
-  // LANDES, etc.) — à vérifier/corriger via "Gérer les clients" une fois le
-  // vrai CSV nettoyé disponible.
+  // Charge la liste fournie (extraite du PDF de distribution) avec les
+  // coordonnées GPS déjà calculées. À remplacer par un vrai import CSV dès
+  // que le fichier nettoyé est disponible.
   restoreArchive() {
     if (state.clients.length > 0 &&
-        !confirm(`Remplacer les ${state.clients.length} clients actuels par l'archive (anciennes adresses géocodées) ?`)) {
+        !confirm(`Remplacer les ${state.clients.length} clients actuels par la liste fournie (97 clients géocodés) ?`)) {
       return;
     }
     fetch('./archive-clients.json')
