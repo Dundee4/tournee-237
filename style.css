@@ -488,6 +488,41 @@ html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMa
 }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+/* === JOURNAUX / STATUT CLIENT === */
+.journal-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.journal-badge {
+  background: #e3f0ff;
+  color: var(--primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.drive-addr-block .journal-badges { margin-top: 8px; }
+.drive-addr-block .journal-badge { background: rgba(255,255,255,0.22); color: white; }
+
+.client-status-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-left: 6px;
+}
+.client-status-badge.vacances { background: #fff3e0; color: #e65100; }
+.client-status-badge.decede,
+.client-status-badge.resilie { background: #ffebee; color: var(--danger); }
+.client-status-badge.autre { background: #f3e5f5; color: #7b1fa2; }
+
+.journal-check-row {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  margin-bottom: 6px;
+  background: var(--surface);
+  border-radius: 10px;
+}
+
 /* === LEAFLET OVERRIDES === */
 .marker-current { background: var(--primary); }
 .leaflet-popup-content { font-size: 0.9rem; font-family: inherit; }

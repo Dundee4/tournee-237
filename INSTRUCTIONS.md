@@ -28,37 +28,40 @@ pointez-le vers ce dossier, et ouvrez l'IP locale dans Chrome.
 ## Utilisation de l'application
 
 ### 1. Importer vos adresses
-- Préparez votre CSV avec les colonnes : **nom, adresse, ville, code_postal, tournee**
-- La colonne "tournee" indique le numéro/nom de la tournée (1, 2, 3, 4...)
+- Préparez votre CSV avec les colonnes : **nom, adresse, journal**
+- La colonne "journal" indique le code du journal à déposer (ex: `19A LANDES`, `LE MONDE`, `LE POINT S1`)
+- Une ligne = un couple (client, journal). Si un client reçoit plusieurs journaux, mettez une ligne par journal avec le même nom+adresse : l'import les fusionnera automatiquement en un seul client abonné à plusieurs journaux.
+- Optionnel : prenom, ville, code_postal, notes
 - Allez dans ⚙️ Paramètres > Importer un CSV
-- Sélectionnez votre fichier
+- Sélectionnez votre fichier (⚠️ remplace les clients actuels — une sauvegarde locale est faite automatiquement)
 
 ### 2. Géocoder les adresses (conversion adresse → GPS)
 - ⚙️ Paramètres > Géocoder les adresses > Démarrer
-- Environ 1 adresse/seconde, donc ~4 minutes pour 240 adresses
+- Environ 1 adresse/seconde
 - Les coordonnées sont sauvegardées, inutile de recommencer
+- Un nouveau client ajouté à la main est géocodé immédiatement à l'enregistrement
 
-### 3. Configurer les jours de chaque tournée
-- ⚙️ Paramètres > Gérer les tournées > Cliquer sur une tournée
-- Cochez les jours de la semaine et/ou les jours du mois
-- Les tournées du jour apparaissent automatiquement en haut de l'écran
+### 3. Sélection quotidienne et génération de la tournée
+- Sur l'écran d'accueil, cochez les journaux à distribuer aujourd'hui (jusqu'à ~5)
+- Tapez sur "▶️ Générer la tournée" : l'app fusionne par adresse les clients concernés (un client abonné à 2 journaux cochés = un seul arrêt), exclut les clients dont le statut n'est pas "actif", optimise et fige l'ordre
+- La carte s'affiche avec tous les arrêts optimisés ; tapez sur un arrêt pour voir le détail
 
-### 4. Lancer une tournée
-- Depuis l'écran d'accueil, tapez sur votre tournée
-- La carte s'affiche avec tous les arrêts optimisés
-- Tapez sur un arrêt pour voir le détail
-
-### 5. Pendant la livraison
+### 4. Pendant la livraison
 - **✅ LIVRÉ** : marque et passe automatiquement au suivant
 - **❌ NON LIVRÉ** : marque et passe au suivant
+- **🚫 Pas livré — raison client** : marque l'arrêt et ouvre la mise à jour du statut persistant du client (vacances, décédé, résilié, autre)
 - **⏭ PASSER** : reporte cet arrêt à plus tard dans la tournée
 - **🗺 Navigation** : ouvre Google Maps avec l'adresse
 - **🔄 Réorganiser** : recalcule l'ordre depuis votre position actuelle
 
-### 6. Contrainte horaire
+### 5. Contrainte horaire
 - Sur un arrêt, tapez "⏰ Contrainte horaire"
 - Entrez l'heure souhaitée (ex: 09:00)
 - L'optimisation garantira d'arriver à cet arrêt à l'heure
+
+### 6. Gérer les clients
+- ⚙️ Paramètres > Gérer les clients : rechercher, modifier (adresse, journaux, statut) ou supprimer un client
+- ⚙️ Paramètres > Exporter une sauvegarde (JSON) : télécharge une copie de tous vos clients
 
 ---
 
@@ -67,9 +70,10 @@ pointez-le vers ce dossier, et ouvrez l'IP locale dans Chrome.
 Séparateurs acceptés : virgule (,) ou point-virgule (;)
 
 ```
-nom,adresse,ville,code_postal,tournee
-M. Dupont,12 Rue de la Paix,Paris,75001,1
-Mme Martin,45 Avenue Hugo,Lyon,69001,2
+nom,prenom,adresse,ville,code_postal,journal
+M. Dupont,Jean,12 Rue de la Paix,Paris,75001,19A LANDES
+M. Dupont,Jean,12 Rue de la Paix,Paris,75001,LE MONDE
+Mme Martin,,45 Avenue Hugo,Lyon,69001,LE POINT S1
 ```
 
-La colonne "tournee" peut être un numéro (1, 2, 3) ou un nom (A, B, Matin, Soir).
+Ici, M. Dupont recevra 2 journaux (19A LANDES + LE MONDE) et n'apparaîtra qu'une seule fois dans l'app.

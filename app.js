@@ -19,14 +19,24 @@ const MONTHS_FR = ['janvier','février','mars','avril','mai','juin',
 const AVG_SPEED_KMH = 30;   // vitesse moyenne livraison urbaine
 const STOP_TIME_MIN = 1.5;  // minutes par arrêt (sortir, déposer, remonter)
 const GEOCODE_DELAY = 1100; // ms entre requêtes Nominatim
+const STATUT_CLIENT_LABELS = {
+  actif: '',
+  vacances: '🏖 Vacances',
+  decede: '✝ Décédé',
+  resilie: '🚫 Résilié',
+  autre: '⚠️ Autre',
+};
 
 // ─── ÉTAT GLOBAL ──────────────────────────────────────────────
 let state = {
-  routes: [],         // [{id, name, weekdays[], monthdays[], startTime, stops:[]}]
-  session: null,      // Session de livraison active
+  clients: [],         // [{id, nom, prenom, adresse, ville, code_postal, lat, lon, journaux[], statut_client, statut_commentaire, note}]
+  selectedJournaux: [], // codes journal cochés à l'accueil (persistés pour confort)
+  session: null,        // Session de livraison active (figée à la génération)
   geocodeRunning: false,
   geocodeStop: false,
-  editingRouteId: null,
+  editingClientId: null,
+  _pendingImportClients: null,
+  _clientStatusTargetId: null,
   map: null,
   markers: [],
   posMarker: null,
@@ -37,18 +47,30 @@ let state = {
 // ─── STORAGE ──────────────────────────────────────────────────
 const DB = {
   save() {
-    try { localStorage.setItem('journal_routes', JSON.stringify(state.routes)); } catch(e){}
+    try { localStorage.setItem('journal_clients', JSON.stringify(state.clients)); } catch(e){}
   },
   saveSession() {
     try { localStorage.setItem('journal_session', JSON.stringify(state.session)); } catch(e){}
   },
+  saveSelection() {
+    try { localStorage.setItem('journal_selected', JSON.stringify(state.selectedJournaux || [])); } catch(e){}
+  },
   load() {
     try {
-      const r = localStorage.getItem('journal_routes');
-      if (r) state.routes = JSON.parse(r);
+      const c = localStorage.getItem('journal_clients');
+      if (c) state.clients = JSON.parse(c);
       const s = localStorage.getItem('journal_session');
       if (s) state.session = JSON.parse(s);
-    } catch(e) { state.routes = []; state.session = null; }
+      const sel = localStorage.getItem('journal_selected');
+      if (sel) state.selectedJournaux = JSON.parse(sel);
+    } catch(e) { state.clients = []; state.session = null; state.selectedJournaux = []; }
+  },
+  // Sauvegarde horodatée avant un remplacement massif (import CSV)
+  archive() {
+    try {
+      const key = 'journal_archive_' + new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+      localStorage.setItem(key, JSON.stringify(state.clients));
+    } catch(e){}
   }
 };
 
@@ -91,6 +113,10 @@ function timeToMinutes(timeStr) {
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+}
+
+function journalBadges(codes) {
+  return (codes || []).map(j => `<span class="journal-badge">${j}</span>`).join('');
 }
 
 // ─── OPTIMISATION DE TOURNÉE ──────────────────────────────────
@@ -243,46 +269,49 @@ function extractCityFromAddress(adresse) {
   return { street, city, cp };
 }
 
-function parseCSV(text, filename) {
+function normalizeKey(str) {
+  return (str || '').trim().toLowerCase()
+    .replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ùû]/g,'u').replace(/\s+/g,' ');
+}
+
+// Un client = regroupement de toutes les lignes CSV partageant le même nom+adresse.
+// Chaque ligne CSV représente un couple (client, journal) ; les journaux d'un même
+// client sont fusionnés dans son tableau `journaux`.
+function parseClientsCSV(text) {
   const lines = text.trim().split(/\r?\n/);
   if (lines.length < 2) return null;
 
-  // Détecter le séparateur
   const sep = lines[0].includes(';') ? ';' : ',';
-  const headers = lines[0].split(sep).map(h => h.trim().toLowerCase()
-    .replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ùû]/g,'u'));
+  const headers = lines[0].split(sep).map(h => normalizeKey(h));
 
   const idx = {
     nom: headers.indexOf('nom'),
+    prenom: headers.indexOf('prenom'),
     adresse: headers.indexOf('adresse'),
     ville: headers.indexOf('ville'),
     cp: Math.max(headers.indexOf('code_postal'), headers.indexOf('cp'), headers.indexOf('codepostal')),
-    tournee: Math.max(headers.indexOf('tournee'), headers.indexOf('route')),
+    journal: Math.max(headers.indexOf('journal'), headers.indexOf('liste'), headers.indexOf('publication'), headers.indexOf('produit')),
     notes: Math.max(headers.indexOf('notes'), headers.indexOf('note')),
-    produit: Math.max(headers.indexOf('produit'), headers.indexOf('publication')),
   };
 
-  // Si colonne adresse absente, chercher une alternative
   if (idx.adresse === -1) {
     const alt = headers.findIndex(h => h.includes('adr') || h.includes('rue'));
     if (alt !== -1) idx.adresse = alt;
   }
 
-  // Nom de tournée par défaut = nom du fichier sans extension
-  const defaultTournee = filename
-    ? filename.replace(/\.[^/.]+$/, '').replace(/_/g, ' ')
-    : '1';
+  if (idx.journal === -1) return { error: 'no-journal-column' };
 
-  const stops = [];
+  const byKey = {};
+  const order = [];
+
   for (let i = 1; i < lines.length; i++) {
     if (!lines[i].trim()) continue;
     const cols = lines[i].split(sep).map(c => c.trim().replace(/^"|"$/g,''));
 
-    let adresseRaw = idx.adresse >= 0 ? (cols[idx.adresse] || '') : cols[0] || '';
+    let adresseRaw = idx.adresse >= 0 ? (cols[idx.adresse] || '') : '';
     let ville = idx.ville >= 0 ? (cols[idx.ville] || '') : '';
     let cp = idx.cp >= 0 ? (cols[idx.cp] || '') : '';
 
-    // Extraire la ville depuis l'adresse si pas de colonne séparée
     if (!ville && adresseRaw.includes(',')) {
       const extracted = extractCityFromAddress(adresseRaw);
       adresseRaw = extracted.street;
@@ -290,28 +319,36 @@ function parseCSV(text, filename) {
       if (!cp) cp = extracted.cp;
     }
 
-    // Combiner notes + produit dans le champ note
-    const noteRaw = idx.notes >= 0 ? (cols[idx.notes] || '') : '';
-    const produit = idx.produit >= 0 ? (cols[idx.produit] || '') : '';
-    const note = [noteRaw, produit].filter(Boolean).join(' · ');
+    const nom = idx.nom >= 0 ? (cols[idx.nom] || '') : '';
+    const prenom = idx.prenom >= 0 ? (cols[idx.prenom] || '') : '';
+    const journal = idx.journal >= 0 ? (cols[idx.journal] || '').trim() : '';
+    const note = idx.notes >= 0 ? (cols[idx.notes] || '') : '';
 
-    const tourneeVal = idx.tournee >= 0 ? (cols[idx.tournee] || '') : '';
+    if (!adresseRaw || !nom) continue;
 
-    const stop = {
-      id: uid(),
-      nom: idx.nom >= 0 ? (cols[idx.nom] || '') : '',
-      adresse: adresseRaw,
-      ville,
-      code_postal: cp,
-      tournee: tourneeVal || defaultTournee,
-      lat: null,
-      lon: null,
-      note,
-      order: i - 1,
-    };
-    if (stop.adresse) stops.push(stop);
+    const key = normalizeKey(nom) + '|' + normalizeKey(adresseRaw);
+    if (!byKey[key]) {
+      byKey[key] = {
+        id: uid(),
+        nom, prenom,
+        adresse: adresseRaw,
+        ville,
+        code_postal: cp,
+        lat: null,
+        lon: null,
+        journaux: [],
+        statut_client: 'actif',
+        statut_commentaire: '',
+        note,
+      };
+      order.push(key);
+    }
+    if (journal && !byKey[key].journaux.includes(journal)) {
+      byKey[key].journaux.push(journal);
+    }
   }
-  return stops;
+
+  return order.map(k => byKey[k]);
 }
 
 // ─── APPLICATION ──────────────────────────────────────────────
@@ -319,7 +356,6 @@ const App = {
 
   init() {
     DB.load();
-    loadPreloadedDataIfNeeded();
     this.renderHome();
     this.initGeolocation();
   },
@@ -337,160 +373,121 @@ const App = {
     const container = document.getElementById('home-routes-list');
     container.innerHTML = '';
 
-    if (state.routes.length === 0) {
+    if (state.clients.length === 0) {
       container.innerHTML = `
         <div class="no-route">
           <span class="no-route-icon">📰</span>
-          <strong>Aucune tournée configurée</strong><br><br>
-          <span>Allez dans <strong>Paramètres ⚙️</strong> pour importer vos adresses et créer vos tournées.</span>
+          <strong>Aucun client</strong><br><br>
+          <span>Allez dans <strong>Paramètres ⚙️</strong> pour importer vos adresses (CSV avec colonne journal).</span>
         </div>`;
       return;
     }
 
-    // Tournées du jour en tête
-    const todayRoutes = state.routes.filter(r => this.isRouteToday(r, day, date));
-    const otherRoutes = state.routes.filter(r => !this.isRouteToday(r, day, date));
-
-    if (todayRoutes.length > 0) {
-      const sec = document.createElement('div');
-      const title = document.createElement('div');
-      title.className = 'section-title';
-      title.style.padding = '0 4px';
-      title.textContent = 'Aujourd\'hui';
-      sec.appendChild(title);
-
-      // Si plusieurs tournées aujourd'hui : afficher avec checkboxes
-      if (todayRoutes.length > 1) {
-        const selectDiv = document.createElement('div');
-        selectDiv.style.padding = '12px 8px';
-        selectDiv.style.backgroundColor = 'var(--bg)';
-        selectDiv.style.borderRadius = '8px';
-        selectDiv.style.marginBottom = '12px';
-
-        todayRoutes.forEach(r => {
-          const total = r.stops ? r.stops.length : 0;
-          const checkDiv = document.createElement('div');
-          checkDiv.style.display = 'flex';
-          checkDiv.style.alignItems = 'center';
-          checkDiv.style.padding = '8px';
-          checkDiv.style.marginBottom = '6px';
-          checkDiv.innerHTML = `
-            <input type="checkbox" id="route-check-${r.id}" class="route-checkbox" data-route-id="${r.id}" style="width:18px; height:18px; margin-right:10px; cursor:pointer;">
-            <label for="route-check-${r.id}" style="flex:1; cursor:pointer; margin:0;">
-              <strong>${r.name}</strong><br>
-              <span style="font-size:0.85rem; color:var(--text-2);">${total} adresses</span>
-            </label>
-          `;
-          selectDiv.appendChild(checkDiv);
-        });
-
-        sec.appendChild(selectDiv);
-
-        const launchBtn = document.createElement('button');
-        launchBtn.className = 'btn-primary';
-        launchBtn.textContent = '▶️ Lancer la tournée';
-        launchBtn.style.width = '100%';
-        launchBtn.onclick = () => this.startMultipleRoutes();
-        selectDiv.appendChild(launchBtn);
-      } else {
-        // Une seule tournée : afficher normalement
-        todayRoutes.forEach(r => sec.appendChild(this.makeRouteCard(r, true)));
-      }
-
-      container.appendChild(sec);
+    // Tournée en cours (session déjà générée et non terminée/vidée) ?
+    if (state.session && state.session.stops && state.session.stops.length) {
+      const total = state.session.stops.length;
+      const done = state.session.stops.filter(s => s.status !== 'pending').length;
+      const card = document.createElement('div');
+      card.className = 'route-card today';
+      card.innerHTML = `
+        <div class="route-icon">📋</div>
+        <div class="route-info">
+          <div class="route-name">Tournée en cours<span class="badge-today">Aujourd'hui</span></div>
+          <div class="route-meta">${(state.session.selectedJournaux || []).join(', ')}</div>
+          <div class="route-count">${total} arrêts · ${done}/${total} traités</div>
+        </div>
+        <div style="font-size:1.4rem">›</div>`;
+      card.onclick = () => this.showRoute();
+      container.appendChild(card);
     }
 
-    if (otherRoutes.length > 0) {
-      const sec = document.createElement('div');
-      sec.innerHTML = `<div class="section-title" style="padding:0 4px; margin-top:8px">Toutes les tournées</div>`;
-      otherRoutes.forEach(r => sec.appendChild(this.makeRouteCard(r, false)));
+    // Checklist des journaux disponibles (clients actifs uniquement)
+    const activeClients = state.clients.filter(c => (c.statut_client || 'actif') === 'actif');
+    const journaux = this.getJournalCounts(activeClients);
+
+    const sec = document.createElement('div');
+    const title = document.createElement('div');
+    title.className = 'section-title';
+    title.style.padding = '0 4px';
+    title.textContent = 'Journaux à distribuer aujourd\'hui';
+    sec.appendChild(title);
+
+    if (journaux.length === 0) {
+      sec.innerHTML += `<p style="color:var(--text-2); font-size:0.9rem; padding:8px 4px;">Aucun journal actif. Importez un CSV ou vérifiez le statut de vos clients.</p>`;
       container.appendChild(sec);
+      return;
     }
+
+    const selectDiv = document.createElement('div');
+    selectDiv.style.padding = '12px 8px';
+    selectDiv.style.backgroundColor = 'var(--bg)';
+    selectDiv.style.borderRadius = '8px';
+    selectDiv.style.marginBottom = '12px';
+
+    journaux.forEach(({ code, count }) => {
+      const checked = (state.selectedJournaux || []).includes(code);
+      const row = document.createElement('div');
+      row.className = 'journal-check-row';
+      row.innerHTML = `
+        <input type="checkbox" id="journal-check-${code.replace(/[^a-z0-9]/gi,'_')}" class="journal-checkbox" data-journal="${code}" ${checked ? 'checked' : ''} style="width:18px; height:18px; margin-right:10px; cursor:pointer;">
+        <label for="journal-check-${code.replace(/[^a-z0-9]/gi,'_')}" style="flex:1; cursor:pointer; margin:0;">
+          <strong>${code}</strong><br>
+          <span style="font-size:0.85rem; color:var(--text-2);">${count} client${count !== 1 ? 's' : ''}</span>
+        </label>
+      `;
+      selectDiv.appendChild(row);
+    });
+
+    sec.appendChild(selectDiv);
+
+    const launchBtn = document.createElement('button');
+    launchBtn.className = 'btn-primary';
+    launchBtn.textContent = '▶️ Générer la tournée';
+    launchBtn.style.width = '100%';
+    launchBtn.onclick = () => this.generateDailyTour();
+    sec.appendChild(launchBtn);
+
+    container.appendChild(sec);
   },
 
-  startMultipleRoutes() {
-    const checkboxes = document.querySelectorAll('.route-checkbox:checked');
-    if (checkboxes.length === 0) {
-      toast('❌ Sélectionne au moins une tournée');
-      return;
-    }
+  getJournalCounts(clients) {
+    const map = {};
+    clients.forEach(c => (c.journaux || []).forEach(j => { map[j] = (map[j] || 0) + 1; }));
+    return Object.entries(map).sort((a, b) => b[1] - a[1]).map(([code, count]) => ({ code, count }));
+  },
 
-    const selectedIds = Array.from(checkboxes).map(cb => cb.dataset.routeId);
-    const routes = selectedIds.map(id => state.routes.find(r => r.id === id));
+  getJournalCodes() {
+    const set = new Set();
+    state.clients.forEach(c => (c.journaux || []).forEach(j => set.add(j)));
+    return [...set].sort();
+  },
 
-    // Fusionner tous les arrêts
-    const allStops = routes.flatMap(r => r.stops || []);
+  generateDailyTour() {
+    const checked = [...document.querySelectorAll('.journal-checkbox:checked')].map(cb => cb.dataset.journal);
+    if (checked.length === 0) { toast('❌ Sélectionne au moins un journal'); return; }
 
-    if (allStops.length === 0) {
-      toast('❌ Aucune adresse à livrer');
-      return;
-    }
+    state.selectedJournaux = checked;
+    DB.saveSelection();
 
-    // Créer une session fusionnée
-    const stops = allStops.map(s => ({ ...s, status: 'pending' }));
+    const matching = state.clients.filter(c =>
+      (c.statut_client || 'actif') === 'actif' &&
+      (c.journaux || []).some(j => checked.includes(j))
+    );
+
+    if (matching.length === 0) { toast('❌ Aucun client actif pour ces journaux'); return; }
+
+    const stops = matching.map(c => ({
+      ...c,
+      journauxDuJour: (c.journaux || []).filter(j => checked.includes(j)),
+      status: 'pending',
+    }));
+
     state.session = {
-      routeIds: selectedIds,
+      selectedJournaux: checked,
       stops,
-      timeConstraint: null
+      timeConstraint: null,
+      generatedAt: new Date().toISOString(),
     };
-
-    DB.saveSession();
-    this.showCurrentStop();
-  },
-
-  isRouteToday(route, weekday, monthday) {
-    return (route.weekdays && route.weekdays.includes(weekday)) ||
-           (route.monthdays && route.monthdays.includes(monthday));
-  },
-
-  makeRouteCard(route, isToday) {
-    const card = document.createElement('div');
-    card.className = 'route-card' + (isToday ? ' today' : '');
-
-    // Session en cours ?
-    const hasSession = state.session && state.session.routeId === route.id;
-    const done = hasSession ? state.session.stops.filter(s => s.status !== 'pending').length : 0;
-    const total = route.stops ? route.stops.length : 0;
-
-    const daysLabel = this.formatDaysLabel(route);
-
-    card.innerHTML = `
-      <div class="route-icon">📋</div>
-      <div class="route-info">
-        <div class="route-name">${route.name}${isToday ? '<span class="badge-today">Aujourd\'hui</span>' : ''}</div>
-        <div class="route-meta">${daysLabel}</div>
-        <div class="route-count">${total} adresses${hasSession ? ` · ${done}/${total} livrés` : ''}</div>
-      </div>
-      <div style="font-size:1.4rem">›</div>
-    `;
-    card.onclick = () => this.startRoute(route.id);
-    return card;
-  },
-
-  formatDaysLabel(route) {
-    const wd = (route.weekdays || []).map(d => DAYS_SHORT[d]).join(', ');
-    const md = (route.monthdays || []).sort((a,b)=>a-b).slice(0,5).join(', ') +
-               ((route.monthdays || []).length > 5 ? '...' : '');
-    const parts = [];
-    if (wd) parts.push(wd);
-    if (md) parts.push(`${md} du mois`);
-    return parts.join(' · ') || 'Aucun jour défini';
-  },
-
-  // ── DÉMARRER UNE TOURNÉE ─────────────────────────────────────
-  startRoute(routeId) {
-    const route = state.routes.find(r => r.id === routeId);
-    if (!route) return;
-
-    // Reprendre session existante ?
-    if (state.session && state.session.routeId === routeId) {
-      this.showRoute();
-      return;
-    }
-
-    // Nouvelle session — ordre fixé, pas d'auto-optimisation
-    const stops = (route.stops || []).map(s => ({ ...s, status: 'pending' }));
-    state.session = { routeId, stops, timeConstraint: null };
 
     DB.saveSession();
     this.showCurrentStop();
@@ -508,11 +505,9 @@ const App = {
 
   // ── ÉCRAN CARTE ──────────────────────────────────────────────
   showRoute() {
+    if (!state.session) return;
     showScreen('screen-route');
-    const route = state.routes.find(r => r.id === state.session.routeId);
-    if (!route) return;
-
-    document.getElementById('route-screen-title').textContent = route.name;
+    document.getElementById('route-screen-title').textContent = 'Tournée du jour';
     this.updateRouteStats();
     this.renderStopsList();
     this.initMap();
@@ -530,7 +525,6 @@ const App = {
 
     const remaining = stops.filter(s => s.status === 'pending').length;
     const eta = remaining * STOP_TIME_MIN;
-    document.getElementById('map-sub') && (document.getElementById('map-sub').textContent = '');
     if (remaining > 0) {
       document.getElementById('map-eta').textContent = `~${Math.round(eta)}min`;
     } else {
@@ -546,29 +540,32 @@ const App = {
     const stops = state.session.stops;
     const currentIdx = stops.findIndex(s => s.status === 'pending');
 
-    const pending   = stops.map((s, i) => ({ s, i })).filter(x => x.s.status === 'pending');
-    const delivered = stops.map((s, i) => ({ s, i })).filter(x => x.s.status === 'delivered');
-    const failed    = stops.map((s, i) => ({ s, i })).filter(x => x.s.status === 'failed');
+    const pending = stops.map((s, i) => ({ s, i })).filter(x => x.s.status === 'pending');
+    const traites = stops.map((s, i) => ({ s, i }))
+      .filter(x => x.s.status !== 'pending')
+      .sort((a, b) => new Date(a.s.doneAt || 0) - new Date(b.s.doneAt || 0));
 
     const addItem = ({ s, i }) => {
       const isCurrent = i === currentIdx;
+      const isDone = s.status !== 'pending';
       const item = document.createElement('div');
       item.className = 'stop-item' +
         (isCurrent ? ' current' : '') +
-        (s.status === 'delivered' ? ' delivered' : '') +
-        (s.status === 'failed' ? ' failed' : '');
+        (isDone ? (s.status === 'delivered' ? ' delivered' : ' failed') : '');
 
       const canMove = s.status === 'pending';
       const firstPendingIdx = pending.length > 0 ? pending[0].i : -1;
+      const statusIcon = s.status === 'delivered' ? '✅' : s.status === 'failed_client' ? '⚠️' : '❌';
 
       item.innerHTML = `
         <div class="stop-num">${i + 1}</div>
         <div class="stop-info">
           <div class="stop-name">${s.nom || s.adresse}</div>
           <div class="stop-addr">${s.adresse}${s.ville ? ', ' + s.ville : ''}</div>
+          ${(s.journauxDuJour && s.journauxDuJour.length) ? `<div class="journal-badges">${journalBadges(s.journauxDuJour)}</div>` : ''}
         </div>
         ${canMove && i !== firstPendingIdx ? `<button class="stop-move-top-btn" onclick="event.stopPropagation();App.moveStopToTop(${i})">⬆ Premier</button>` : ''}
-        ${!canMove ? `<div class="stop-status-icon">${s.status === 'delivered' ? '✅' : '❌'}</div>` : ''}
+        ${isDone ? `<div class="stop-status-icon">${statusIcon}</div>` : ''}
       `;
       item.onclick = () => this.showStop(i);
       list.appendChild(item);
@@ -584,32 +581,24 @@ const App = {
     };
 
     addSection(`📋 À livrer (${pending.length})`, pending);
-    addSection(`✅ Livrés (${delivered.length})`, delivered);
-    addSection(`❌ Non livrés (${failed.length})`, failed);
+    addSection(`✅ Traités (${traites.length})`, traites);
 
     if (currentIdx >= 0) {
-      const allItems = list.querySelectorAll('.stop-item');
-      allItems.forEach(el => {
-        if (el.querySelector('.stop-num') && el.classList.contains('current')) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-      });
+      const allItems = list.querySelectorAll('.stop-item.current');
+      allItems.forEach(el => el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }));
     }
   },
 
   moveStopToTop(idx) {
     if (!state.session) return;
     const stops = state.session.stops;
-    // Trouver le premier stop pending
     const firstPendingIdx = stops.findIndex(s => s.status === 'pending');
     if (firstPendingIdx < 0 || idx <= firstPendingIdx) return;
-    // Extraire le stop et l'insérer avant le premier pending
     const [moved] = stops.splice(idx, 1);
     stops.splice(firstPendingIdx, 0, moved);
     DB.saveSession();
     this.renderStopsList();
-    this.updateMap();
-    // Scroll en haut de la liste
+    this.updateMap && this.updateMap();
     const list = document.getElementById('stops-list');
     list.scrollTop = 0;
   },
@@ -741,13 +730,15 @@ const App = {
 
     const stop = state.session.stops[idx];
     const total = state.session.stops.length;
-    const done = state.session.stops.filter(s => s.status !== 'pending').length;
 
     document.getElementById('stop-progress-text').textContent = `${idx+1} / ${total}`;
     document.getElementById('stop-addr').textContent = stop.adresse;
     document.getElementById('stop-city').textContent = `${stop.code_postal || ''} ${stop.ville || ''}`.trim();
     document.getElementById('stop-name').textContent = stop.nom || '';
     document.getElementById('stop-note-input').value = stop.note || '';
+
+    const journauxEl = document.getElementById('stop-journaux');
+    if (journauxEl) journauxEl.innerHTML = journalBadges(stop.journauxDuJour || stop.journaux || []);
 
     // Afficher la note en évidence si elle existe
     const noteDisplay = document.getElementById('stop-note-display');
@@ -782,7 +773,12 @@ const App = {
     stop.doneAt = new Date().toISOString();
     DB.saveSession();
 
-    const msg = status === 'delivered' ? '✅ Livré !' : '❌ Non livré';
+    if (status === 'failed_client') {
+      this.promptClientStatus(stop);
+    }
+
+    const msg = status === 'delivered' ? '✅ Livré !' :
+                status === 'failed_client' ? '⚠️ Non livré — statut client' : '❌ Non livré';
     toast(msg);
 
     // Passer au suivant
@@ -790,7 +786,6 @@ const App = {
     if (nextIdx >= 0) {
       this.showStop(nextIdx);
     } else {
-      // Vérifier si il y en a avant
       const anyPending = state.session.stops.findIndex(s => s.status === 'pending');
       if (anyPending >= 0) {
         this.showStop(anyPending);
@@ -800,6 +795,27 @@ const App = {
         this.backToRoute();
       }
     }
+  },
+
+  // ── STATUT CLIENT (déclenché depuis "pas livré - raison client") ──
+  promptClientStatus(stop) {
+    state._clientStatusTargetId = stop.id;
+    document.getElementById('client-status-name').textContent = stop.nom || stop.adresse;
+    document.getElementById('client-status-select').value = 'vacances';
+    document.getElementById('client-status-comment').value = '';
+    this.openModal('modal-client-status');
+  },
+
+  saveClientStatus() {
+    const id = state._clientStatusTargetId;
+    const client = state.clients.find(c => c.id === id);
+    if (client) {
+      client.statut_client = document.getElementById('client-status-select').value;
+      client.statut_commentaire = document.getElementById('client-status-comment').value.trim();
+      DB.save();
+      toast('✅ Statut client mis à jour');
+    }
+    this.closeModal('modal-client-status');
   },
 
   skipStop() {
@@ -850,7 +866,6 @@ const App = {
   // ── RÉORGANISER ──────────────────────────────────────────────
   reorganize() {
     if (!state.session) return;
-    const route = state.routes.find(r => r.id === state.session.routeId);
 
     const pending = state.session.stops.filter(s => s.status === 'pending');
     const done = state.session.stops.filter(s => s.status !== 'pending');
@@ -866,7 +881,7 @@ const App = {
       from.lat, from.lon,
       constraint ? constraint.stopId : null,
       constraint ? constraint.time : null,
-      route ? route.startTime : null
+      null
     );
 
     state.session.stops = [...done, ...optimized];
@@ -911,13 +926,12 @@ const App = {
 
   // ── PARAMÈTRES ────────────────────────────────────────────────
   showSettings() {
-    const routeCount = state.routes.length;
-    const totalStops = state.routes.reduce((n, r) => n + (r.stops ? r.stops.length : 0), 0);
-    const geocoded = state.routes.reduce((n, r) => n + (r.stops ? r.stops.filter(s => s.lat).length : 0), 0);
+    const total = state.clients.length;
+    const geocoded = state.clients.filter(c => c.lat).length;
 
-    document.getElementById('setting-routes-count').textContent = `${routeCount} tournée${routeCount !== 1 ? 's' : ''}`;
+    document.getElementById('setting-clients-count').textContent = `${total} client${total !== 1 ? 's' : ''}`;
     document.getElementById('setting-geocode-status').textContent =
-      totalStops > 0 ? `${geocoded}/${totalStops}` : '';
+      total > 0 ? `${geocoded}/${total}` : '';
     showScreen('screen-settings');
   },
 
@@ -926,6 +940,20 @@ const App = {
     state.session = null;
     DB.saveSession();
     toast('Session réinitialisée');
+  },
+
+  exportBackup() {
+    if (state.clients.length === 0) { toast('Aucune donnée à exporter'); return; }
+    const blob = new Blob([JSON.stringify(state.clients, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `clients-backup-${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    toast('💾 Sauvegarde téléchargée');
   },
 
   goHome() {
@@ -937,6 +965,7 @@ const App = {
   showImportCSV() {
     document.getElementById('csv-preview').style.display = 'none';
     document.getElementById('csv-file-input').value = '';
+    state._pendingImportClients = null;
     this.openModal('modal-csv');
 
     document.getElementById('csv-file-input').onchange = function() {
@@ -944,310 +973,198 @@ const App = {
       if (!file) return;
       const reader = new FileReader();
       reader.onload = e => {
-        const stops = parseCSV(e.target.result, file.name);
+        const clients = parseClientsCSV(e.target.result);
         const preview = document.getElementById('csv-preview');
-        if (!stops || stops.length === 0) {
-          preview.innerHTML = '⚠️ Aucune adresse trouvée. Vérifiez le format.';
+        if (!clients || clients.error) {
+          preview.innerHTML = '⚠️ Colonne "journal" introuvable ou aucune adresse détectée. Vérifiez le format.';
           preview.style.display = 'block';
+          state._pendingImportClients = null;
           return;
         }
-        const tournees = [...new Set(stops.map(s => s.tournee))];
-        preview.innerHTML = `✅ <strong>${stops.length} adresses</strong> détectées dans <strong>${tournees.length} tournée(s)</strong> : ${tournees.join(', ')}`;
+        const journaux = [...new Set(clients.flatMap(c => c.journaux))];
+        preview.innerHTML = `✅ <strong>${clients.length} clients</strong> détectés, <strong>${journaux.length} journal(aux)</strong> : ${journaux.join(', ')}` +
+          (state.clients.length > 0
+            ? `<br><span style="color:#c62828">⚠️ Ceci remplacera les ${state.clients.length} clients actuels (une sauvegarde locale sera faite automatiquement).</span>`
+            : '');
         preview.style.display = 'block';
+        state._pendingImportClients = clients;
       };
       reader.readAsText(file);
     };
   },
 
   importCSV() {
-    const fileInput = document.getElementById('csv-file-input');
-    const file = fileInput.files[0];
-    if (!file) { toast('Choisissez un fichier CSV'); return; }
+    const clients = state._pendingImportClients;
+    if (!clients || clients.length === 0) { toast('⚠️ Choisissez un fichier CSV valide'); return; }
 
-    const reader = new FileReader();
-    reader.onload = e => {
-      const stops = parseCSV(e.target.result, file.name);
-      if (!stops || stops.length === 0) {
-        toast('⚠️ Aucune adresse trouvée'); return;
-      }
-
-      // Regrouper par tournée
-      const grouped = {};
-      stops.forEach(s => {
-        if (!grouped[s.tournee]) grouped[s.tournee] = [];
-        grouped[s.tournee].push(s);
-      });
-
-      // Créer ou mettre à jour les routes
-      Object.entries(grouped).forEach(([name, stopsGroup]) => {
-        let route = state.routes.find(r => r.name === name || r.csvKey === name);
-        if (!route) {
-          route = {
-            id: uid(),
-            name: `Tournée ${name}`,
-            csvKey: name,
-            weekdays: [],
-            monthdays: [],
-            startTime: '06:00',
-            stops: []
-          };
-          state.routes.push(route);
-        }
-        route.stops = stopsGroup;
-      });
-
-      DB.save();
-      toast(`✅ ${stops.length} adresses importées !`);
-      this.closeModal('modal-csv');
-      this.renderHome();
-    };
-    reader.readAsText(file);
-  },
-
-  // ── GESTION DES TOURNÉES ──────────────────────────────────────
-  showManageRoutes() {
-    this.renderRoutesModal();
-    this.openModal('modal-routes');
-  },
-
-  renderRoutesModal() {
-    const list = document.getElementById('routes-list-modal');
-    list.innerHTML = '';
-    if (state.routes.length === 0) {
-      list.innerHTML = '<p style="color:var(--text-2); font-size:0.9rem; text-align:center; padding:20px 0;">Aucune tournée. Importez d\'abord un CSV.</p>';
+    if (state.clients.length > 0 &&
+        !confirm(`Remplacer les ${state.clients.length} clients actuels par les ${clients.length} nouveaux ? Une sauvegarde locale sera conservée.`)) {
       return;
     }
-    state.routes.forEach(r => {
-      const item = document.createElement('div');
-      item.className = 'settings-row';
-      item.innerHTML = `
-        <span class="row-icon">📋</span>
-        <span class="row-label">${r.name}</span>
-        <span class="row-value">${(r.stops||[]).length} arrêts</span>
-        <span class="row-arrow">›</span>
-      `;
-      item.onclick = () => this.editRoute(r.id);
-      list.appendChild(item);
-    });
-  },
 
-  addRoute() {
-    const route = {
-      id: uid(),
-      name: `Tournée ${state.routes.length + 1}`,
-      weekdays: [],
-      monthdays: [],
-      startTime: '06:00',
-      stops: []
-    };
-    state.routes.push(route);
+    if (state.clients.length > 0) DB.archive();
+
+    state.clients = clients;
+    state.session = null;
     DB.save();
-    this.editRoute(route.id);
-  },
-
-  editRoute(id) {
-    const route = state.routes.find(r => r.id === id);
-    if (!route) return;
-    state.editingRouteId = id;
-
-    document.getElementById('edit-route-title').textContent = `Modifier : ${route.name}`;
-    document.getElementById('edit-route-name').value = route.name;
-    document.getElementById('edit-route-start-time').value = route.startTime || '06:00';
-
-    // Jours de la semaine
-    document.querySelectorAll('#edit-weekdays .day-btn').forEach(btn => {
-      const day = parseInt(btn.dataset.day);
-      btn.classList.toggle('selected', (route.weekdays || []).includes(day));
-      btn.onclick = () => {
-        btn.classList.toggle('selected');
-      };
-    });
-
-    // Jours du mois
-    const grid = document.getElementById('edit-monthdays');
-    grid.innerHTML = '';
-    for (let d = 1; d <= 31; d++) {
-      const btn = document.createElement('button');
-      btn.className = 'mday-btn' + ((route.monthdays || []).includes(d) ? ' selected' : '');
-      btn.textContent = d;
-      btn.onclick = () => btn.classList.toggle('selected');
-      grid.appendChild(btn);
-    }
-
-    document.getElementById('btn-delete-route').style.display = 'block';
-    this.closeModal('modal-routes');
-    this.openModal('modal-edit-route');
-  },
-
-  saveRoute() {
-    if (!state.editingRouteId) return;
-    const route = state.routes.find(r => r.id === state.editingRouteId);
-    if (!route) return;
-
-    route.name = document.getElementById('edit-route-name').value.trim() || route.name;
-    route.startTime = document.getElementById('edit-route-start-time').value;
-    route.weekdays = [...document.querySelectorAll('#edit-weekdays .day-btn.selected')]
-                      .map(b => parseInt(b.dataset.day));
-    route.monthdays = [...document.querySelectorAll('#edit-monthdays .mday-btn.selected')]
-                       .map(b => parseInt(b.textContent));
-
-    DB.save();
-    toast('✅ Tournée enregistrée');
-    this.closeModal('modal-edit-route');
+    DB.saveSession();
+    toast(`✅ ${clients.length} clients importés !`);
+    this.closeModal('modal-csv');
     this.renderHome();
-    this.showSettings();
   },
 
-  deleteRoute() {
-    if (!state.editingRouteId) return;
-    if (!confirm('Supprimer cette tournée ?')) return;
-    state.routes = state.routes.filter(r => r.id !== state.editingRouteId);
-    if (state.session && state.session.routeId === state.editingRouteId) {
-      state.session = null;
-      DB.saveSession();
-    }
-    state.editingRouteId = null;
-    DB.save();
-    toast('Tournée supprimée');
-    this.closeModal('modal-edit-route');
-    this.showSettings();
-  },
-
-  // ── GESTION DES ADRESSES ──────────────────────────────────────
-  showManageAddresses() {
-    state.editingAddressId = null;
-    this.renderAddressesList();
+  // ── GESTION DES CLIENTS ────────────────────────────────────────
+  showManageClients() {
+    state.editingClientId = null;
+    this.renderClientsList();
     this.openModal('modal-addresses');
   },
 
-  renderAddressesList() {
-    const allStops = state.routes.flatMap(r => r.stops || []);
+  renderClientsList() {
     const searchTerm = document.getElementById('address-search').value.toLowerCase();
-    const filtered = allStops.filter(s =>
-      !searchTerm || s.nom.toLowerCase().includes(searchTerm) ||
-      s.adresse.toLowerCase().includes(searchTerm)
+    const filtered = state.clients.filter(c =>
+      !searchTerm || c.nom.toLowerCase().includes(searchTerm) || c.adresse.toLowerCase().includes(searchTerm)
     );
 
-    const html = filtered.map(s => `
+    const html = filtered.map(c => {
+      const statutLabel = STATUT_CLIENT_LABELS[c.statut_client] || '';
+      return `
       <div style="padding:10px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
         <div style="flex:1;">
-          <strong>${s.nom}</strong><br>
-          <span style="font-size:0.85rem; color:var(--text-2);">${s.adresse}, ${s.code_postal} ${s.ville}</span>
+          <strong>${c.nom}${c.prenom ? ' ' + c.prenom : ''}</strong>
+          ${statutLabel ? `<span class="client-status-badge ${c.statut_client}">${statutLabel}</span>` : ''}<br>
+          <span style="font-size:0.85rem; color:var(--text-2);">${c.adresse}, ${c.code_postal} ${c.ville}</span><br>
+          <span style="font-size:0.78rem; color:var(--text-2);">${(c.journaux||[]).join(', ') || 'Aucun journal'}</span>
         </div>
-        <button class="btn-sm" onclick="App.editAddress('${s.id}')" style="margin-right:6px;">✏️</button>
+        <button class="btn-sm" onclick="App.editClient('${c.id}')" style="margin-right:6px;">✏️</button>
       </div>
-    `).join('');
+    `;
+    }).join('');
 
-    document.getElementById('addresses-list-modal').innerHTML = html || '<p style="padding:10px; color:var(--text-2);">Aucune adresse trouvée</p>';
+    document.getElementById('addresses-list-modal').innerHTML = html || '<p style="padding:10px; color:var(--text-2);">Aucun client trouvé</p>';
   },
 
-  filterAddresses() {
-    this.renderAddressesList();
+  filterClients() {
+    this.renderClientsList();
   },
 
-  showAddAddressForm() {
-    state.editingAddressId = null;
-    document.getElementById('edit-address-title').textContent = 'Ajouter une adresse';
+  renderJournalCheckboxes(selected) {
+    const container = document.getElementById('addr-journaux');
+    const known = this.getJournalCodes();
+    container.innerHTML = '';
+    known.forEach(code => {
+      const safeId = 'jcb-' + code.replace(/[^a-z0-9]/gi, '_');
+      const row = document.createElement('label');
+      row.className = 'journal-check-row';
+      row.innerHTML = `<input type="checkbox" value="${code}" id="${safeId}" ${selected.includes(code) ? 'checked' : ''} style="width:18px;height:18px;margin-right:10px;"> ${code}`;
+      container.appendChild(row);
+    });
+    const addRow = document.createElement('div');
+    addRow.style.marginTop = '8px';
+    addRow.innerHTML = `<input type="text" class="form-input" id="addr-journal-new" placeholder="+ Nouveau code journal">`;
+    container.appendChild(addRow);
+  },
+
+  showAddClientForm() {
+    state.editingClientId = null;
+    document.getElementById('edit-address-title').textContent = 'Ajouter un client';
     document.getElementById('addr-name').value = '';
+    document.getElementById('addr-prenom').value = '';
     document.getElementById('addr-address').value = '';
     document.getElementById('addr-city').value = '';
     document.getElementById('addr-postal').value = '';
+    document.getElementById('addr-statut').value = 'actif';
+    document.getElementById('addr-statut-comment').value = '';
+    this.renderJournalCheckboxes([]);
     document.getElementById('btn-delete-address').style.display = 'none';
-
-    const routeSelect = document.getElementById('addr-route');
-    routeSelect.innerHTML = state.routes.map(r =>
-      `<option value="${r.id}">${r.name}</option>`
-    ).join('');
 
     this.closeModal('modal-addresses');
     this.openModal('modal-edit-address');
   },
 
-  editAddress(stopId) {
-    const stop = state.routes.flatMap(r => r.stops || []).find(s => s.id === stopId);
-    if (!stop) return;
+  editClient(clientId) {
+    const client = state.clients.find(c => c.id === clientId);
+    if (!client) return;
 
-    state.editingAddressId = stopId;
-    document.getElementById('edit-address-title').textContent = 'Modifier l\'adresse';
-    document.getElementById('addr-name').value = stop.nom;
-    document.getElementById('addr-address').value = stop.adresse;
-    document.getElementById('addr-city').value = stop.ville;
-    document.getElementById('addr-postal').value = stop.code_postal;
-
-    const routeSelect = document.getElementById('addr-route');
-    routeSelect.innerHTML = state.routes.map(r =>
-      `<option value="${r.id}" ${r.stops.find(s => s.id === stopId) ? 'selected' : ''}>${r.name}</option>`
-    ).join('');
+    state.editingClientId = clientId;
+    document.getElementById('edit-address-title').textContent = 'Modifier le client';
+    document.getElementById('addr-name').value = client.nom;
+    document.getElementById('addr-prenom').value = client.prenom || '';
+    document.getElementById('addr-address').value = client.adresse;
+    document.getElementById('addr-city').value = client.ville;
+    document.getElementById('addr-postal').value = client.code_postal;
+    document.getElementById('addr-statut').value = client.statut_client || 'actif';
+    document.getElementById('addr-statut-comment').value = client.statut_commentaire || '';
+    this.renderJournalCheckboxes(client.journaux || []);
 
     document.getElementById('btn-delete-address').style.display = 'block';
     this.closeModal('modal-addresses');
     this.openModal('modal-edit-address');
   },
 
-  saveAddress() {
+  saveClient() {
     const nom = document.getElementById('addr-name').value.trim();
+    const prenom = document.getElementById('addr-prenom').value.trim();
     const adresse = document.getElementById('addr-address').value.trim();
     const ville = document.getElementById('addr-city').value.trim();
     const code_postal = document.getElementById('addr-postal').value.trim();
-    const routeId = document.getElementById('addr-route').value;
+    const statut_client = document.getElementById('addr-statut').value;
+    const statut_commentaire = document.getElementById('addr-statut-comment').value.trim();
+    const journaux = [...document.querySelectorAll('#addr-journaux input[type=checkbox]:checked')].map(cb => cb.value);
+    const newJournalInput = document.getElementById('addr-journal-new');
+    const newJournal = newJournalInput ? newJournalInput.value.trim() : '';
+    if (newJournal && !journaux.includes(newJournal)) journaux.push(newJournal);
 
-    if (!nom || !adresse || !ville || !code_postal || !routeId) {
-      toast('❌ Tous les champs sont obligatoires');
+    if (!nom || !adresse || !ville || !code_postal) {
+      toast('❌ Nom, adresse, ville et code postal sont obligatoires');
       return;
     }
 
-    if (state.editingAddressId) {
-      for (const route of state.routes) {
-        const stop = route.stops.find(s => s.id === state.editingAddressId);
-        if (stop) {
-          stop.nom = nom;
-          stop.adresse = adresse;
-          stop.ville = ville;
-          stop.code_postal = code_postal;
-          break;
-        }
+    if (state.editingClientId) {
+      const client = state.clients.find(c => c.id === state.editingClientId);
+      if (client) {
+        Object.assign(client, { nom, prenom, adresse, ville, code_postal, statut_client, statut_commentaire, journaux });
       }
-      toast('✏️ Adresse modifiée');
+      DB.save();
+      toast('✏️ Client modifié');
+      this.closeModal('modal-edit-address');
+      this.showManageClients();
     } else {
-      const route = state.routes.find(r => r.id === routeId);
-      if (route) {
-        route.stops.push({
-          id: uid(),
-          nom, adresse, ville, code_postal,
-          tournee: route.name,
-          lat: null, lon: null
-        });
-        toast('➕ Adresse ajoutée');
-      }
+      const client = {
+        id: uid(), nom, prenom, adresse, ville, code_postal,
+        lat: null, lon: null, journaux, statut_client, statut_commentaire, note: '',
+      };
+      state.clients.push(client);
+      DB.save();
+      this.closeModal('modal-edit-address');
+      this.showManageClients();
+      toast('📍 Client ajouté, géocodage en cours...');
+      geocodeAddress(client).then(ok => {
+        DB.save();
+        toast(ok ? '✅ Client géocodé' : '⚠️ Géocodage échoué (réessayez depuis Paramètres)');
+        this.renderClientsList();
+      }).catch(() => {
+        toast('⚠️ Géocodage échoué (réessayez depuis Paramètres)');
+      });
     }
-
-    DB.save();
-    this.closeModal('modal-edit-address');
-    this.showManageAddresses();
   },
 
-  deleteAddress() {
-    if (!state.editingAddressId) return;
-    if (!confirm('Supprimer cette adresse définitivement ?')) return;
+  deleteClient() {
+    if (!state.editingClientId) return;
+    if (!confirm('Supprimer ce client définitivement ?')) return;
 
-    for (const route of state.routes) {
-      const idx = route.stops.findIndex(s => s.id === state.editingAddressId);
-      if (idx >= 0) {
-        route.stops.splice(idx, 1);
-        break;
-      }
-    }
-
-    toast('❌ Adresse supprimée');
+    state.clients = state.clients.filter(c => c.id !== state.editingClientId);
+    state.editingClientId = null;
     DB.save();
+    toast('❌ Client supprimé');
     this.closeModal('modal-edit-address');
-    this.showManageAddresses();
+    this.showManageClients();
   },
 
   // ── GÉOCODAGE ─────────────────────────────────────────────────
   showGeocodeAll() {
-    const total = state.routes.reduce((n, r) => n + (r.stops ? r.stops.length : 0), 0);
-    const done = state.routes.reduce((n, r) => n + (r.stops ? r.stops.filter(s => s.lat).length : 0), 0);
+    const total = state.clients.length;
+    const done = state.clients.filter(c => c.lat).length;
 
     document.getElementById('geocode-status-text').textContent =
       total === 0 ? 'Aucune adresse à géocoder. Importez d\'abord un CSV.' :
@@ -1260,9 +1177,8 @@ const App = {
   },
 
   async startGeocode() {
-    const allStops = state.routes.flatMap(r => r.stops || []);
-    const toGeocode = allStops.filter(s => !s.lat);
-    const total = allStops.length;
+    const toGeocode = state.clients.filter(c => !c.lat);
+    const total = state.clients.length;
 
     if (toGeocode.length === 0) { toast('Tout est déjà géocodé !'); return; }
 
@@ -1271,20 +1187,20 @@ const App = {
     document.getElementById('btn-start-geocode').disabled = true;
     document.getElementById('btn-stop-geocode').textContent = '⏹ Stop';
 
-    let done = allStops.filter(s => s.lat).length;
+    let done = state.clients.filter(c => c.lat).length;
     let errors = 0;
 
-    for (const stop of toGeocode) {
+    for (const client of toGeocode) {
       if (state.geocodeStop) break;
 
       document.getElementById('geocode-status-text').textContent =
-        `Géocodage : ${stop.adresse}, ${stop.ville}`;
+        `Géocodage : ${client.adresse}, ${client.ville}`;
       document.getElementById('geocode-count').textContent =
         `${done}/${total} faits · ${errors} erreurs`;
       document.getElementById('geocode-bar').style.width = (done/total*100) + '%';
 
       try {
-        const ok = await geocodeAddress(stop);
+        const ok = await geocodeAddress(client);
         if (ok) done++; else errors++;
       } catch(e) { errors++; }
 
@@ -1342,31 +1258,6 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
     }
   });
 });
-
-// ─── CHARGEMENT DONNÉES INITIALES ────────────────────────────
-function loadPreloadedDataIfNeeded() {
-  if (typeof PRELOADED_DATA === 'undefined') return;
-  const storedVersion = parseInt(localStorage.getItem('journal_data_version') || '0');
-  const newVersion = PRELOADED_DATA.version || 1;
-  if (state.routes.length === 0 || storedVersion < newVersion) {
-    state.routes = PRELOADED_DATA.routes;
-    DB.save();
-    localStorage.setItem('journal_data_version', String(newVersion));
-  }
-}
-
-function forceReloadData() {
-  if (typeof PRELOADED_DATA === 'undefined') { toast('Données non disponibles'); return; }
-  if (!confirm('Recharger toutes les données depuis le fichier source ?\nTes notes et modifications locales seront effacées.')) return;
-  state.routes = PRELOADED_DATA.routes;
-  state.session = null;
-  DB.save();
-  DB.saveSession();
-  localStorage.setItem('journal_data_version', String(PRELOADED_DATA.version || 1));
-  toast('✅ Données rechargées avec les coordonnées GPS !');
-  App.renderHome();
-  showScreen('screen-home');
-}
 
 // ─── DÉMARRAGE ────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => App.init());
