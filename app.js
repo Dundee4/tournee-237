@@ -576,9 +576,11 @@ const App = {
         bar.innerHTML = `<button class="tour-btn tour-btn-start" onclick="App.startTour()">▶ Démarrer la tournée</button>`;
       } else if (allDone) {
         bar.innerHTML = `<span>⏱ <span class="tour-timer">${this.formatDuration(this.tourElapsedMs())}</span></span>
+          <button class="tour-btn tour-btn-cancel" onclick="App.cancelTour()">✕ Annuler</button>
           <button class="tour-btn tour-btn-finish" onclick="App.finishTour()">🏁 Terminer la tournée</button>`;
       } else {
-        bar.innerHTML = `<span>⏱ <span class="tour-timer">${this.formatDuration(this.tourElapsedMs())}</span></span>`;
+        bar.innerHTML = `<span>⏱ <span class="tour-timer">${this.formatDuration(this.tourElapsedMs())}</span></span>
+          <button class="tour-btn tour-btn-cancel" onclick="App.cancelTour()">✕ Annuler</button>`;
       }
     });
   },
@@ -596,6 +598,18 @@ const App = {
     DB.saveSession();
     this.renderTourBar();
     toast('▶ Tournée démarrée');
+  },
+
+  // Annule le chrono (démarré par erreur) sans toucher aux livraisons
+  cancelTour() {
+    const s = state.session;
+    if (!s || !s.startedAt || s.finishedAt) return;
+    if (!confirm('Annuler le chrono ? Les livraisons déjà faites sont conservées.')) return;
+    s.startedAt = null;
+    s.workEndedAt = null;
+    DB.saveSession();
+    this.renderTourBar();
+    toast('⏹ Chrono annulé');
   },
 
   finishTour() {

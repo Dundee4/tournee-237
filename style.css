@@ -535,3 +535,4 @@ html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMa
 .tour-btn-start { background: var(--primary); width: 100%; padding: 14px; }
 .tour-btn-finish { background: #16a34a; padding: 12px 18px; }
 .tour-btn:active { transform: scale(0.97); }
+.tour-btn-cancel { background: #6b7280; padding: 8px 12px; font-size: 0.85rem; }
