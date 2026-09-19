@@ -1,4 +1,4 @@
-const CACHE = 'journal-v6';
+const CACHE = 'journal-v7';
 const ASSETS = [
   './',
   './index.html',
@@ -23,13 +23,14 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+  // Réseau d'abord (toujours la dernière version), cache en secours hors ligne
   e.respondWith(
-    caches.match(e.request).then(cached => {
-      const fresh = fetch(e.request).then(resp => {
-        if (resp.ok) caches.open(CACHE).then(c => c.put(e.request, resp.clone()));
-        return resp;
-      }).catch(() => cached);
-      return cached || fresh;
-    })
+    fetch(e.request).then(resp => {
+      if (resp.ok) {
+        const copy = resp.clone();
+        caches.open(CACHE).then(c => c.put(e.request, copy));
+      }
+      return resp;
+    }).catch(() => caches.match(e.request))
   );
 });
