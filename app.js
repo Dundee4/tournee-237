@@ -496,6 +496,7 @@ const App = {
       timeConstraint: null,
       generatedAt: new Date().toISOString(),
       startedAt: null,
+      workEndedAt: null,
       finishedAt: null,
     };
 
@@ -557,7 +558,7 @@ const App = {
   tourElapsedMs() {
     const s = state.session;
     if (!s || !s.startedAt) return 0;
-    const end = s.finishedAt ? new Date(s.finishedAt) : new Date();
+    const end = new Date(s.finishedAt || s.workEndedAt || Date.now());
     return end - new Date(s.startedAt);
   },
 
@@ -584,7 +585,7 @@ const App = {
 
   updateTourTimer() {
     const s = state.session;
-    if (!s || !s.startedAt || s.finishedAt) return;
+    if (!s || !s.startedAt || s.finishedAt || s.workEndedAt) return;
     const txt = this.formatDuration(this.tourElapsedMs());
     document.querySelectorAll('.tour-timer').forEach(el => { el.textContent = txt; });
   },
@@ -600,7 +601,7 @@ const App = {
   finishTour() {
     const s = state.session;
     if (!s || s.finishedAt) return;
-    s.finishedAt = new Date().toISOString();
+    s.finishedAt = s.workEndedAt || new Date().toISOString();
     DB.saveSession();
     this.renderTourBar();
 
@@ -872,6 +873,11 @@ const App = {
       if (anyPending >= 0) {
         this.showStop(anyPending);
       } else {
+        // Fin du temps de travail = dernier arrêt validé (le trajet retour n'est pas compté)
+        if (state.session.startedAt && !state.session.workEndedAt) {
+          state.session.workEndedAt = stop.doneAt;
+          DB.saveSession();
+        }
         toast('🎉 Dernier arrêt fait — appuie sur « Terminer la tournée »', 4000);
         this.updateRouteStats();
         this.backToRoute();
