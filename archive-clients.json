@@ -769,6 +769,22 @@
     "note": ""
   },
   {
+    "id": "mu4gnqdb0nu5m",
+    "nom": "M LIBET GERARD",
+    "prenom": "",
+    "adresse": "29 Boulevard du Docteur Junqua (1143)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6439699,
+    "lon": -1.431402,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
     "id": "mu4gnqda73ajf",
     "nom": "MME BONNEMAYRE CHANTAL",
     "prenom": "",
@@ -1417,22 +1433,6 @@
     "code_postal": "40130",
     "lat": 43.6529751,
     "lon": -1.4452175,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": ""
-  },
-  {
-    "id": "mu4gnqdb0nu5m",
-    "nom": "M LIBET GERARD",
-    "prenom": "",
-    "adresse": "29 Boulevard du Docteur Junqua (1143)",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6439699,
-    "lon": -1.431402,
     "journaux": [
       "19A LANDES"
     ],
