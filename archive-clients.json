@@ -305,6 +305,22 @@
     "note": ""
   },
   {
+    "id": "mu4gnqdb7ml85",
+    "nom": "MME TALON MAITE",
+    "prenom": "",
+    "adresse": "11 Avenue des Myosotis",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6555413,
+    "lon": -1.4240357,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
     "id": "mu4gnqdaryer0",
     "nom": "MR LAGORSSE BERNARD",
     "prenom": "",
@@ -1051,22 +1067,6 @@
     "lon": -1.4129474,
     "journaux": [
       "LE POINT S1"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": ""
-  },
-  {
-    "id": "mu4gnqdb7ml85",
-    "nom": "MME TALON MAITE",
-    "prenom": "",
-    "adresse": "11 Avenue des Myosotis",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6555413,
-    "lon": -1.4240357,
-    "journaux": [
-      "19A LANDES"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
