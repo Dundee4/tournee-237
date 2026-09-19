@@ -29,7 +29,7 @@ const STATUT_CLIENT_LABELS = {
 
 // ─── ÉTAT GLOBAL ──────────────────────────────────────────────
 let state = {
-  clients: [],         // [{id, nom, prenom, adresse, ville, code_postal, lat, lon, journaux[], statut_client, statut_commentaire, note}]
+  clients: [],         // [{id, nom, prenom, adresse, ville, code_postal, lat, lon, journaux[], jours[] (vide = tous les jours), statut_client, statut_commentaire, note}]
   selectedJournaux: [], // codes journal cochés à l'accueil (persistés pour confort)
   session: null,        // Session de livraison active (figée à la génération)
   geocodeRunning: false,
@@ -235,6 +235,12 @@ function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTi
   return [...ordered, ...notGeocoded];
 }
 
+// ─── JOURS DE LIVRAISON ───────────────────────────────────────
+// client.jours = liste de jours JS (0=dimanche … 6=samedi) ; absent ou vide = tous les jours.
+function livreCeJour(client, day) {
+  return !client.jours || client.jours.length === 0 || client.jours.includes(day);
+}
+
 // ─── GÉOCODAGE ────────────────────────────────────────────────
 async function geocodeAddress(stop) {
   const q = encodeURIComponent(`${stop.adresse}, ${stop.ville}, ${stop.code_postal}, France`);
@@ -402,7 +408,7 @@ const App = {
     }
 
     // Checklist des journaux disponibles (clients actifs uniquement)
-    const activeClients = state.clients.filter(c => (c.statut_client || 'actif') === 'actif');
+    const activeClients = state.clients.filter(c => (c.statut_client || 'actif') === 'actif' && livreCeJour(c, day));
     const journaux = this.getJournalCounts(activeClients);
 
     const sec = document.createElement('div');
@@ -471,6 +477,7 @@ const App = {
 
     const matching = state.clients.filter(c =>
       (c.statut_client || 'actif') === 'actif' &&
+      livreCeJour(c, new Date().getDay()) &&
       (c.journaux || []).some(j => checked.includes(j))
     );
 
@@ -947,7 +954,7 @@ const App = {
   // que le fichier nettoyé est disponible.
   restoreArchive() {
     if (state.clients.length > 0 &&
-        !confirm(`Remplacer les ${state.clients.length} clients actuels par la liste fournie (97 clients géocodés) ?`)) {
+        !confirm(`Remplacer les ${state.clients.length} clients actuels par la liste fournie (99 clients géocodés) ?`)) {
       return;
     }
     fetch('./archive-clients.json')
@@ -1087,6 +1094,18 @@ const App = {
     container.appendChild(addRow);
   },
 
+  renderJoursCheckboxes(selected) {
+    const container = document.getElementById('addr-jours');
+    const all = !selected || selected.length === 0;
+    container.innerHTML = '';
+    [1, 2, 3, 4, 5, 6, 0].forEach(d => {
+      const row = document.createElement('label');
+      row.className = 'journal-check-row';
+      row.innerHTML = `<input type="checkbox" value="${d}" ${all || selected.includes(d) ? 'checked' : ''} style="width:18px;height:18px;margin-right:10px;"> ${DAYS_FR[d]}`;
+      container.appendChild(row);
+    });
+  },
+
   showAddClientForm() {
     state.editingClientId = null;
     document.getElementById('edit-address-title').textContent = 'Ajouter un client';
@@ -1098,6 +1117,7 @@ const App = {
     document.getElementById('addr-statut').value = 'actif';
     document.getElementById('addr-statut-comment').value = '';
     this.renderJournalCheckboxes([]);
+    this.renderJoursCheckboxes([]);
     document.getElementById('btn-delete-address').style.display = 'none';
 
     this.closeModal('modal-addresses');
@@ -1118,6 +1138,7 @@ const App = {
     document.getElementById('addr-statut').value = client.statut_client || 'actif';
     document.getElementById('addr-statut-comment').value = client.statut_commentaire || '';
     this.renderJournalCheckboxes(client.journaux || []);
+    this.renderJoursCheckboxes(client.jours || []);
 
     document.getElementById('btn-delete-address').style.display = 'block';
     this.closeModal('modal-addresses');
@@ -1136,6 +1157,9 @@ const App = {
     const newJournalInput = document.getElementById('addr-journal-new');
     const newJournal = newJournalInput ? newJournalInput.value.trim() : '';
     if (newJournal && !journaux.includes(newJournal)) journaux.push(newJournal);
+    const joursCoches = [...document.querySelectorAll('#addr-jours input[type=checkbox]:checked')].map(cb => parseInt(cb.value, 10));
+    if (joursCoches.length === 0) { toast('❌ Coche au moins un jour de livraison'); return; }
+    const jours = joursCoches.length === 7 ? [] : joursCoches;
 
     if (!nom || !adresse || !ville || !code_postal) {
       toast('❌ Nom, adresse, ville et code postal sont obligatoires');
@@ -1145,7 +1169,7 @@ const App = {
     if (state.editingClientId) {
       const client = state.clients.find(c => c.id === state.editingClientId);
       if (client) {
-        Object.assign(client, { nom, prenom, adresse, ville, code_postal, statut_client, statut_commentaire, journaux });
+        Object.assign(client, { nom, prenom, adresse, ville, code_postal, statut_client, statut_commentaire, journaux, jours });
       }
       DB.save();
       toast('✏️ Client modifié');
@@ -1154,7 +1178,7 @@ const App = {
     } else {
       const client = {
         id: uid(), nom, prenom, adresse, ville, code_postal,
-        lat: null, lon: null, journaux, statut_client, statut_commentaire, note: '',
+        lat: null, lon: null, journaux, jours, statut_client, statut_commentaire, note: '',
       };
       state.clients.push(client);
       DB.save();

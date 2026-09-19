@@ -61,7 +61,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdaa1mnf",
@@ -141,7 +149,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdam3xvj",
@@ -157,7 +173,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdaj7cit",
@@ -173,7 +197,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "⚠️ position approximative, à corriger"
+    "note": "⚠️ position approximative, à corriger",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdad2ina",
@@ -189,7 +221,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdahlqh3",
@@ -205,7 +245,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdahe1fl",
@@ -253,7 +301,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdaigoa0",
@@ -286,7 +342,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdaslwpn",
@@ -318,7 +382,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdaryer0",
@@ -334,7 +406,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqda2yrlc",
@@ -382,7 +462,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqda2ov6a",
@@ -398,7 +486,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdadt5qn",
@@ -462,7 +558,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdasdkbf",
@@ -478,7 +582,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdatc6n8",
@@ -510,7 +622,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqda85emo",
@@ -542,7 +662,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdacjzh4",
@@ -558,7 +686,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdaep0w7",
@@ -590,7 +726,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdap1oid",
@@ -670,7 +814,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdajtzpd",
@@ -718,7 +870,14 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
   },
   {
     "id": "mu4gnqdavvc58",
@@ -734,7 +893,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdayq7q3",
@@ -750,7 +917,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdab6118",
@@ -782,7 +957,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdb0nu5m",
@@ -814,7 +997,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdawhncz",
@@ -830,7 +1021,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdanh9k1",
@@ -862,7 +1061,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdafvdnm",
@@ -878,7 +1085,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdamxmkb",
@@ -926,7 +1141,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdacusec",
@@ -942,7 +1165,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqda5nv7u",
@@ -958,7 +1189,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdae4wey",
@@ -974,7 +1213,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdai3ii0",
@@ -1038,7 +1285,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdby93cr",
@@ -1054,7 +1309,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdbqi5tk",
@@ -1086,7 +1349,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdbzqhgq",
@@ -1102,7 +1373,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdbwzzc6",
@@ -1198,7 +1477,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdbynkcs",
@@ -1278,7 +1565,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdb26d8o",
@@ -1294,7 +1589,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdbqfmsb",
@@ -1310,7 +1613,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdb26wj5",
@@ -1361,6 +1672,25 @@
     "note": ""
   },
   {
+    "id": "dim_aux_douceurs_lea",
+    "nom": "AUX DOUCEURS DE LEA (M VINCENT MONGAY) PATISSERIE",
+    "prenom": "",
+    "adresse": "30 Rue de Madrid",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6542,
+    "lon": -1.4433952,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "jours": [
+      0
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
     "id": "mu4gnqdbckmhe",
     "nom": "M PETIT CLAUDE",
     "prenom": "",
@@ -1374,7 +1704,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdb2gxrx",
@@ -1502,7 +1840,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdbhkwt1",
@@ -1515,6 +1861,27 @@
     "lon": -1.4376293,
     "journaux": [
       "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "ven_sam_dim_watzki",
+    "nom": "MME WATZKI MONIQUE",
+    "prenom": "",
+    "adresse": "53 Av Mal de Lattre de Tassigny",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6489948,
+    "lon": -1.442794,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "jours": [
+      5,
+      6,
+      0
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
@@ -1534,7 +1901,15 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "jours": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
   {
     "id": "mu4gnqdbkpi9r",
