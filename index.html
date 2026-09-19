@@ -42,6 +42,7 @@
       </div>
       <button class="btn-icon" onclick="App.goToCurrentStop()" title="Arrêt actuel" id="btn-goto-current">📍</button>
     </div>
+    <div class="tour-bar" id="tour-bar-route"></div>
     <div id="map"></div>
     <div class="map-overlay-bar">
       <span class="count-text" id="map-count">0/0</span>
@@ -65,6 +66,8 @@
       <div class="drive-progress" id="stop-progress-text"></div>
       <button class="drive-top-btn" onclick="App.openNavigation()">📍 GPS</button>
     </div>
+
+    <div class="tour-bar" id="tour-bar-stop"></div>
 
     <!-- Adresse en grand -->
     <div class="drive-addr-block">
@@ -246,6 +249,17 @@
     </div>
     <button class="btn-primary" onclick="App.saveClient()">Enregistrer</button>
     <button class="btn-danger" id="btn-delete-address" onclick="App.deleteClient()" style="margin-top:6px; display:none;">Supprimer ce client</button>
+  </div>
+</div>
+
+<!-- Modal: Bilan de tournée -->
+<div id="modal-tour-summary" class="modal-overlay hidden">
+  <div class="modal" style="text-align:center;">
+    <div class="modal-title">🏁 Tournée terminée</div>
+    <div style="font-size:0.9rem; color:var(--text-2);">Temps total</div>
+    <div id="tour-summary-duration" style="font-size:2.6rem; font-weight:800; margin:6px 0 10px;"></div>
+    <div id="tour-summary-detail" style="font-size:0.95rem; margin-bottom:16px;"></div>
+    <button class="btn-primary" onclick="App.closeModal('modal-tour-summary')">OK</button>
   </div>
 </div>
 

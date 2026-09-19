@@ -362,6 +362,7 @@ const App = {
 
   init() {
     DB.load();
+    setInterval(() => this.updateTourTimer(), 1000);
     this.renderHome();
     this.initGeolocation();
   },
@@ -494,6 +495,8 @@ const App = {
       stops,
       timeConstraint: null,
       generatedAt: new Date().toISOString(),
+      startedAt: null,
+      finishedAt: null,
     };
 
     DB.saveSession();
@@ -538,6 +541,77 @@ const App = {
       document.getElementById('map-eta').textContent = '✓ Terminé';
     }
     document.getElementById('route-screen-sub').textContent = `${remaining} restants`;
+    this.renderTourBar();
+  },
+
+  // ── CHRONO DE TOURNÉE ────────────────────────────────────────
+  formatDuration(ms) {
+    const total = Math.max(0, Math.round(ms / 1000));
+    const h = Math.floor(total / 3600);
+    const m = Math.floor((total % 3600) / 60);
+    const s = total % 60;
+    const pad = n => String(n).padStart(2, '0');
+    return h > 0 ? `${h}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+  },
+
+  tourElapsedMs() {
+    const s = state.session;
+    if (!s || !s.startedAt) return 0;
+    const end = s.finishedAt ? new Date(s.finishedAt) : new Date();
+    return end - new Date(s.startedAt);
+  },
+
+  // Met à jour la barre de chrono (écran carte + écran arrêt)
+  renderTourBar() {
+    const s = state.session;
+    ['tour-bar-route', 'tour-bar-stop'].forEach(id => {
+      const bar = document.getElementById(id);
+      if (!bar) return;
+      if (!s) { bar.innerHTML = ''; return; }
+      const allDone = s.stops.length > 0 && s.stops.every(x => x.status !== 'pending');
+      if (s.finishedAt) {
+        bar.innerHTML = `<span>🏁 Tournée terminée en <strong>${this.formatDuration(this.tourElapsedMs())}</strong></span>`;
+      } else if (!s.startedAt) {
+        bar.innerHTML = `<button class="tour-btn tour-btn-start" onclick="App.startTour()">▶ Démarrer la tournée</button>`;
+      } else if (allDone) {
+        bar.innerHTML = `<span>⏱ <span class="tour-timer">${this.formatDuration(this.tourElapsedMs())}</span></span>
+          <button class="tour-btn tour-btn-finish" onclick="App.finishTour()">🏁 Terminer la tournée</button>`;
+      } else {
+        bar.innerHTML = `<span>⏱ <span class="tour-timer">${this.formatDuration(this.tourElapsedMs())}</span></span>`;
+      }
+    });
+  },
+
+  updateTourTimer() {
+    const s = state.session;
+    if (!s || !s.startedAt || s.finishedAt) return;
+    const txt = this.formatDuration(this.tourElapsedMs());
+    document.querySelectorAll('.tour-timer').forEach(el => { el.textContent = txt; });
+  },
+
+  startTour() {
+    if (!state.session || state.session.startedAt) return;
+    state.session.startedAt = new Date().toISOString();
+    DB.saveSession();
+    this.renderTourBar();
+    toast('▶ Tournée démarrée');
+  },
+
+  finishTour() {
+    const s = state.session;
+    if (!s || s.finishedAt) return;
+    s.finishedAt = new Date().toISOString();
+    DB.saveSession();
+    this.renderTourBar();
+
+    const delivered = s.stops.filter(x => x.status === 'delivered').length;
+    const notDelivered = s.stops.length - delivered;
+    const ms = this.tourElapsedMs();
+    document.getElementById('tour-summary-duration').textContent = this.formatDuration(ms);
+    document.getElementById('tour-summary-detail').innerHTML =
+      `${s.stops.length} arrêts · ✅ ${delivered} livrés · ❌ ${notDelivered} non livrés<br>` +
+      `Moyenne : ${this.formatDuration(ms / Math.max(1, s.stops.length))} par arrêt`;
+    this.openModal('modal-tour-summary');
   },
 
   renderStopsList() {
@@ -739,6 +813,7 @@ const App = {
     const total = state.session.stops.length;
 
     document.getElementById('stop-progress-text').textContent = `${idx+1} / ${total}`;
+    this.renderTourBar();
     document.getElementById('stop-addr').textContent = stop.adresse;
     document.getElementById('stop-city').textContent = `${stop.code_postal || ''} ${stop.ville || ''}`.trim();
     document.getElementById('stop-name').textContent = stop.nom || '';
@@ -797,7 +872,7 @@ const App = {
       if (anyPending >= 0) {
         this.showStop(anyPending);
       } else {
-        toast('🎉 Tournée terminée !', 4000);
+        toast('🎉 Dernier arrêt fait — appuie sur « Terminer la tournée »', 4000);
         this.updateRouteStats();
         this.backToRoute();
       }
