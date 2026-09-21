@@ -425,6 +425,10 @@ const App = {
   init() {
     DB.load();
     setInterval(() => this.updateTourTimer(), 1000);
+    document.addEventListener('visibilitychange', () => {
+      const s = state.session;
+      if (document.visibilityState === 'visible' && s && s.startedAt && !s.finishedAt && !s.workEndedAt) this.keepAwake(true);
+    });
     this.renderHome();
     this.initGeolocation();
   },
@@ -654,15 +658,15 @@ const App = {
       if (!s) { bar.innerHTML = ''; return; }
       const allDone = s.stops.length > 0 && s.stops.every(x => x.status !== 'pending');
       if (s.finishedAt) {
-        bar.innerHTML = `<span>🏁 Tournée terminée en <strong>${this.formatDuration(this.tourElapsedMs())}</strong></span>`;
+        bar.innerHTML = `<span>🏁 Terminée en <strong>${this.formatDuration(this.tourElapsedMs())}</strong> · <span class="tour-km">${this.trackKmText()}</span></span>`;
       } else if (!s.startedAt) {
         bar.innerHTML = `<button class="tour-btn tour-btn-start" onclick="App.startTour()">▶ Démarrer la tournée</button>`;
       } else if (allDone) {
-        bar.innerHTML = `<span>⏱ <span class="tour-timer">${this.formatDuration(this.tourElapsedMs())}</span></span>
+        bar.innerHTML = `<span>⏱ <span class="tour-timer">${this.formatDuration(this.tourElapsedMs())}</span> · <span class="tour-km">${this.trackKmText()}</span></span>
           <button class="tour-btn tour-btn-cancel" onclick="App.cancelTour()">✕ Annuler</button>
           <button class="tour-btn tour-btn-finish" onclick="App.finishTour()">🏁 Terminer la tournée</button>`;
       } else {
-        bar.innerHTML = `<span>⏱ <span class="tour-timer">${this.formatDuration(this.tourElapsedMs())}</span></span>
+        bar.innerHTML = `<span>⏱ <span class="tour-timer">${this.formatDuration(this.tourElapsedMs())}</span> · <span class="tour-km">${this.trackKmText()}</span></span>
           <button class="tour-btn tour-btn-cancel" onclick="App.cancelTour()">✕ Annuler</button>`;
       }
     });
@@ -673,11 +677,84 @@ const App = {
     if (!s || !s.startedAt || s.finishedAt || s.workEndedAt) return;
     const txt = this.formatDuration(this.tourElapsedMs());
     document.querySelectorAll('.tour-timer').forEach(el => { el.textContent = txt; });
+    const kmTxt = this.trackKmText();
+    document.querySelectorAll('.tour-km').forEach(el => { el.textContent = kmTxt; });
+  },
+
+  // ── ENREGISTREMENT GPS (kilomètres réellement parcourus) ─────
+  trackKmText() {
+    const s = state.session;
+    const km = s && s.track ? s.track.km : 0;
+    const wait = !state.currentPos && !(s && s.track && s.track.points.length) ? ' (GPS…)' : '';
+    return `🚗 ${km.toFixed(1)} km${wait}`;
+  },
+
+  recordTrackPoint(pos) {
+    const s = state.session;
+    if (!s || !s.startedAt || s.finishedAt || s.workEndedAt || !s.track) return;
+    const c = pos.coords;
+    if (c.accuracy > 50) return;                       // position trop imprécise
+    const tr = s.track;
+    const t = pos.timestamp || Date.now();
+    const last = tr.points[tr.points.length - 1];
+    if (!last) { tr.points.push([+c.latitude.toFixed(6), +c.longitude.toFixed(6), t]); return; }
+    const d = haversine(last[0], last[1], c.latitude, c.longitude);   // km
+    if (d < 0.015) return;                             // < 15 m : bruit GPS à l'arrêt
+    const dtH = (t - last[2]) / 3600000;
+    if (dtH > 0 && d / dtH > 150) return;              // saut aberrant (> 150 km/h)
+    tr.km += d;
+    tr.points.push([+c.latitude.toFixed(6), +c.longitude.toFixed(6), t]);
+    const now = Date.now();
+    if (!this._trackSavedAt || now - this._trackSavedAt > 10000) {
+      this._trackSavedAt = now;
+      DB.saveSession();
+    }
+  },
+
+  // Garde l'écran allumé pendant la tournée pour que le GPS continue d'enregistrer
+  async keepAwake(on) {
+    try {
+      if (on) {
+        if ('wakeLock' in navigator && !this._wakeLock) {
+          this._wakeLock = await navigator.wakeLock.request('screen');
+          this._wakeLock.addEventListener('release', () => { this._wakeLock = null; });
+        }
+      } else if (this._wakeLock) {
+        await this._wakeLock.release();
+        this._wakeLock = null;
+      }
+    } catch (e) {}
+  },
+
+  exportTrackGPX() {
+    const s = state.session;
+    if (!s || !s.track || s.track.points.length === 0) { toast('Aucun trajet enregistré'); return; }
+    const day = new Date(s.startedAt).toISOString().slice(0, 10);
+    const pts = s.track.points.map(p =>
+      `      <trkpt lat="${p[0]}" lon="${p[1]}"><time>${new Date(p[2]).toISOString()}</time></trkpt>`).join('\n');
+    const gpx = `<?xml version="1.0" encoding="UTF-8"?>\n` +
+      `<gpx version="1.1" creator="Tournée 237" xmlns="http://www.topografix.com/GPX/1/1">\n` +
+      `  <trk>\n    <name>Tournée 237 ${day} — ${s.track.km.toFixed(1)} km</name>\n    <trkseg>\n${pts}\n    </trkseg>\n  </trk>\n</gpx>\n`;
+    const blob = new Blob([gpx], { type: 'application/gpx+xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `trajet-tournee-237-${day}.gpx`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    toast('📥 Trajet exporté (GPX)');
   },
 
   startTour() {
     if (!state.session || state.session.startedAt) return;
     state.session.startedAt = new Date().toISOString();
+    state.session.track = { points: [], km: 0 };
+    if (state.currentPos) {
+      state.session.track.points.push([+state.currentPos.lat.toFixed(6), +state.currentPos.lon.toFixed(6), Date.now()]);
+    }
+    this.keepAwake(true);
     DB.saveSession();
     this.renderTourBar();
     toast('▶ Tournée démarrée');
@@ -690,6 +767,8 @@ const App = {
     if (!confirm('Annuler le chrono ? Les livraisons déjà faites sont conservées.')) return;
     s.startedAt = null;
     s.workEndedAt = null;
+    s.track = null;
+    this.keepAwake(false);
     DB.saveSession();
     this.renderTourBar();
     toast('⏹ Chrono annulé');
@@ -699,6 +778,7 @@ const App = {
     const s = state.session;
     if (!s || s.finishedAt) return;
     s.finishedAt = s.workEndedAt || new Date().toISOString();
+    this.keepAwake(false);
     DB.saveSession();
     this.renderTourBar();
 
@@ -709,7 +789,11 @@ const App = {
     document.getElementById('tour-summary-detail').innerHTML =
       `${s.stops.length} arrêts · ✅ ${delivered} livrés · ❌ ${notDelivered} non livrés<br>` +
       `Moyenne : ${this.formatDuration(ms / Math.max(1, s.stops.length))} par arrêt<br>` +
-      `Distance prévue : ${s.stops.reduce((sum, x) => sum + (x.legKm || 0), 0).toFixed(1)} km${s.kmApprox ? ' (estimée*)' : ' par la route'}`;
+      `Distance prévue : ${s.stops.reduce((sum, x) => sum + (x.legKm || 0), 0).toFixed(1)} km${s.kmApprox ? ' (estimée*)' : ' par la route'}<br>` +
+      (s.track && s.track.points.length > 1
+        ? `<strong>Distance parcourue (GPS) : ${s.track.km.toFixed(1)} km</strong>`
+        : `Distance GPS : aucun trajet enregistré`);
+    document.getElementById('btn-export-gpx').style.display = s.track && s.track.points.length > 1 ? 'block' : 'none';
     this.openModal('modal-tour-summary');
   },
 
@@ -974,6 +1058,7 @@ const App = {
         // Fin du temps de travail = dernier arrêt validé (le trajet retour n'est pas compté)
         if (state.session.startedAt && !state.session.workEndedAt) {
           state.session.workEndedAt = stop.doneAt;
+          this.keepAwake(false);
           DB.saveSession();
         }
         toast('🎉 Dernier arrêt fait — appuie sur « Terminer la tournée »', 4000);
@@ -1484,6 +1569,7 @@ const App = {
     navigator.geolocation.watchPosition(
       pos => {
         state.currentPos = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+        this.recordTrackPoint(pos);
         if (state.map) this.updatePosMarker();
       },
       () => {},
