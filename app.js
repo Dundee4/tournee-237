@@ -567,7 +567,17 @@ const App = {
       toast("🛣 Calcul de l'itinéraire par la route…", 15000);
       let road = null;
       try { road = await buildRoadDist(from, stops); } catch (e) { approx = true; }
-      orderedStops = optimizeRoute(stops, from.lat, from.lon, null, null, null, road ? road.sym : null);
+      // Début de tournée imposé (client.debut_ordre = 1, 2, 3…) : la suite s'optimise à partir du dernier
+      const pinned = stops
+        .filter(s => s.debut_ordre && s.lat != null && s.lon != null)
+        .sort((a, b) => a.debut_ordre - b.debut_ordre);
+      if (pinned.length > 0) {
+        const last = pinned[pinned.length - 1];
+        const rest = stops.filter(s => !pinned.includes(s));
+        orderedStops = [...pinned, ...optimizeRoute(rest, last.lat, last.lon, null, null, null, road ? road.sym : null)];
+      } else {
+        orderedStops = optimizeRoute(stops, from.lat, from.lon, null, null, null, road ? road.sym : null);
+      }
       annotateLegs(orderedStops, from, road);
       state._computing = false;
       const km = orderedStops.reduce((sum, s) => sum + (s.legKm || 0), 0);
@@ -1248,7 +1258,7 @@ const App = {
         !confirm(`Remplacer les ${state.clients.length} clients actuels par la liste fournie (99 clients géocodés) ?`)) {
       return;
     }
-    fetch('./archive-clients.json')
+    fetch('./archive-clients.json', { cache: 'no-store' })
       .then(r => r.json())
       .then(clients => {
         if (state.clients.length > 0) DB.archive();
@@ -1409,6 +1419,7 @@ const App = {
     document.getElementById('addr-statut-comment').value = '';
     this.renderJournalCheckboxes([]);
     this.renderJoursCheckboxes([]);
+    document.getElementById('addr-debut').value = '';
     document.getElementById('btn-delete-address').style.display = 'none';
 
     this.closeModal('modal-addresses');
@@ -1430,6 +1441,7 @@ const App = {
     document.getElementById('addr-statut-comment').value = client.statut_commentaire || '';
     this.renderJournalCheckboxes(client.journaux || []);
     this.renderJoursCheckboxes(client.jours || []);
+    document.getElementById('addr-debut').value = client.debut_ordre || '';
 
     document.getElementById('btn-delete-address').style.display = 'block';
     this.closeModal('modal-addresses');
@@ -1451,6 +1463,7 @@ const App = {
     const joursCoches = [...document.querySelectorAll('#addr-jours input[type=checkbox]:checked')].map(cb => parseInt(cb.value, 10));
     if (joursCoches.length === 0) { toast('❌ Coche au moins un jour de livraison'); return; }
     const jours = joursCoches.length === 7 ? [] : joursCoches;
+    const debut_ordre = parseInt(document.getElementById('addr-debut').value, 10) || null;
 
     if (!nom || !adresse || !ville || !code_postal) {
       toast('❌ Nom, adresse, ville et code postal sont obligatoires');
@@ -1460,7 +1473,7 @@ const App = {
     if (state.editingClientId) {
       const client = state.clients.find(c => c.id === state.editingClientId);
       if (client) {
-        Object.assign(client, { nom, prenom, adresse, ville, code_postal, statut_client, statut_commentaire, journaux, jours });
+        Object.assign(client, { nom, prenom, adresse, ville, code_postal, statut_client, statut_commentaire, journaux, jours, debut_ordre });
       }
       DB.save();
       toast('✏️ Client modifié');
@@ -1469,7 +1482,7 @@ const App = {
     } else {
       const client = {
         id: uid(), nom, prenom, adresse, ville, code_postal,
-        lat: null, lon: null, journaux, jours, statut_client, statut_commentaire, note: '',
+        lat: null, lon: null, journaux, jours, debut_ordre, statut_client, statut_commentaire, note: '',
       };
       state.clients.push(client);
       DB.save();

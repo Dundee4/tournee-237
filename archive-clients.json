@@ -13,7 +13,8 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": "⚠️ position approximative (lieu-dit), à corriger"
+    "note": "⚠️ position approximative (lieu-dit), à corriger",
+    "debut_ordre": 1
   },
   {
     "id": "mu4gnqdaw2hyp",
@@ -29,7 +30,8 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "debut_ordre": 2
   },
   {
     "id": "mu4gnqda79ima",
@@ -45,7 +47,8 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "debut_ordre": 3
   },
   {
     "id": "mu4gnqdajdypf",
@@ -69,7 +72,8 @@
       4,
       5,
       6
-    ]
+    ],
+    "debut_ordre": 4
   },
   {
     "id": "mu4gnqdaa1mnf",
@@ -85,7 +89,8 @@
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
-    "note": ""
+    "note": "",
+    "debut_ordre": 5
   },
   {
     "id": "mu4gnqdaslsg4",
