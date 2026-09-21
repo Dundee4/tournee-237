@@ -1672,22 +1672,6 @@
     "note": ""
   },
   {
-    "id": "dim_aux_douceurs_lea",
-    "nom": "AUX DOUCEURS DE LEA (M VINCENT MONGAY) PATISSERIE",
-    "prenom": "",
-    "adresse": "30 Rue de Madrid",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.650419,
-    "lon": -1.4448312,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": ""
-  },
-  {
     "id": "mu4gnqdbckmhe",
     "nom": "M PETIT CLAUDE",
     "prenom": "",
@@ -1784,6 +1768,22 @@
     "code_postal": "40130",
     "lat": 43.6504178,
     "lon": -1.4452276,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "dim_aux_douceurs_lea",
+    "nom": "AUX DOUCEURS DE LEA (M VINCENT MONGAY) PATISSERIE",
+    "prenom": "",
+    "adresse": "30 Rue de Madrid",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.650419,
+    "lon": -1.4448312,
     "journaux": [
       "19A LANDES"
     ],
