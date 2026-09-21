@@ -19,6 +19,8 @@ const MONTHS_FR = ['janvier','février','mars','avril','mai','juin',
 const AVG_SPEED_KMH = 30;   // vitesse moyenne livraison urbaine
 const STOP_TIME_MIN = 1.5;  // minutes par arrêt (sortir, déposer, remonter)
 const ROAD_FACTOR = 1.3;    // secours hors ligne : vol d'oiseau × 1,3 ≈ distance routière
+// Point de départ de la tournée (dépôt) : 1 Route de Saubion, 40230 Tosse
+const DEPART = { adresse: '1 Route de Saubion, 40230 Tosse', lat: 43.686704, lon: -1.334836 };
 const GEOCODE_DELAY = 1100; // ms entre requêtes Nominatim
 const STATUT_CLIENT_LABELS = {
   actif: '',
@@ -557,9 +559,8 @@ const App = {
       status: 'pending',
     }));
 
-    // Tournée optimale dès la génération (départ : position GPS, sinon premier arrêt)
-    const first = stops.find(s => s.lat != null && s.lon != null);
-    const from = state.currentPos || (first ? { lat: first.lat, lon: first.lon } : null);
+    // Tournée optimale dès la génération, au départ du dépôt (trajet d'approche inclus)
+    const from = { lat: DEPART.lat, lon: DEPART.lon };
     let orderedStops = stops, approx = false;
     if (from) {
       state._computing = true;
@@ -785,10 +786,16 @@ const App = {
     const delivered = s.stops.filter(x => x.status === 'delivered').length;
     const notDelivered = s.stops.length - delivered;
     const ms = this.tourElapsedMs();
+    // Trajet d'approche = du bouton Démarrer à la 1re validation ; livraison = ensuite jusqu'au dernier arrêt
+    const firstDoneMs = Math.min(...s.stops.filter(x => x.doneAt).map(x => new Date(x.doneAt).getTime()));
+    const startMs = new Date(s.startedAt).getTime();
+    const approachMs = isFinite(firstDoneMs) ? Math.max(0, firstDoneMs - startMs) : 0;
+    const deliveryMs = Math.max(0, ms - approachMs);
     document.getElementById('tour-summary-duration').textContent = this.formatDuration(ms);
     document.getElementById('tour-summary-detail').innerHTML =
       `${s.stops.length} arrêts · ✅ ${delivered} livrés · ❌ ${notDelivered} non livrés<br>` +
-      `Moyenne : ${this.formatDuration(ms / Math.max(1, s.stops.length))} par arrêt<br>` +
+      `Trajet jusqu'au 1er arrêt : ${this.formatDuration(approachMs)} · Livraison : ${this.formatDuration(deliveryMs)}<br>` +
+      `Moyenne : ${this.formatDuration(deliveryMs / Math.max(1, s.stops.length))} par arrêt (livraison)<br>` +
       `Distance prévue : ${s.stops.reduce((sum, x) => sum + (x.legKm || 0), 0).toFixed(1)} km${s.kmApprox ? ' (estimée*)' : ' par la route'}<br>` +
       (s.track && s.track.points.length > 1
         ? `<strong>Distance parcourue (GPS) : ${s.track.km.toFixed(1)} km</strong>`
