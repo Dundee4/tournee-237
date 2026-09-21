@@ -12,7 +12,7 @@ if ('serviceWorker' in navigator) {
 }
 
 // ─── CONSTANTES ───────────────────────────────────────────────
-const APP_VERSION = 'v16';
+const APP_VERSION = 'v17';
 const DAYS_FR = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
 const DAYS_SHORT = ['Di','Lu','Ma','Me','Je','Ve','Sa'];
 const MONTHS_FR = ['janvier','février','mars','avril','mai','juin',
@@ -462,6 +462,8 @@ const App = {
     DB.load();
     const ver = document.getElementById('app-version');
     if (ver) ver.textContent = APP_VERSION;
+    const sver = document.getElementById('settings-version');
+    if (sver) sver.textContent = APP_VERSION;
     setInterval(() => this.updateTourTimer(), 1000);
     document.addEventListener('visibilitychange', () => {
       const s = state.session;
