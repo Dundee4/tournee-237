@@ -189,6 +189,39 @@ function annotateLegs(ordered, from, road) {
   });
 }
 
+// Journaux hebdomadaires : leurs clients (ceux qui ne reçoivent que ça) ne sont pas dans la
+// tournée de base ; ils sont insérés là où ils coûtent le moins de kilomètres.
+const JOURNAUX_APPOINT = ['LE POINT S1'];
+
+// Fusionne la tournée de base (ordre de la liste) avec les clients « d'appoint » :
+// insertion la moins coûteuse en km par la route, un client à la fois.
+function insertExtras(stops, from, road) {
+  const isExtra = s => (s.journauxDuJour || s.journaux || []).length > 0 &&
+    (s.journauxDuJour || s.journaux).every(j => JOURNAUX_APPOINT.includes(j));
+  const base = stops.filter(s => !isExtra(s));
+  const extras = stops.filter(s => isExtra(s) && s.lat != null && s.lon != null);
+  const noCoords = stops.filter(s => isExtra(s) && (s.lat == null || s.lon == null));
+  if (base.length === 0 || extras.length === 0) return stops;
+
+  const d = (a, b) => road ? road.leg(a, b) : haversine(a.lat, a.lon, b.lat, b.lon) * ROAD_FACTOR;
+  const route = [...base];
+  const todo = [...extras];
+  while (todo.length > 0) {
+    let best = null;
+    for (const x of todo) {
+      for (let k = 0; k <= route.length; k++) {
+        const prev = k === 0 ? from : route[k - 1];
+        const next = route[k];               // undefined si insertion en fin de tournée
+        const cost = d(prev, x) + (next ? d(x, next) - d(prev, next) : 0);
+        if (!best || cost < best.cost) best = { x, k, cost };
+      }
+    }
+    route.splice(best.k, 0, best.x);
+    todo.splice(todo.indexOf(best.x), 1);
+  }
+  return [...route, ...noCoords];
+}
+
 // ─── OPTIMISATION DE TOURNÉE ──────────────────────────────────
 // Nearest Neighbour avec contrainte horaire optionnelle
 function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTime, startTimeStr, roadDist) {
@@ -560,15 +593,17 @@ const App = {
     }));
 
     // Tournée dans l'ordre de la liste (ta tournée habituelle), au départ du dépôt ;
-    // les kilomètres sont calculés par la route (trajet d'approche inclus).
-    // L'optimisation reste disponible via le bouton 🔄 Réorganiser.
+    // les clients du Point sont fusionnés là où ils coûtent le moins de km.
+    // Les kilomètres sont calculés par la route (trajet d'approche inclus).
+    // L'optimisation complète reste disponible via le bouton 🔄 Réorganiser.
     const from = { lat: DEPART.lat, lon: DEPART.lon };
-    const orderedStops = stops;
+    let orderedStops = stops;
     let approx = false;
     state._computing = true;
     toast("🛣 Calcul des kilomètres par la route…", 15000);
     let road = null;
     try { road = await buildRoadDist(from, stops); } catch (e) { approx = true; }
+    orderedStops = insertExtras(stops, from, road);
     annotateLegs(orderedStops, from, road);
     state._computing = false;
     const km = orderedStops.reduce((sum, s) => sum + (s.legKm || 0), 0);
