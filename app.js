@@ -18,6 +18,7 @@ const MONTHS_FR = ['janvier','février','mars','avril','mai','juin',
                    'juillet','août','septembre','octobre','novembre','décembre'];
 const AVG_SPEED_KMH = 30;   // vitesse moyenne livraison urbaine
 const STOP_TIME_MIN = 1.5;  // minutes par arrêt (sortir, déposer, remonter)
+const ROAD_FACTOR = 1.3;    // secours hors ligne : vol d'oiseau × 1,3 ≈ distance routière
 const GEOCODE_DELAY = 1100; // ms entre requêtes Nominatim
 const STATUT_CLIENT_LABELS = {
   actif: '',
@@ -119,9 +120,77 @@ function journalBadges(codes) {
   return (codes || []).map(j => `<span class="journal-badge">${j}</span>`).join('');
 }
 
+// ─── DISTANCES PAR LA ROUTE (OSRM, OpenStreetMap) ─────────────
+const OSRM_TABLE = 'https://router.project-osrm.org/table/v1/driving/';
+
+async function osrmTile(pts, rows, cols) {
+  const same = rows.length === cols.length && rows.every((r, i) => r === cols[i]);
+  const idx = same ? rows : [...rows, ...cols];
+  const coords = idx.map(i => `${pts[i].lon},${pts[i].lat}`).join(';');
+  let url = `${OSRM_TABLE}${coords}?annotations=distance`;
+  if (!same) {
+    url += `&sources=${rows.map((_, k) => k).join(';')}` +
+           `&destinations=${cols.map((_, k) => rows.length + k).join(';')}`;
+  }
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), 20000);
+  try {
+    const resp = await fetch(url, { signal: ctl.signal });
+    const data = await resp.json();
+    if (data.code !== 'Ok' || !data.distances) throw new Error(data.message || 'OSRM');
+    return data.distances;
+  } finally { clearTimeout(timer); }
+}
+
+// Matrice des distances routières (mètres) entre tous les points
+async function fetchRoadMatrix(pts) {
+  const n = pts.length;
+  const D = Array.from({ length: n }, () => new Array(n).fill(0));
+  const TILE = 50;
+  const all = pts.map((_, i) => i);
+  const blocks = n <= 100 ? [all] : Array.from({ length: Math.ceil(n / TILE) }, (_, k) => all.slice(k * TILE, (k + 1) * TILE));
+  for (const rows of blocks) {
+    for (const cols of blocks) {
+      const d = await osrmTile(pts, rows, cols);
+      rows.forEach((r, i) => cols.forEach((c, j) => {
+        let v = d[i][j];
+        if (v == null) v = haversine(pts[r].lat, pts[r].lon, pts[c].lat, pts[c].lon) * ROAD_FACTOR * 1000;
+        D[r][c] = v;
+      }));
+    }
+  }
+  return D;
+}
+
+// Renvoie { sym(a,b), leg(a,b) } en km par la route, ou lève une erreur (hors ligne)
+async function buildRoadDist(origin, stops) {
+  const pts = [], index = new Map();
+  const key = p => p.lat + ',' + p.lon;
+  const add = p => { if (!index.has(key(p))) { index.set(key(p), pts.length); pts.push(p); } };
+  add(origin);
+  stops.forEach(s => { if (s.lat != null && s.lon != null) add(s); });
+  const D = await fetchRoadMatrix(pts);
+  const ki = p => index.get(key(p));
+  return {
+    sym: (a, b) => (D[ki(a)][ki(b)] + D[ki(b)][ki(a)]) / 2000,  // pour optimiser
+    leg: (a, b) => D[ki(a)][ki(b)] / 1000,                       // sens réel du trajet
+  };
+}
+
+// Renseigne la distance (km) depuis l'arrêt précédent sur chaque arrêt
+function annotateLegs(ordered, from, road) {
+  let prev = from;
+  ordered.forEach(s => {
+    if (s.lat == null || s.lon == null) { s.legKm = 0; return; }
+    s.legKm = road ? road.leg(prev, s) : haversine(prev.lat, prev.lon, s.lat, s.lon) * ROAD_FACTOR;
+    prev = s;
+  });
+}
+
 // ─── OPTIMISATION DE TOURNÉE ──────────────────────────────────
 // Nearest Neighbour avec contrainte horaire optionnelle
-function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTime, startTimeStr) {
+function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTime, startTimeStr, roadDist) {
+  const dist = roadDist || ((a, b) => haversine(a.lat, a.lon, b.lat, b.lon));
   const geocoded = stops.filter(s => s.lat != null && s.lon != null);
   const notGeocoded = stops.filter(s => s.lat == null || s.lon == null);
 
@@ -135,8 +204,8 @@ function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTi
     let t = fromTime;
     let lat = fromLat, lon = fromLon;
     for (const s of orderedStops) {
-      const dist = haversine(lat, lon, s.lat, s.lon);
-      t += (dist / AVG_SPEED_KMH) * 60 + STOP_TIME_MIN;
+      const d = dist({ lat, lon }, s);
+      t += (d / AVG_SPEED_KMH) * 60 + STOP_TIME_MIN;
       lat = s.lat; lon = s.lon;
     }
     return t;
@@ -146,16 +215,15 @@ function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTi
   function nearestNeighbour(pool, fromLat, fromLon) {
     const result = [];
     const remaining = [...pool];
-    let curLat = fromLat, curLon = fromLon;
+    let cur = { lat: fromLat, lon: fromLon };
     while (remaining.length > 0) {
       let best = 0, bestDist = Infinity;
       for (let i = 0; i < remaining.length; i++) {
-        const d = haversine(curLat, curLon, remaining[i].lat, remaining[i].lon);
+        const d = dist(cur, remaining[i]);
         if (d < bestDist) { bestDist = d; best = i; }
       }
       result.push(remaining.splice(best, 1)[0]);
-      curLat = result[result.length-1].lat;
-      curLon = result[result.length-1].lon;
+      cur = result[result.length - 1];
     }
     return result;
   }
@@ -172,10 +240,8 @@ function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTi
       for (let i = 0; i < n - 2; i++) {
         for (let j = i + 2; j < n; j++) {
           const a = path[i], b = path[i + 1], c = path[j], d = path[j + 1];
-          const before = haversine(a.lat, a.lon, b.lat, b.lon) +
-                         (d ? haversine(c.lat, c.lon, d.lat, d.lon) : 0);
-          const after  = haversine(a.lat, a.lon, c.lat, c.lon) +
-                         (d ? haversine(b.lat, b.lon, d.lat, d.lon) : 0);
+          const before = dist(a, b) + (d ? dist(c, d) : 0);
+          const after  = dist(a, c) + (d ? dist(b, d) : 0);
           if (after < before - 0.001) {
             const rev = path.slice(i + 1, j + 1).reverse();
             path.splice(i + 1, rev.length, ...rev);
@@ -204,9 +270,9 @@ function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTi
       let cLat = startLat, cLon = startLon, cTime = startMin;
 
       for (const s of beforePool) {
-        const distToS = haversine(cLat, cLon, s.lat, s.lon);
+        const distToS = dist({ lat: cLat, lon: cLon }, s);
         const tAfterS = cTime + (distToS / AVG_SPEED_KMH) * 60 + STOP_TIME_MIN;
-        const distToConstraint = haversine(s.lat, s.lon, constraintStop.lat, constraintStop.lon);
+        const distToConstraint = dist(s, constraintStop);
         const tArriveConstraint = tAfterS + (distToConstraint / AVG_SPEED_KMH) * 60;
         if (tArriveConstraint <= constraintMin) {
           before.push(s);
@@ -465,7 +531,8 @@ const App = {
     return [...set].sort();
   },
 
-  generateDailyTour() {
+  async generateDailyTour() {
+    if (state._computing) return;
     const checked = [...document.querySelectorAll('.journal-checkbox:checked')].map(cb => cb.dataset.journal);
     if (checked.length === 0) { toast('❌ Sélectionne au moins un journal'); return; }
 
@@ -489,13 +556,26 @@ const App = {
     // Tournée optimale dès la génération (départ : position GPS, sinon premier arrêt)
     const first = stops.find(s => s.lat != null && s.lon != null);
     const from = state.currentPos || (first ? { lat: first.lat, lon: first.lon } : null);
-    const orderedStops = from ? optimizeRoute(stops, from.lat, from.lon, null, null, null) : stops;
+    let orderedStops = stops, approx = false;
+    if (from) {
+      state._computing = true;
+      toast("🛣 Calcul de l'itinéraire par la route…", 15000);
+      let road = null;
+      try { road = await buildRoadDist(from, stops); } catch (e) { approx = true; }
+      orderedStops = optimizeRoute(stops, from.lat, from.lon, null, null, null, road ? road.sym : null);
+      annotateLegs(orderedStops, from, road);
+      state._computing = false;
+      const km = orderedStops.reduce((sum, s) => sum + (s.legKm || 0), 0);
+      toast(approx ? `⚠️ Hors ligne : ~${km.toFixed(1)} km estimés (vol d'oiseau × 1,3)`
+                   : `✅ Itinéraire calculé : ${km.toFixed(1)} km par la route`, 4000);
+    }
 
     state.session = {
       selectedJournaux: checked,
       stops: orderedStops,
       timeConstraint: null,
       generatedAt: new Date().toISOString(),
+      kmApprox: approx,
       startedAt: null,
       workEndedAt: null,
       finishedAt: null,
@@ -536,9 +616,11 @@ const App = {
     document.getElementById('map-progress').style.width = pct + '%';
 
     const remaining = stops.filter(s => s.status === 'pending').length;
-    const eta = remaining * STOP_TIME_MIN;
+    const kmLeft = stops.filter(s => s.status === 'pending').reduce((sum, s) => sum + (s.legKm || 0), 0);
+    const eta = remaining * STOP_TIME_MIN + (kmLeft / AVG_SPEED_KMH) * 60;
     if (remaining > 0) {
-      document.getElementById('map-eta').textContent = `~${Math.round(eta)}min`;
+      document.getElementById('map-eta').textContent =
+        `~${Math.round(eta)}min · ${kmLeft.toFixed(1)} km${state.session.kmApprox ? '*' : ''}`;
     } else {
       document.getElementById('map-eta').textContent = '✓ Terminé';
     }
@@ -626,7 +708,8 @@ const App = {
     document.getElementById('tour-summary-duration').textContent = this.formatDuration(ms);
     document.getElementById('tour-summary-detail').innerHTML =
       `${s.stops.length} arrêts · ✅ ${delivered} livrés · ❌ ${notDelivered} non livrés<br>` +
-      `Moyenne : ${this.formatDuration(ms / Math.max(1, s.stops.length))} par arrêt`;
+      `Moyenne : ${this.formatDuration(ms / Math.max(1, s.stops.length))} par arrêt<br>` +
+      `Distance prévue : ${s.stops.reduce((sum, x) => sum + (x.legKm || 0), 0).toFixed(1)} km${s.kmApprox ? ' (estimée*)' : ' par la route'}`;
     this.openModal('modal-tour-summary');
   },
 
@@ -967,8 +1050,8 @@ const App = {
   },
 
   // ── RÉORGANISER ──────────────────────────────────────────────
-  reorganize() {
-    if (!state.session) return;
+  async reorganize() {
+    if (!state.session || state._computing) return;
 
     const pending = state.session.stops.filter(s => s.status === 'pending');
     const done = state.session.stops.filter(s => s.status !== 'pending');
@@ -987,19 +1070,30 @@ const App = {
     const nowD = new Date();
     const nowStr = formatTime(nowD.getHours(), nowD.getMinutes());
 
+    state._computing = true;
+    toast("🛣 Calcul de l'itinéraire par la route…", 15000);
+    let road = null, approx = false;
+    try { road = await buildRoadDist(from, pending); } catch (e) { approx = true; }
+
     const constraint = state.session.timeConstraint;
     const optimized = optimizeRoute(
       pending,
       from.lat, from.lon,
       constraint ? constraint.stopId : null,
       constraint ? constraint.time : null,
-      nowStr
+      nowStr,
+      road ? road.sym : null
     );
+    annotateLegs(optimized, from, road);
+    state._computing = false;
+    if (approx) state.session.kmApprox = true;
 
     state.session.stops = [...done, ...optimized];
     DB.saveSession();
 
-    toast('🔄 Tournée réorganisée !');
+    const kmLeft = optimized.reduce((sum, s) => sum + (s.legKm || 0), 0);
+    toast(approx ? `⚠️ Hors ligne : réorganisée, ~${kmLeft.toFixed(1)} km restants (estimé)`
+                 : `🔄 Réorganisée : ${kmLeft.toFixed(1)} km restants par la route`, 4000);
     this.renderStopsList();
     this.initMap();
   },
