@@ -160,35 +160,31 @@ function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTi
     return result;
   }
 
-  // 2-opt : supprime les croisements dans le trajet
-  function twoOpt(route) {
-    let best = [...route];
+  // 2-opt : supprime les croisements dans le trajet (trajet ouvert : départ fixe, pas de retour)
+  function twoOpt(route, fromLat, fromLon) {
+    const path = [{ lat: fromLat, lon: fromLon }, ...route];
+    const n = path.length;
     let improved = true;
     let passes = 0;
     while (improved && passes < 50) {
       improved = false;
       passes++;
-      for (let i = 0; i < best.length - 2; i++) {
-        for (let j = i + 2; j < best.length; j++) {
-          const a = best[i], b = best[i + 1];
-          const c = best[j], d = best[(j + 1) % best.length];
-          if (!a.lat || !b.lat || !c.lat || !d.lat) continue;
+      for (let i = 0; i < n - 2; i++) {
+        for (let j = i + 2; j < n; j++) {
+          const a = path[i], b = path[i + 1], c = path[j], d = path[j + 1];
           const before = haversine(a.lat, a.lon, b.lat, b.lon) +
-                         haversine(c.lat, c.lon, d.lat, d.lon);
+                         (d ? haversine(c.lat, c.lon, d.lat, d.lon) : 0);
           const after  = haversine(a.lat, a.lon, c.lat, c.lon) +
-                         haversine(b.lat, b.lon, d.lat, d.lon);
+                         (d ? haversine(b.lat, b.lon, d.lat, d.lon) : 0);
           if (after < before - 0.001) {
-            best = [
-              ...best.slice(0, i + 1),
-              ...best.slice(i + 1, j + 1).reverse(),
-              ...best.slice(j + 1)
-            ];
+            const rev = path.slice(i + 1, j + 1).reverse();
+            path.splice(i + 1, rev.length, ...rev);
             improved = true;
           }
         }
       }
     }
-    return best;
+    return path.slice(1);
   }
 
   let ordered;
@@ -225,7 +221,7 @@ function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTi
       ordered = [...before, constraintStop, ...after];
     }
   } else {
-    ordered = twoOpt(nearestNeighbour(geocoded, startLat, startLon));
+    ordered = twoOpt(nearestNeighbour(geocoded, startLat, startLon), startLat, startLon);
   }
 
   // Réassigner les ordres
@@ -490,9 +486,14 @@ const App = {
       status: 'pending',
     }));
 
+    // Tournée optimale dès la génération (départ : position GPS, sinon premier arrêt)
+    const first = stops.find(s => s.lat != null && s.lon != null);
+    const from = state.currentPos || (first ? { lat: first.lat, lon: first.lon } : null);
+    const orderedStops = from ? optimizeRoute(stops, from.lat, from.lon, null, null, null) : stops;
+
     state.session = {
       selectedJournaux: checked,
-      stops,
+      stops: orderedStops,
       timeConstraint: null,
       generatedAt: new Date().toISOString(),
       startedAt: null,
@@ -974,8 +975,17 @@ const App = {
 
     if (pending.length === 0) { toast('Plus rien à réorganiser'); return; }
 
-    const from = state.currentPos || (pending[0].lat ? { lat: pending[0].lat, lon: pending[0].lon } : null);
+    // Point de départ : GPS, sinon dernier arrêt traité (là où je suis), sinon 1er arrêt restant
+    const lastDone = done
+      .filter(s => s.lat != null && s.lon != null && s.doneAt)
+      .sort((a, b) => new Date(b.doneAt) - new Date(a.doneAt))[0];
+    const firstPending = pending.find(s => s.lat != null && s.lon != null);
+    const anchor = lastDone || firstPending;
+    const from = state.currentPos || (anchor ? { lat: anchor.lat, lon: anchor.lon } : null);
     if (!from) { toast('Position GPS non disponible'); return; }
+
+    const nowD = new Date();
+    const nowStr = formatTime(nowD.getHours(), nowD.getMinutes());
 
     const constraint = state.session.timeConstraint;
     const optimized = optimizeRoute(
@@ -983,7 +993,7 @@ const App = {
       from.lat, from.lon,
       constraint ? constraint.stopId : null,
       constraint ? constraint.time : null,
-      null
+      nowStr
     );
 
     state.session.stops = [...done, ...optimized];
