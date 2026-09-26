@@ -545,3 +545,5 @@ html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMa
 .tour-btn-cancel { background: #6b7280; padding: 8px 12px; font-size: 0.85rem; }
 
 .finish-info { margin: 8px 12px; padding: 10px 12px; border-radius: 10px; background: var(--card, #fff); border: 1px dashed var(--border); font-size: 0.85rem; font-weight: 600; }
+
+.btn-secondary { height: 52px; margin-top: 8px; background: var(--card, #fff); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius); font-size: 1rem; font-weight: 700; cursor: pointer; }

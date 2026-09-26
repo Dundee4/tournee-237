@@ -498,8 +498,20 @@ const App = {
   },
 
   // ── ACCUEIL ──────────────────────────────────────────────────
+  // Jour de tournée affiché : aujourd'hui (0) ou demain (1) — non persisté, retombe sur aujourd'hui
+  tourDate() {
+    const d = new Date();
+    d.setDate(d.getDate() + (state.dayOffset || 0));
+    return d;
+  },
+
+  setTourDay(offset) {
+    state.dayOffset = offset;
+    this.renderHome();
+  },
+
   renderHome() {
-    const now = new Date();
+    const now = this.tourDate();
     const day = now.getDay();
     const date = now.getDate();
 
@@ -546,8 +558,20 @@ const App = {
     const title = document.createElement('div');
     title.className = 'section-title';
     title.style.padding = '0 4px';
-    title.textContent = 'Journaux à distribuer aujourd\'hui';
+    title.textContent = state.dayOffset ? 'Journaux à distribuer demain' : 'Journaux à distribuer aujourd\'hui';
     sec.appendChild(title);
+
+    const dayToggle = document.createElement('div');
+    dayToggle.style.cssText = 'display:flex; gap:8px; padding:0 4px 10px;';
+    [['Aujourd\'hui', 0], ['Demain', 1]].forEach(([label, off]) => {
+      const b = document.createElement('button');
+      b.className = (state.dayOffset || 0) === off ? 'btn-primary' : 'btn-secondary';
+      b.style.flex = '1';
+      b.textContent = label;
+      b.onclick = () => this.setTourDay(off);
+      dayToggle.appendChild(b);
+    });
+    sec.appendChild(dayToggle);
 
     if (journaux.length === 0) {
       sec.innerHTML += `<p style="color:var(--text-2); font-size:0.9rem; padding:8px 4px;">Aucun journal actif. Importez un CSV ou vérifiez le statut de vos clients.</p>`;
@@ -609,7 +633,7 @@ const App = {
 
     const matching = state.clients.filter(c =>
       (c.statut_client || 'actif') === 'actif' &&
-      livreCeJour(c, new Date().getDay()) &&
+      livreCeJour(c, this.tourDate().getDay()) &&
       (c.journaux || []).some(j => checked.includes(j))
     );
 
