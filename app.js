@@ -21,6 +21,12 @@ const AVG_SPEED_KMH = 30;   // vitesse moyenne livraison urbaine
 const STOP_TIME_MIN = 1.5;  // minutes par arrêt (sortir, déposer, remonter)
 const ROAD_FACTOR = 1.3;    // secours hors ligne : vol d'oiseau × 1,3 ≈ distance routière
 // Point de départ de la tournée (dépôt) : 1 Route de Saubion, 40230 Tosse
+// Points fixes de fin de tournée (géocodés une fois puis mis en cache)
+const FIXED_POINTS = [
+  { id: 'domicile',  label: '🏠 Domicile',      adresse: '1180 bis Route du Coq',  ville: 'Tosse',                    code_postal: '40230' },
+  { id: 'miedepain', label: '☕ La Mie de Pain', adresse: '65 Avenue des Lauriers', ville: 'Saint-Vincent-de-Tyrosse', code_postal: '40230' },
+];
+
 const DEPART = { adresse: '1 Route de Saubion, 40230 Tosse', lat: 43.686704, lon: -1.334836 };
 const GEOCODE_DELAY = 1100; // ms entre requêtes Nominatim
 const STATUT_CLIENT_LABELS = {
@@ -225,7 +231,7 @@ function insertExtras(stops, from, road) {
 
 // ─── OPTIMISATION DE TOURNÉE ──────────────────────────────────
 // Nearest Neighbour avec contrainte horaire optionnelle
-function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTime, startTimeStr, roadDist) {
+function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTime, startTimeStr, roadDist, endPoint) {
   const dist = roadDist || ((a, b) => haversine(a.lat, a.lon, b.lat, b.lon));
   const geocoded = stops.filter(s => s.lat != null && s.lon != null);
   const notGeocoded = stops.filter(s => s.lat == null || s.lon == null);
@@ -264,17 +270,20 @@ function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTi
     return result;
   }
 
-  // 2-opt : supprime les croisements dans le trajet (trajet ouvert : départ fixe, pas de retour)
+  // 2-opt : supprime les croisements dans le trajet (trajet ouvert : départ fixe, pas de retour).
+  // Si endPoint est fourni, il reste figé en dernière position (arrivée imposée).
   function twoOpt(route, fromLat, fromLon) {
     const path = [{ lat: fromLat, lon: fromLon }, ...route];
+    if (endPoint) path.push(endPoint);
     const n = path.length;
+    const jMax = endPoint ? n - 1 : n;   // j < jMax : le point final n'est jamais inversé
     let improved = true;
     let passes = 0;
     while (improved && passes < 50) {
       improved = false;
       passes++;
       for (let i = 0; i < n - 2; i++) {
-        for (let j = i + 2; j < n; j++) {
+        for (let j = i + 2; j < jMax; j++) {
           const a = path[i], b = path[i + 1], c = path[j], d = path[j + 1];
           const before = dist(a, b) + (d ? dist(c, d) : 0);
           const after  = dist(a, c) + (d ? dist(b, d) : 0);
@@ -286,7 +295,7 @@ function optimizeRoute(stops, startLat, startLon, constraintStopId, constraintTi
         }
       }
     }
-    return path.slice(1);
+    return endPoint ? path.slice(1, -1) : path.slice(1);
   }
 
   let ordered;
@@ -351,6 +360,21 @@ async function geocodeAddress(stop) {
     return true;
   }
   return false;
+}
+
+async function getFixedPointCoords(point) {
+  const cacheKey = 'journal_fixedpoint_' + point.id;
+  try {
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) return JSON.parse(cached);
+  } catch (e) {}
+  const stop = { ...point };
+  try {
+    if (!(await geocodeAddress(stop))) return null;
+  } catch (e) { return null; }
+  const coords = { lat: stop.lat, lon: stop.lon };
+  try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch (e) {}
+  return coords;
 }
 
 // ─── IMPORT CSV ───────────────────────────────────────────────
@@ -618,6 +642,8 @@ const App = {
     state.session = {
       selectedJournaux: checked,
       stops: orderedStops,
+      originalOrder: orderedStops.map(s => s.id),   // ordre figé au départ (bouton ↩️ Tournée initiale)
+      finishPoint: null,
       timeConstraint: null,
       generatedAt: new Date().toISOString(),
       kmApprox: approx,
@@ -893,6 +919,17 @@ const App = {
 
     addSection(`📋 À livrer (${pending.length})`, pending);
     addSection(`✅ Traités (${traites.length})`, traites);
+
+    // Point fixe de fin : distance depuis le dernier arrêt à livrer (info, pas un arrêt)
+    const fp = state.session.finishPoint;
+    const lastPending = pending.length ? pending[pending.length - 1].s : null;
+    if (fp && lastPending && lastPending.lat != null) {
+      const km = haversine(lastPending.lat, lastPending.lon, fp.lat, fp.lon) * ROAD_FACTOR;
+      const info = document.createElement('div');
+      info.className = 'finish-info';
+      info.textContent = `🎯 Ensuite → ${fp.label} : ~${km.toFixed(1)} km`;
+      list.insertBefore(info, list.querySelectorAll('.stops-section-header')[1] || null);
+    }
 
     if (currentIdx >= 0) {
       const allItems = list.querySelectorAll('.stop-item.current');
@@ -1182,7 +1219,7 @@ const App = {
   },
 
   // ── RÉORGANISER ──────────────────────────────────────────────
-  async reorganize() {
+  async reorganize(endPointId = null) {
     if (!state.session || state._computing) return;
 
     const pending = state.session.stops.filter(s => s.status === 'pending');
@@ -1202,10 +1239,19 @@ const App = {
     const nowD = new Date();
     const nowStr = formatTime(nowD.getHours(), nowD.getMinutes());
 
+    // Point fixe de fin : géocodé (une seule fois) avant l'optimisation
+    let endPoint = null;
+    if (endPointId) {
+      const def = FIXED_POINTS.find(p => p.id === endPointId);
+      const coords = def ? await getFixedPointCoords(def) : null;
+      if (!coords) { toast('❌ Géocodage du point fixe impossible (réseau ?)'); return; }
+      endPoint = { id: def.id, label: def.label, lat: coords.lat, lon: coords.lon };
+    }
+
     state._computing = true;
     toast("🛣 Calcul de l'itinéraire par la route…", 15000);
     let road = null, approx = false;
-    try { road = await buildRoadDist(from, pending); } catch (e) { approx = true; }
+    try { road = await buildRoadDist(from, endPoint ? [...pending, endPoint] : pending); } catch (e) { approx = true; }
 
     const constraint = state.session.timeConstraint;
     const optimized = optimizeRoute(
@@ -1214,20 +1260,69 @@ const App = {
       constraint ? constraint.stopId : null,
       constraint ? constraint.time : null,
       nowStr,
-      road ? road.sym : null
+      road ? road.sym : null,
+      endPoint
     );
     annotateLegs(optimized, from, road);
     state._computing = false;
     if (approx) state.session.kmApprox = true;
 
     state.session.stops = [...done, ...optimized];
+    if (endPointId) state.session.finishPoint = endPoint;
     DB.saveSession();
 
-    const kmLeft = optimized.reduce((sum, s) => sum + (s.legKm || 0), 0);
+    let kmLeft = optimized.reduce((sum, s) => sum + (s.legKm || 0), 0);
+    if (endPoint && optimized.length) {
+      const lastStop = optimized[optimized.length - 1];
+      const kmEnd = road ? road.leg(lastStop, endPoint)
+                         : haversine(lastStop.lat, lastStop.lon, endPoint.lat, endPoint.lon) * ROAD_FACTOR;
+      kmLeft += kmEnd;
+    }
     toast(approx ? `⚠️ Hors ligne : réorganisée, ~${kmLeft.toFixed(1)} km restants (estimé)`
                  : `🔄 Réorganisée : ${kmLeft.toFixed(1)} km restants par la route`, 4000);
     this.renderStopsList();
     this.initMap();
+  },
+
+  // ── REPRENDRE LA TOURNÉE INITIALE ────────────────────────────
+  resetToOriginal() {
+    if (!state.session) return;
+    const order = state.session.originalOrder;
+    if (!order) { toast('⚠️ Ordre initial indisponible pour cette tournée'); return; }
+    const rank = s => { const r = order.indexOf(s.id); return r < 0 ? Infinity : r; };
+    const pending = state.session.stops.filter(s => s.status === 'pending');
+    const done = state.session.stops.filter(s => s.status !== 'pending');
+    pending.sort((a, b) => rank(a) - rank(b));
+
+    // Point de reprise = dernier arrêt traité. Les arrêts en attente situés AVANT lui
+    // dans l'ordre initial (la boucle sautée) passent en fin de liste, pas en tête.
+    const last = done.filter(s => s.doneAt)
+      .sort((a, b) => new Date(b.doneAt) - new Date(a.doneAt))[0];
+    const anchor = last ? rank(last) : -1;
+    const after = pending.filter(s => rank(s) > anchor);
+    const skipped = pending.filter(s => rank(s) <= anchor);
+    state.session.stops = [...done, ...after, ...skipped];
+    state.session.finishPoint = null;
+    DB.saveSession();
+    toast('↩️ Tournée initiale reprise', 3000);
+    this.renderStopsList();
+    this.initMap();
+  },
+
+  // ── FINIR VERS UN POINT FIXE ─────────────────────────────────
+  chooseFinishPoint() {
+    if (!state.session) return;
+    document.getElementById('finish-choices').innerHTML = FIXED_POINTS.map(p =>
+      `<button class="btn-primary" style="margin-bottom:8px;" onclick="App.finishTowards('${p.id}')">${p.label}</button>`
+    ).join('');
+    this.openModal('modal-finish');
+  },
+
+  async finishTowards(pointId) {
+    this.closeModal('modal-finish');
+    const pending = state.session ? state.session.stops.filter(s => s.status === 'pending') : [];
+    if (pending.length === 0) { toast('Plus rien à réorganiser'); return; }
+    await this.reorganize(pointId);
   },
 
   // ── CONTRAINTE HORAIRE ────────────────────────────────────────

@@ -100,7 +100,7 @@ html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMa
 .progress-bar-fill { background: white; border-radius: 4px; height: 6px; transition: width 0.3s; }
 .map-overlay-bar .count-text { white-space: nowrap; font-weight: 600; }
 
-.stops-list { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.stops-list { padding-bottom: 80px; flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 .stop-item {
   display: flex;
   align-items: center;
@@ -160,23 +160,30 @@ html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMa
 .stop-move-btn:disabled { opacity: 0.25; cursor: default; }
 .stop-move-btn:active { background: var(--bg); }
 
-.fab-reorganize {
+.fab-bar {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 16px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  z-index: 1000;
+}
+.fab-reorganize {
   background: var(--warning);
   color: white;
   border: none;
   border-radius: 28px;
-  padding: 14px 22px;
-  font-size: 0.95rem;
+  padding: 12px 12px;
+  font-size: 0.85rem;
+  white-space: nowrap;
   font-weight: 700;
   box-shadow: 0 4px 16px rgba(0,0,0,0.25);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
-  z-index: 1000;
+  gap: 6px;
 }
 .fab-reorganize:active { transform: scale(0.96); }
 
@@ -536,3 +543,5 @@ html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMa
 .tour-btn-finish { background: #16a34a; padding: 12px 18px; }
 .tour-btn:active { transform: scale(0.97); }
 .tour-btn-cancel { background: #6b7280; padding: 8px 12px; font-size: 0.85rem; }
+
+.finish-info { margin: 8px 12px; padding: 10px 12px; border-radius: 10px; background: var(--card, #fff); border: 1px dashed var(--border); font-size: 0.85rem; font-weight: 600; }
