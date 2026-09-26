@@ -1292,7 +1292,7 @@ const App = {
     if (approx) state.session.kmApprox = true;
 
     state.session.stops = [...done, ...optimized];
-    if (endPointId) state.session.finishPoint = endPoint;
+    state.session.finishPoint = endPoint;   // null si simple Réorganiser
     DB.saveSession();
 
     let kmLeft = optimized.reduce((sum, s) => sum + (s.legKm || 0), 0);
