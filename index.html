@@ -52,9 +52,11 @@
       <span id="map-eta" style="font-size:0.8rem; white-space:nowrap;"></span>
     </div>
     <div class="stops-list" id="stops-list"></div>
-    <button class="fab-reorganize" id="btn-reorganize" onclick="App.reorganize()">
-      🔄 Réorganiser
-    </button>
+    <div class="fab-bar">
+      <button class="fab-reorganize" id="btn-reset-original" onclick="App.resetToOriginal()">↩️ Initiale</button>
+      <button class="fab-reorganize" id="btn-finish-towards" onclick="App.chooseFinishPoint()">🎯 Finir vers…</button>
+      <button class="fab-reorganize" id="btn-reorganize" onclick="App.reorganize()">🔄 Réorganiser</button>
+    </div>
   </div>
 
   <!-- ====== SCREEN: STOP DETAIL (MODE CONDUITE) ====== -->
@@ -325,6 +327,17 @@
     </div>
     <button class="btn-primary" onclick="App.saveConstraint()">Enregistrer la contrainte</button>
     <button class="btn-danger" onclick="App.clearConstraint()" style="margin-top:6px;">Supprimer la contrainte</button>
+  </div>
+</div>
+
+<!-- Modal: Finir vers un point fixe -->
+<div id="modal-finish" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-title">
+      <button class="modal-close" onclick="App.closeModal('modal-finish')">✕</button>
+      🎯 Finir la tournée vers…
+    </div>
+    <div id="finish-choices"></div>
   </div>
 </div>
 
