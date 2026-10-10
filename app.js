@@ -12,7 +12,7 @@ if ('serviceWorker' in navigator) {
 }
 
 // ─── CONSTANTES ───────────────────────────────────────────────
-const APP_VERSION = 'v25';
+const APP_VERSION = 'v26';
 const DAYS_FR = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
 const DAYS_SHORT = ['Di','Lu','Ma','Me','Je','Ve','Sa'];
 const MONTHS_FR = ['janvier','février','mars','avril','mai','juin',
@@ -198,7 +198,7 @@ function annotateLegs(ordered, from, road) {
 
 // Journaux hebdomadaires : leurs clients (ceux qui ne reçoivent que ça) ne sont pas dans la
 // tournée de base ; ils sont insérés là où ils coûtent le moins de kilomètres.
-const JOURNAUX_APPOINT = ['LE POINT S1'];
+const JOURNAUX_APPOINT = ['LE POINT S1', 'MERCI INFO CA', 'MERCI INFO LCL', 'SANTÉ MAG', 'SO JEUX', 'ELLE GRAND FORMAT'];
 
 // Fusionne la tournée de base (ordre de la liste) avec les clients « d'appoint » :
 // insertion la moins coûteuse en km par la route, un client à la fois.
@@ -208,7 +208,11 @@ function insertExtras(stops, from, road) {
   const base = stops.filter(s => !isExtra(s));
   const extras = stops.filter(s => isExtra(s) && s.lat != null && s.lon != null);
   const noCoords = stops.filter(s => isExtra(s) && (s.lat == null || s.lon == null));
-  if (base.length === 0 || extras.length === 0) return stops;
+  if (extras.length === 0) return stops;
+  // Aucun journal de base ce jour-là (ex. seulement CA/LCL) : on optimise les arrêts d'appoint entre eux
+  if (base.length === 0) {
+    return [...optimizeRoute(extras, from.lat, from.lon, null, null, null, road ? road.sym : null), ...noCoords];
+  }
 
   const d = (a, b) => road ? road.leg(a, b) : haversine(a.lat, a.lon, b.lat, b.lon) * ROAD_FACTOR;
   const route = [...base];
@@ -1459,7 +1463,7 @@ const App = {
   // que le fichier nettoyé est disponible.
   restoreArchive() {
     if (state.clients.length > 0 &&
-        !confirm(`Remplacer les ${state.clients.length} clients actuels par la liste fournie (100 clients géocodés) ?`)) {
+        !confirm(`Remplacer les ${state.clients.length} clients actuels par la liste fournie (134 clients géocodés) ?`)) {
       return;
     }
     fetch('./archive-clients.json', { cache: 'no-store' })

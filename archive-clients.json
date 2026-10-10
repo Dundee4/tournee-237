@@ -313,7 +313,8 @@
     "lat": 43.6544312,
     "lon": -1.417493,
     "journaux": [
-      "19A LANDES"
+      "19A LANDES",
+      "MERCI INFO CA"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
@@ -569,7 +570,8 @@
     "lat": 43.651902,
     "lon": -1.4211119,
     "journaux": [
-      "19A LANDES"
+      "19A LANDES",
+      "SO JEUX"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
@@ -846,8 +848,8 @@
     "adresse": "47 Avenue du Marechal Foch (App 3)",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6409,
-    "lon": -1.4363,
+    "lat": 43.645148,
+    "lon": -1.42191,
     "journaux": [
       "19A LANDES"
     ],
@@ -1285,8 +1287,8 @@
     "adresse": "3 Rue des Basques (Residence Imarena Appartement 11)",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6513596,
-    "lon": -1.4415663,
+    "lat": 43.650823,
+    "lon": -1.437096,
     "journaux": [
       "19A LANDES"
     ],
@@ -1309,8 +1311,8 @@
     "adresse": "3 Rue des Basques (Residence Imarena Appartement 2)",
     "ville": "Capbreton",
     "code_postal": "40130",
-    "lat": 43.6513596,
-    "lon": -1.4415663,
+    "lat": 43.650823,
+    "lon": -1.437096,
     "journaux": [
       "19A LANDES"
     ],
@@ -1560,7 +1562,8 @@
     "lat": 43.6460585,
     "lon": -1.4376293,
     "journaux": [
-      "19A LANDES"
+      "19A LANDES",
+      "MERCI INFO CA"
     ],
     "statut_client": "actif",
     "statut_commentaire": "",
@@ -1938,5 +1941,551 @@
       5,
       6
     ]
+  },
+  {
+    "id": "pub_genies_monnaie_serge",
+    "nom": "GENIES MONNAIE SERGE",
+    "prenom": "",
+    "adresse": "Résidence Les Marines (Appartement 45, Résidence Les Marines)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.652059,
+    "lon": -1.431467,
+    "journaux": [
+      "MERCI INFO LCL"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": "N° de rue non fourni : position au milieu de la rue"
+  },
+  {
+    "id": "pub_bottona_jean_pierre",
+    "nom": "BOTTONA JEAN PIERRE",
+    "prenom": "",
+    "adresse": "Impasse Gavroche",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6533877,
+    "lon": -1.4149904,
+    "journaux": [
+      "MERCI INFO LCL"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": "N° à confirmer (probablement le même immeuble que MME BOTTONA, 3 Impasse Gavroche)"
+  },
+  {
+    "id": "pub_montagner_angelique",
+    "nom": "MONTAGNER ANGELIQUE",
+    "prenom": "",
+    "adresse": "51 Avenue Victor Hugo",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.653395,
+    "lon": -1.412996,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_mahous_annie",
+    "nom": "MAHOUS ANNIE",
+    "prenom": "",
+    "adresse": "Route de Soorts (Appartement 115, Bât. Bruyère, Le Bosquet aux Écureuils)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.651344,
+    "lon": -1.413103,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": "N° de rue non fourni : position au milieu de la rue"
+  },
+  {
+    "id": "pub_polliand_franck",
+    "nom": "POLLIAND FRANCK",
+    "prenom": "",
+    "adresse": "4 Village de Mariotte",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6498,
+    "lon": -1.414541,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_bonnet_marine",
+    "nom": "BONNET MARINE",
+    "prenom": "",
+    "adresse": "Avenue Rosny",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.649527,
+    "lon": -1.419647,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": "N° de rue non fourni : position au milieu de la rue"
+  },
+  {
+    "id": "pub_duhau_michel",
+    "nom": "DUHAU MICHEL",
+    "prenom": "",
+    "adresse": "16 Avenue Pierre Benoit",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.651839,
+    "lon": -1.420568,
+    "journaux": [
+      "MERCI INFO CA",
+      "SANTÉ MAG"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_andriolo_jean_louis",
+    "nom": "ANDRIOLO JEAN LOUIS",
+    "prenom": "",
+    "adresse": "26 Avenue François Mauriac (ZAC des Sables)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.654369,
+    "lon": -1.422798,
+    "journaux": [
+      "MERCI INFO LCL"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_beyries_rey_marie_jose",
+    "nom": "BEYRIES REY MARIE JOSE",
+    "prenom": "",
+    "adresse": "28 Rue des Basques",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.651399,
+    "lon": -1.441136,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_atoch_lasheras_janine",
+    "nom": "ATOCH LASHERAS JANINE",
+    "prenom": "",
+    "adresse": "21 Rue Jean Rameau",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.650429,
+    "lon": -1.441785,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_dewez_guy",
+    "nom": "DEWEZ GUY",
+    "prenom": "",
+    "adresse": "18 Rue des Bretons",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.648586,
+    "lon": -1.438634,
+    "journaux": [
+      "MERCI INFO LCL"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_marque_mary",
+    "nom": "MARQUE MARY",
+    "prenom": "",
+    "adresse": "15 Rue des Bretons",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.648183,
+    "lon": -1.438438,
+    "journaux": [
+      "MERCI INFO LCL"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_michel_marcelle",
+    "nom": "MICHEL MARCELLE",
+    "prenom": "",
+    "adresse": "29 Rue Darmendaritz (Résidence Le Tassigny)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.646006,
+    "lon": -1.438371,
+    "journaux": [
+      "MERCI INFO LCL"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_dulas_fabrice",
+    "nom": "DULAS FABRICE",
+    "prenom": "",
+    "adresse": "17 Rue du Lac (Hélios 1)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.651724,
+    "lon": -1.441796,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_barraud_nadiejda",
+    "nom": "BARRAUD NADIEJDA",
+    "prenom": "",
+    "adresse": "Boulevard François Mitterrand (Appartement B01, Résidence La Croisière)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.652932,
+    "lon": -1.445096,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": "N° de rue non fourni : position au milieu de la rue"
+  },
+  {
+    "id": "pub_quentel_jean_francois",
+    "nom": "QUENTEL JEAN FRANÇOIS",
+    "prenom": "",
+    "adresse": "4 Rue des Corsaires (Bâtiment B)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.65406,
+    "lon": -1.444051,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_hammond_gary",
+    "nom": "HAMMOND GARY",
+    "prenom": "",
+    "adresse": "1 Rue du Lac (Appartement 24, Résidence Le Signal)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.649683,
+    "lon": -1.443606,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_pierre_steven",
+    "nom": "PIERRE STEVEN",
+    "prenom": "",
+    "adresse": "3 Rue des Basques",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.650823,
+    "lon": -1.437096,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_sempe_jean",
+    "nom": "SEMPE JEAN",
+    "prenom": "",
+    "adresse": "Avenue Maurice Martin (109 Le Genois, Quai de la Pêcherie)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.65006,
+    "lon": -1.433715,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": "N° de rue non fourni : position au milieu de la rue"
+  },
+  {
+    "id": "pub_masse_remi",
+    "nom": "MASSE REMI",
+    "prenom": "",
+    "adresse": "2 Rue ChambrelenT (Appartement C1)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.650224,
+    "lon": -1.431624,
+    "journaux": [
+      "MERCI INFO LCL"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_robert_tiphanie",
+    "nom": "ROBERT TIPHANIE",
+    "prenom": "",
+    "adresse": "4 Rue Françoise Sagan",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.653375,
+    "lon": -1.403737,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_rechou_pierre",
+    "nom": "RECHOU PIERRE",
+    "prenom": "",
+    "adresse": "4 Impasse Colette",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.652364,
+    "lon": -1.409218,
+    "journaux": [
+      "MERCI INFO CA",
+      "SANTÉ MAG"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_broca_stephane_albert",
+    "nom": "BROCA STEPHANE ALBERT",
+    "prenom": "",
+    "adresse": "41 Avenue Simone de Beauvoir (Lotissement Les 2 Pins)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.652286,
+    "lon": -1.404172,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_fabien_guillaume",
+    "nom": "FABIEN GUILLAUME",
+    "prenom": "",
+    "adresse": "8 Impasse Colette (Ou Mme Amone Rygnoux)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.652673,
+    "lon": -1.408465,
+    "journaux": [
+      "MERCI INFO LCL"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_barets_jerome",
+    "nom": "BARETS JEROME",
+    "prenom": "",
+    "adresse": "24 Rue Jacques Prévert",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.65422,
+    "lon": -1.412655,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_duhau_jean_louis",
+    "nom": "DUHAU JEAN LOUIS",
+    "prenom": "",
+    "adresse": "33 bis Rue du Château d’Eau",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.643673,
+    "lon": -1.424037,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_lovicourt_thomas",
+    "nom": "LOVICOURT THOMAS",
+    "prenom": "",
+    "adresse": "5 Rue des Corsiers",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.642143,
+    "lon": -1.426212,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_borombo_francoise",
+    "nom": "BOROMBO FRANÇOISE",
+    "prenom": "",
+    "adresse": "35 Avenue du Maréchal Foch",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.644416,
+    "lon": -1.42455,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_capbert_jean",
+    "nom": "CAPBERT JEAN",
+    "prenom": "",
+    "adresse": "10 Impasse du Pignada",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.645718,
+    "lon": -1.423479,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_lalhe_patrick",
+    "nom": "LALHE PATRICK",
+    "prenom": "",
+    "adresse": "8 Impasse du Pignada",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.645525,
+    "lon": -1.423449,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_garat_patrick",
+    "nom": "GARAT PATRICK",
+    "prenom": "",
+    "adresse": "15 Impasse Charles Gounod",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.649283,
+    "lon": -1.413102,
+    "journaux": [
+      "ELLE GRAND FORMAT"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_calvet_maridet_chantal",
+    "nom": "CALVET MARIDET CHANTAL",
+    "prenom": "",
+    "adresse": "44 Avenue Maurice Ravel",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.649822,
+    "lon": -1.425181,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_debat_francis",
+    "nom": "DEBAT FRANCIS",
+    "prenom": "",
+    "adresse": "32 Impasse Maurice Ravel",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.650616,
+    "lon": -1.424624,
+    "journaux": [
+      "MERCI INFO CA"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
+    "id": "pub_gilbert_christian",
+    "nom": "GILBERT CHRISTIAN",
+    "prenom": "",
+    "adresse": "15 Boulevard du Docteur Junqua (Résidence Le Must)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.644015,
+    "lon": -1.430545,
+    "journaux": [
+      "SANTÉ MAG"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
   }
 ]
