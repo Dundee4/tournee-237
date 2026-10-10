@@ -1663,8 +1663,8 @@
     "journaux": [
       "19A LANDES"
     ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
+    "statut_client": "resilie",
+    "statut_commentaire": "Abonnement arrêté",
     "note": "",
     "jours": [
       1,

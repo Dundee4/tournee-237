@@ -12,7 +12,7 @@ if ('serviceWorker' in navigator) {
 }
 
 // ─── CONSTANTES ───────────────────────────────────────────────
-const APP_VERSION = 'v24';
+const APP_VERSION = 'v25';
 const DAYS_FR = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
 const DAYS_SHORT = ['Di','Lu','Ma','Me','Je','Ve','Sa'];
 const MONTHS_FR = ['janvier','février','mars','avril','mai','juin',
