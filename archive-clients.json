@@ -1191,6 +1191,22 @@
     ]
   },
   {
+    "id": "mu4gnqdbynkcs",
+    "nom": "MME BERNUDES SOPHIE",
+    "prenom": "",
+    "adresse": "29 Avenue Georges Pompidou (Restaurant Sofish)",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.6489925,
+    "lon": -1.4361565,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
     "id": "mu4gnqda5nv7u",
     "nom": "ORPI SAS MONE MARTINAUD IMMOBILIER",
     "prenom": "",
@@ -1501,22 +1517,6 @@
       5,
       6
     ]
-  },
-  {
-    "id": "mu4gnqdbynkcs",
-    "nom": "MME BERNUDES SOPHIE",
-    "prenom": "",
-    "adresse": "29 Avenue Georges Pompidou (Restaurant Sofish)",
-    "ville": "Capbreton",
-    "code_postal": "40130",
-    "lat": 43.6489925,
-    "lon": -1.4361565,
-    "journaux": [
-      "19A LANDES"
-    ],
-    "statut_client": "actif",
-    "statut_commentaire": "",
-    "note": ""
   },
   {
     "id": "mu4gnqdbmfg52",
