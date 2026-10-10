@@ -12,7 +12,7 @@ if ('serviceWorker' in navigator) {
 }
 
 // ─── CONSTANTES ───────────────────────────────────────────────
-const APP_VERSION = 'v17';
+const APP_VERSION = 'v18';
 const DAYS_FR = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
 const DAYS_SHORT = ['Di','Lu','Ma','Me','Je','Ve','Sa'];
 const MONTHS_FR = ['janvier','février','mars','avril','mai','juin',
@@ -340,16 +340,71 @@ function livreCeJour(client, day) {
 }
 
 // ─── GÉOCODAGE ────────────────────────────────────────────────
-async function geocodeAddress(stop) {
-  const q = encodeURIComponent(`${stop.adresse}, ${stop.ville}, ${stop.code_postal}, France`);
-  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${q}&limit=1`;
-  const resp = await fetch(url, { headers: { 'Accept-Language': 'fr' } });
-  const data = await resp.json();
-  if (data && data[0]) {
-    stop.lat = parseFloat(data[0].lat);
-    stop.lon = parseFloat(data[0].lon);
-    return true;
+// Fetch JSON avec délai maximum (évite le blocage infini sur « Géocodage… »)
+async function fetchJSONTimeout(url, ms = 8000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  try {
+    const resp = await fetch(url, { signal: ctrl.signal });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    return await resp.json();
+  } finally {
+    clearTimeout(timer);
   }
+}
+
+// Retire les compléments d'adresse (bât., appt, résidence…) qui gênent le géocodage
+function simplifyAddress(adresse) {
+  return (adresse || '')
+    .replace(/\b(b[âa]t(iment)?|appt?|appartement|r[ée]sidence|res\.?|esc(alier)?|etage|étage|porte|app)\b\.?\s*[\w-]*/gi, ' ')
+    .replace(/\s+/g, ' ').replace(/[,\s]+$/, '').trim();
+}
+
+// Géoplateforme IGN (ex API Adresse / BAN) : service officiel français pour les adresses
+async function geocodeGeopf(q, cp, minScore) {
+  const url = `https://data.geopf.fr/geocodage/search/?q=${encodeURIComponent(q)}`
+    + (cp ? `&postcode=${encodeURIComponent(cp)}` : '') + '&limit=1';
+  const data = await fetchJSONTimeout(url);
+  const f = data && data.features && data.features[0];
+  if (!f || !f.geometry || !f.geometry.coordinates) return null;
+  if (typeof f.properties?.score === 'number' && f.properties.score < minScore) return null;
+  return { lon: parseFloat(f.geometry.coordinates[0]), lat: parseFloat(f.geometry.coordinates[1]) };
+}
+
+async function geocodeNominatim(q) {
+  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&limit=1&countrycodes=fr`;
+  const data = await fetchJSONTimeout(url);
+  return data && data[0] ? { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) } : null;
+}
+
+// Retourne true (adresse précise), 'approx' (centre de la commune) ou false (échec).
+async function geocodeAddress(stop) {
+  const cp = stop.code_postal, ville = stop.ville;
+  const full = `${stop.adresse} ${ville}`;
+  const simple = `${simplifyAddress(stop.adresse)} ${ville}`;
+  const tries = [
+    () => geocodeGeopf(full, cp, 0.4),
+    () => geocodeGeopf(simple, cp, 0.4),
+    () => geocodeNominatim(`${stop.adresse}, ${cp} ${ville}, France`),
+    () => geocodeNominatim(`${simplifyAddress(stop.adresse)}, ${cp} ${ville}, France`),
+  ];
+  for (const attempt of tries) {
+    try {
+      const r = await attempt();
+      if (r && isFinite(r.lat) && isFinite(r.lon)) {
+        stop.lat = r.lat; stop.lon = r.lon; stop.geo_approx = false;
+        return true;
+      }
+    } catch (e) { /* service indisponible ou délai dépassé : on passe au suivant */ }
+  }
+  // Dernier recours : centre de la commune, pour que le client soit utilisable dans la tournée
+  try {
+    const r = await geocodeGeopf(ville, cp, 0);
+    if (r && isFinite(r.lat) && isFinite(r.lon)) {
+      stop.lat = r.lat; stop.lon = r.lon; stop.geo_approx = true;
+      return 'approx';
+    }
+  } catch (e) {}
   return false;
 }
 
@@ -1518,7 +1573,8 @@ const App = {
       toast('📍 Client ajouté, géocodage en cours...');
       geocodeAddress(client).then(ok => {
         DB.save();
-        toast(ok ? '✅ Client géocodé' : '⚠️ Géocodage échoué (réessayez depuis Paramètres)');
+        toast(ok === 'approx' ? '📍 Client ajouté (position approximative : centre de la commune)'
+          : ok ? '✅ Client géocodé' : '⚠️ Client ajouté mais adresse introuvable (vérifie l\'adresse, puis Paramètres > Géocoder)');
         this.renderClientsList();
       }).catch(() => {
         toast('⚠️ Géocodage échoué (réessayez depuis Paramètres)');
