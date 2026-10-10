@@ -12,7 +12,7 @@ if ('serviceWorker' in navigator) {
 }
 
 // ─── CONSTANTES ───────────────────────────────────────────────
-const APP_VERSION = 'v18';
+const APP_VERSION = 'v19';
 const DAYS_FR = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
 const DAYS_SHORT = ['Di','Lu','Ma','Me','Je','Ve','Sa'];
 const MONTHS_FR = ['janvier','février','mars','avril','mai','juin',
@@ -1340,7 +1340,7 @@ const App = {
   // que le fichier nettoyé est disponible.
   restoreArchive() {
     if (state.clients.length > 0 &&
-        !confirm(`Remplacer les ${state.clients.length} clients actuels par la liste fournie (99 clients géocodés) ?`)) {
+        !confirm(`Remplacer les ${state.clients.length} clients actuels par la liste fournie (100 clients géocodés) ?`)) {
       return;
     }
     fetch('./archive-clients.json', { cache: 'no-store' })

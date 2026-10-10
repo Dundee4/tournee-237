@@ -232,6 +232,22 @@
     ]
   },
   {
+    "id": "cary_berlioz_1",
+    "nom": "MME CARY",
+    "prenom": "",
+    "adresse": "1 Avenue Hector Berlioz",
+    "ville": "Capbreton",
+    "code_postal": "40130",
+    "lat": 43.647788,
+    "lon": -1.415474,
+    "journaux": [
+      "19A LANDES"
+    ],
+    "statut_client": "actif",
+    "statut_commentaire": "",
+    "note": ""
+  },
+  {
     "id": "mu4gnqdahlqh3",
     "nom": "SEIHE AGENCE COTE LANDAISE",
     "prenom": "",

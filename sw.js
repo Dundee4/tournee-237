@@ -1,4 +1,4 @@
-const CACHE = 'journal-v18';
+const CACHE = 'journal-v19';
 const ASSETS = [
   './',
   './index.html',
