@@ -12,7 +12,7 @@ if ('serviceWorker' in navigator) {
 }
 
 // ─── CONSTANTES ───────────────────────────────────────────────
-const APP_VERSION = 'v27';
+const APP_VERSION = 'v28';
 const DAYS_FR = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
 const DAYS_SHORT = ['Di','Lu','Ma','Me','Je','Ve','Sa'];
 const MONTHS_FR = ['janvier','février','mars','avril','mai','juin',
@@ -548,6 +548,11 @@ const App = {
     const sver = document.getElementById('settings-version');
     if (sver) sver.textContent = APP_VERSION;
     setInterval(() => this.updateTourTimer(), 1000);
+    const noteEl = document.getElementById('stop-note-input');
+    if (noteEl) {
+      noteEl.addEventListener('change', () => this.saveCurrentNote());
+      noteEl.addEventListener('blur', () => this.saveCurrentNote());
+    }
     document.addEventListener('visibilitychange', () => {
       const s = state.session;
       if (document.visibilityState === 'visible' && s && s.startedAt && !s.finishedAt && !s.workEndedAt) this.keepAwake(true);
@@ -1195,13 +1200,36 @@ const App = {
     showScreen('screen-stop');
   },
 
+  // Une note saisie pendant un arrêt est gardée sur la fiche du client (visible à toutes les tournées)
+  saveStopNote(stop, text) {
+    if (!stop) return;
+    stop.note = text;
+    const client = state.clients.find(c => c.id === stop.id);
+    if (client && (client.note || '') !== text) {
+      client.note = text;
+      DB.save();
+    }
+  },
+
+  // Enregistre la note en cours de saisie sans attendre de valider l'arrêt
+  saveCurrentNote() {
+    const s = state.session;
+    if (!s || s.currentStopIdx == null) return;
+    const stop = s.stops[s.currentStopIdx];
+    const el = document.getElementById('stop-note-input');
+    if (stop && el && (stop.note || '') !== el.value) {
+      this.saveStopNote(stop, el.value);
+      DB.saveSession();
+    }
+  },
+
   markStop(status) {
     if (!state.session) return;
     const idx = state.session.currentStopIdx;
     if (idx == null) return;
     const stop = state.session.stops[idx];
     stop.status = status;
-    stop.note = document.getElementById('stop-note-input').value;
+    this.saveStopNote(stop, document.getElementById('stop-note-input').value);
     stop.doneAt = new Date().toISOString();
     DB.saveSession();
 
@@ -1292,7 +1320,7 @@ const App = {
     if (state.session && state.session.currentStopIdx != null) {
       // Sauvegarder la note avant de partir
       const stop = state.session.stops[state.session.currentStopIdx];
-      if (stop) stop.note = document.getElementById('stop-note-input').value;
+      if (stop) this.saveStopNote(stop, document.getElementById('stop-note-input').value);
       DB.saveSession();
     }
     this.updateRouteStats();
@@ -1470,6 +1498,16 @@ const App = {
       .then(r => r.json())
       .then(clients => {
         if (state.clients.length > 0) DB.archive();
+        // Conserver les notes saisies sur le téléphone (codes, remarques…)
+        const localNotes = {};
+        state.clients.forEach(c => { if (c.note) localNotes[c.id] = c.note; });
+        clients.forEach(c => {
+          const local = localNotes[c.id];
+          if (!local) return;
+          if (!c.note) c.note = local;
+          else if (local.includes(c.note)) c.note = local;
+          else if (!c.note.includes(local)) c.note = c.note + ' / ' + local;
+        });
         state.clients = clients;
         state.session = null;
         DB.save();
